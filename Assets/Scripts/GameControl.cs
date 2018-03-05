@@ -13,19 +13,24 @@ public class GameControl : MonoBehaviour {
 	private bool fillUp = true;
 	private Vector2 angleLaunch;
 	private float powerLaunch;
-	private GameObject player;
 	public float powerMultiplier;
 
 	private bool startGame;
 
+	private Rigidbody2D playerRB;
+	private GameObject player;
 	private GameObject lastGround, currentGround, nextGround;
 
-	private Text speedText;
+	private Text speedText, speedText2;
+	private Text distText, distText2;
+
+	private float monsterSpawnCounter;
+	private int monsterCounter;
 
 
-	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");
+		playerRB = player.GetComponent<Rigidbody2D> ();
 		launcher = GameObject.Find ("Launcher");
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
 
@@ -38,9 +43,17 @@ public class GameControl : MonoBehaviour {
 		nextGround = GameObject.Find ("Ground3");
 
 		speedText = GameObject.Find ("SpeedText").GetComponent<Text>();
+		distText = GameObject.Find ("DistanceText").GetComponent <Text> ();
+		speedText2 = GameObject.Find ("SpeedText2").GetComponent<Text>();
+		distText2 = GameObject.Find ("DistanceText2").GetComponent <Text> ();
+		speedText.enabled = false;
+		distText.enabled = false;
+		speedText2.enabled = false;
+		distText2.enabled = false;
+
+		monsterSpawnCounter = 0;
+		monsterCounter = 0;
 	}
-	
-	// Update is called once per frame
 	void Update () {
 		if (startGame) {
 			StartGame ();	//Angle and Power selecting
@@ -50,12 +63,19 @@ public class GameControl : MonoBehaviour {
 	}
 
 	private void GamePlay(){
-		speedText.text = player.GetComponent<Rigidbody2D> ().velocity.x.ToString("0");
+		speedText.text = playerRB.velocity.x.ToString("0");
+		distText.text = player.transform.position.x.ToString ("0");
+
 		if (player.transform.position.x >= currentGround.transform.position.x) {
 			CreateGround ();
 		}
-	}
 
+		monsterSpawnCounter += Time.deltaTime;
+		if (monsterCounter < 15) {
+			SpawnMonster1 ();
+		}
+
+	}
 	private void StartGame(){
 		if (directionSelecting) {
 			DireciontSelect ();
@@ -72,6 +92,10 @@ public class GameControl : MonoBehaviour {
 				Debug.Log (angleLaunch);
 				Debug.Log (powerLaunch);
 				Destroy (launcher);
+				speedText.enabled = true;
+				distText.enabled = true;
+				speedText2.enabled = true;
+				distText2.enabled = true;
 				startGame = false;
 			}
 			if (directionSelecting) {
@@ -82,7 +106,6 @@ public class GameControl : MonoBehaviour {
 			}
 		}
 	}
-
 	private void CreateGround(){
 		Destroy (lastGround);
 		lastGround = currentGround;
@@ -92,7 +115,6 @@ public class GameControl : MonoBehaviour {
 
 
 	}
-
 	private void DireciontSelect(){
 		if (launcher.transform.rotation.eulerAngles.z >= 89.99f) {
 			directionUp = false;
@@ -120,8 +142,24 @@ public class GameControl : MonoBehaviour {
 			arrow.fillAmount -= arrowFillSpeed;
 		}
 	}
+	private void SpawnMonster1(){
+		if (monsterSpawnCounter > 0.1) {
+			int a = Random.Range (1, 10);
+			if (a >= 5) {
+				GameObject monster1 = Instantiate (Resources.Load ("Monster1") as GameObject);
+				monster1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (-3, 20));
+				monsterCounter++;
+			}
+			monsterSpawnCounter = 0;
+		}
+	}
 	public bool GetStartGame(){
 		return startGame;
+	}
+	public void MonsterRemove(){
+		Debug.Log ("Quantidade de monstro: "+ monsterCounter);
+		monsterCounter--;
+		Debug.Log ("Depois de destruido: " + monsterCounter);
 	}
 
 }
