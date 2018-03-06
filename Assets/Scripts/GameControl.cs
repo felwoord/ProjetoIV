@@ -53,6 +53,8 @@ public class GameControl : MonoBehaviour {
 
 		monsterSpawnCounter = 0;
 		monsterCounter = 0;
+
+		playerRB.gravityScale = 0;
 	}
 	void Update () {
 		if (startGame) {
@@ -60,6 +62,7 @@ public class GameControl : MonoBehaviour {
 		} else {
 			GamePlay ();	//Flying time!
 		}
+		Debug.Log (launcher.transform.rotation.eulerAngles.z);
 	}
 
 	private void GamePlay(){
@@ -88,9 +91,8 @@ public class GameControl : MonoBehaviour {
 			if (powerSelecting) {
 				powerSelecting = false;
 				powerLaunch = arrow.fillAmount * powerMultiplier;
+				playerRB.gravityScale = 1;
 				player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);
-				Debug.Log (angleLaunch);
-				Debug.Log (powerLaunch);
 				Destroy (launcher);
 				speedText.enabled = true;
 				distText.enabled = true;
@@ -116,6 +118,9 @@ public class GameControl : MonoBehaviour {
 
 	}
 	private void DireciontSelect(){
+		if (launcher.transform.rotation.eulerAngles.z > 300f) {
+			launcher.transform.eulerAngles = new Vector3 (launcher.transform.eulerAngles.x, launcher.transform.eulerAngles.y, 0.05f);
+		}
 		if (launcher.transform.rotation.eulerAngles.z >= 89.99f) {
 			directionUp = false;
 		}
@@ -145,7 +150,7 @@ public class GameControl : MonoBehaviour {
 	private void SpawnMonster1(){
 		if (monsterSpawnCounter > 0.1) {
 			int a = Random.Range (1, 10);
-			if (a >= 5) {
+			if (a >= 7) {
 				GameObject monster1 = Instantiate (Resources.Load ("Monster1") as GameObject);
 				monster1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (-3, 20));
 				monsterCounter++;
@@ -157,9 +162,7 @@ public class GameControl : MonoBehaviour {
 		return startGame;
 	}
 	public void MonsterRemove(){
-		Debug.Log ("Quantidade de monstro: "+ monsterCounter);
 		monsterCounter--;
-		Debug.Log ("Depois de destruido: " + monsterCounter);
 	}
 
 }
