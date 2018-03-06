@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				playerRB.velocity = Vector2.zero;
 				playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+				GameObject endRunMenu = GameObject.Find ("EndRunMenu");
+				endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
 			}
 
 			heightCheck = false;

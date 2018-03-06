@@ -62,7 +62,6 @@ public class GameControl : MonoBehaviour {
 		} else {
 			GamePlay ();	//Flying time!
 		}
-		Debug.Log (launcher.transform.rotation.eulerAngles.z);
 	}
 
 	private void GamePlay(){
@@ -163,6 +162,9 @@ public class GameControl : MonoBehaviour {
 	}
 	public void MonsterRemove(){
 		monsterCounter--;
+	}
+	public float GetDistance(){
+		return player.transform.position.x;
 	}
 
 }
