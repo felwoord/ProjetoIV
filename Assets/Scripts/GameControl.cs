@@ -29,7 +29,17 @@ public class GameControl : MonoBehaviour {
 
 
 	void Start () {
-		player = GameObject.Find ("Player");
+		int characterID = PlayerPrefs.GetInt ("Character_ID");
+		Debug.Log (characterID);
+		if (characterID == 1)
+			player = Instantiate (Resources.Load ("Character1") as GameObject);
+		if (characterID == 2)
+			player = Instantiate (Resources.Load ("Character2") as GameObject);
+		if (characterID == 3)
+			player = Instantiate (Resources.Load ("Character3") as GameObject);
+		
+		player.name = "Player";
+		//player = GameObject.Find ("Player");
 		playerRB = player.GetComponent<Rigidbody2D> ();
 		launcher = GameObject.Find ("Launcher");
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
