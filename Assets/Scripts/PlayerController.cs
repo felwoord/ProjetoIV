@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private bool heightCheck;
 
+	private float counter;
 	// Use this for initialization
 	void Start () {
 		playerRB = GetComponent<Rigidbody2D> ();	
@@ -16,6 +17,15 @@ public class PlayerController : MonoBehaviour {
 			if (transform.position.y > 28 && playerRB.velocity.y < 0 && !heightCheck) {
 				AboveMaxHeight ();
 			}
+
+		if (playerRB.velocity.y <= 2 && playerRB.velocity.y >= 0) {
+			counter += Time.deltaTime;
+			if (counter >= 1) {
+				EndRun ();
+			}
+		} else {
+			counter = 0;
+		}
 	}
 
 	public void OnTriggerEnter2D(Collider2D col){
@@ -50,13 +60,17 @@ public class PlayerController : MonoBehaviour {
 					playerRB.velocity = Vector2.zero;
 				}
 			} else {
-				playerRB.velocity = Vector2.zero;
-				playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-				GameObject endRunMenu = GameObject.Find ("EndRunMenu");
-				endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
+				EndRun ();
 			}
 
 			heightCheck = false;
 		}
+	}
+
+	private void EndRun(){
+		playerRB.velocity = Vector2.zero;
+		playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+		GameObject endRunMenu = GameObject.Find ("EndRunMenu");
+		endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
 	}
 }

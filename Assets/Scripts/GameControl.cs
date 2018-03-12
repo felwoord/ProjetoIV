@@ -101,6 +101,7 @@ public class GameControl : MonoBehaviour {
 				powerSelecting = false;
 				powerLaunch = arrow.fillAmount * powerMultiplier;
 				playerRB.gravityScale = 1;
+				player.GetComponent<PlayerController> ().enabled = true;
 				player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);
 				Destroy (launcher);
 				speedText.enabled = true;
