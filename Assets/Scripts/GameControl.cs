@@ -24,8 +24,8 @@ public class GameControl : MonoBehaviour {
 	private Text speedText, speedText2;
 	private Text distText, distText2;
 
-	private float monsterSpawnCounter;
-	private int monsterCounter;
+	private float monsterSpawnCounter, trapSpawnCounter;
+	private int monsterCounter, trapCounter;
 
 
 	void Start () {
@@ -37,9 +37,10 @@ public class GameControl : MonoBehaviour {
 			player = Instantiate (Resources.Load ("Character2") as GameObject);
 		if (characterID == 3)
 			player = Instantiate (Resources.Load ("Character3") as GameObject);
-		
+
+		player.transform.position = new Vector2 (2, 5);
+
 		player.name = "Player";
-		//player = GameObject.Find ("Player");
 		playerRB = player.GetComponent<Rigidbody2D> ();
 		launcher = GameObject.Find ("Launcher");
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
@@ -47,7 +48,7 @@ public class GameControl : MonoBehaviour {
 		startGame = true;
 		directionSelecting = true;
 		powerSelecting = false;
-
+	
 		lastGround = GameObject.Find ("Ground");
 		currentGround = GameObject.Find ("Ground2");
 		nextGround = GameObject.Find ("Ground3");
@@ -63,6 +64,8 @@ public class GameControl : MonoBehaviour {
 
 		monsterSpawnCounter = 0;
 		monsterCounter = 0;
+		trapSpawnCounter = 0;
+		trapCounter = 0;
 
 		playerRB.gravityScale = 0;
 	}
@@ -85,6 +88,10 @@ public class GameControl : MonoBehaviour {
 		monsterSpawnCounter += Time.deltaTime;
 		if (monsterCounter < 15) {
 			SpawnMonster1 ();
+		}
+		trapSpawnCounter += Time.deltaTime;
+		if (trapCounter < 3) {
+			SpawnTrap1 ();
 		}
 
 	}
@@ -152,9 +159,9 @@ public class GameControl : MonoBehaviour {
 		}
 
 		if (fillUp) {
-			arrow.fillAmount += arrowFillSpeed;
+			arrow.fillAmount += arrowFillSpeed * Time.deltaTime;
 		} else {
-			arrow.fillAmount -= arrowFillSpeed;
+			arrow.fillAmount -= arrowFillSpeed * Time.deltaTime;
 		}
 	}
 	private void SpawnMonster1(){
@@ -162,10 +169,21 @@ public class GameControl : MonoBehaviour {
 			int a = Random.Range (1, 10);
 			if (a >= 7) {
 				GameObject monster1 = Instantiate (Resources.Load ("Monster1") as GameObject);
-				monster1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (-3, 20));
+				monster1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				monsterCounter++;
 			}
 			monsterSpawnCounter = 0;
+		}
+	}
+	private void SpawnTrap1(){
+		if (trapSpawnCounter > 0.1) {
+			int a = Random.Range (1, 10);
+			if (a >= 8) {
+				GameObject trap1 = Instantiate (Resources.Load ("Trap1") as GameObject);
+				trap1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
+				trapCounter++;
+			}
+			trapSpawnCounter = 0;
 		}
 	}
 	public bool GetStartGame(){
@@ -173,6 +191,9 @@ public class GameControl : MonoBehaviour {
 	}
 	public void MonsterRemove(){
 		monsterCounter--;
+	}
+	public void TrapRemove(){
+		trapCounter--;
 	}
 	public float GetDistance(){
 		return player.transform.position.x;

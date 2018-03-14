@@ -20,12 +20,14 @@ public class CameraFollow : MonoBehaviour {
 		if (startGame) {
 			transform.position = new Vector3 (player.transform.position.x + 8, player.transform.position.y, transform.position.z);
 		} else {
-			if (player.transform.position.x > -4) {
+			if (player.transform.position.x > 6) {
 				transform.position = new Vector3 (player.transform.position.x + 4, transform.position.y, transform.position.z);
+			} else {
+				transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 			}
 
-			if (player.transform.position.y < 0) {
-				transform.position = new Vector3 (transform.position.x, 0, transform.position.z);
+			if (player.transform.position.y < 5) {
+				transform.position = new Vector3 (transform.position.x, 5, transform.position.z);
 			} else {
 				transform.position = new Vector3 (transform.position.x, player.transform.position.y, transform.position.z);
 			}
