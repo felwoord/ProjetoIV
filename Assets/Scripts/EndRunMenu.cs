@@ -7,18 +7,22 @@ using UnityEngine.SceneManagement;
 public class EndRunMenu : MonoBehaviour {
 	private Text finalScoreText;
 	private float maxDistance;
+	private RectTransform rectTrans;
+	private Camera cam;
 
 	// Use this for initialization
 	void Start () {
 		finalScoreText = GameObject.Find ("FinalScoreText").GetComponent<Text> ();
 		maxDistance = GameObject.Find ("Player").transform.position.x;
 		finalScoreText.text = maxDistance.ToString ("0");
+		rectTrans = GetComponent<RectTransform> ();
+		cam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (transform.position.x > 400) {
-			transform.position = new Vector2 (transform.position.x - 100 * Time.deltaTime, transform.position.y);
+		if (!rectTrans.IsFullyVisibleFrom (cam)) {
+			transform.position = new Vector2 (transform.position.x - 10 * Time.deltaTime, transform.position.y);
 		}
 	}
 
@@ -29,4 +33,5 @@ public class EndRunMenu : MonoBehaviour {
 	public void Shop(){
 		SceneManager.LoadScene ("ShopScene");
 	}
+		
 }

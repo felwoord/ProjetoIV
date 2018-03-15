@@ -7,6 +7,7 @@ TagManager:
   - Monster1
   - Ground
   - Trap1
+  - Ride1
   layers:
   - Default
   - TransparentFX

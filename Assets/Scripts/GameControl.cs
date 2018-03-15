@@ -30,7 +30,6 @@ public class GameControl : MonoBehaviour {
 
 	void Start () {
 		int characterID = PlayerPrefs.GetInt ("Character_ID");
-		Debug.Log (characterID);
 		if (characterID == 1)
 			player = Instantiate (Resources.Load ("Character1") as GameObject);
 		if (characterID == 2)
@@ -76,6 +75,11 @@ public class GameControl : MonoBehaviour {
 			StartGame ();	//Angle and Power selecting
 		} else {
 			GamePlay ();	//Flying time!
+		}
+
+		if (Input.GetKeyDown (KeyCode.A)) {
+			GameObject ride1 = Instantiate (Resources.Load ("Ride1") as GameObject);
+			ride1.transform.position = new Vector2 (player.transform.position.x + 50, 4.55f);
 		}
 	}
 

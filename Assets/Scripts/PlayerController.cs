@@ -6,10 +6,11 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private bool heightCheck;
 	private bool ride;
-
+	private float rideTimer;
 	private float counter;
 
 	private Vector2 saveVelocity;
+	private float saveDrag;
 
 	void Start () {
 		ride = false;
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	void Update () {
 		if (ride) {
-			
+			RideTime ();
 		} else {
 			if (transform.position.y > 28 && playerRB.velocity.y < 0 && !heightCheck) {
 				AboveMaxHeight ();
@@ -78,12 +79,20 @@ public class PlayerController : MonoBehaviour {
 			if (heightCheck) {
 			
 			} else {
-				ride = true;
-				saveVelocity = playerRB.velocity;
-				playerRB.velocity = Vector2.zero;
+				if (!ride) {
+					ride = true;
+					saveVelocity = playerRB.velocity;
+					saveDrag = playerRB.drag;
+					playerRB.drag = 0;
+					playerRB.velocity = new Vector2 (saveVelocity.x, 0);
+					playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
 
-
+				} else {
+				
+				}
 			}
+			GameObject.Find ("Main Camera").GetComponent<GameControl> ().RideRemove ();
+			Destroy (col.gameObject);
 		}
 			
 	}
@@ -107,7 +116,19 @@ public class PlayerController : MonoBehaviour {
 			heightCheck = false;
 		}
 	}
-
+	private void RideTime(){
+		rideTimer += Time.deltaTime;
+		if (rideTimer < 5) {
+			if (Input.GetMouseButtonDown(0)) {
+				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2, 0);
+			}
+		} else {
+			ride = false;
+			playerRB.drag = saveDrag;
+			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;
+			playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs(saveVelocity.y));
+		}
+	}
 	private void EndRun(){
 		playerRB.velocity = Vector2.zero;
 		playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
