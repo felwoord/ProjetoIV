@@ -8,15 +8,14 @@ public class PlayerController : MonoBehaviour {
 	private bool ride;
 
 	private float counter;
-	// Use this for initialization
+
+	private Vector2 saveVelocity;
+
 	void Start () {
 		ride = false;
 		playerRB = GetComponent<Rigidbody2D> ();	
 	}
-	
-	// Update is called once per frame
 	void Update () {
-
 		if (ride) {
 			
 		} else {
@@ -34,7 +33,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 	}
-
 	public void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Monster1") {
 			if (heightCheck) {
@@ -75,14 +73,24 @@ public class PlayerController : MonoBehaviour {
 				Destroy (col.gameObject);
 			}
 		}
+
+		if (col.gameObject.tag == "Ride1") {
+			if (heightCheck) {
+			
+			} else {
+				ride = true;
+				saveVelocity = playerRB.velocity;
+				playerRB.velocity = Vector2.zero;
+
+
+			}
+		}
 			
 	}
-
 	public void AboveMaxHeight(){
 		playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.2f, -25);
 		heightCheck = true;
 	}
-
 	public void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.tag == "Ground" && !ride) {
 			if (playerRB.velocity.x > 3) {

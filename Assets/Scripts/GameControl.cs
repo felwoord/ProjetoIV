@@ -24,8 +24,8 @@ public class GameControl : MonoBehaviour {
 	private Text speedText, speedText2;
 	private Text distText, distText2;
 
-	private float monsterSpawnCounter, trapSpawnCounter;
-	private int monsterCounter, trapCounter;
+	private float monsterSpawnCounter, trapSpawnCounter, rideSpawnCounter;
+	private int monsterCounter, trapCounter, rideCounter;
 
 
 	void Start () {
@@ -66,6 +66,8 @@ public class GameControl : MonoBehaviour {
 		monsterCounter = 0;
 		trapSpawnCounter = 0;
 		trapCounter = 0;
+		rideSpawnCounter = 0;
+		rideCounter = 0;
 
 		playerRB.gravityScale = 0;
 	}
@@ -186,6 +188,17 @@ public class GameControl : MonoBehaviour {
 			trapSpawnCounter = 0;
 		}
 	}
+	private void SpawnRide1(){
+		if (rideSpawnCounter > 0.5) {
+			int a = Random.Range (1, 10);
+			if (a >= 8) {
+				GameObject ride1 = Instantiate (Resources.Load ("Ride1") as GameObject);
+				ride1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
+				trapCounter++;
+			}
+			trapSpawnCounter = 0;
+		}
+	}
 	public bool GetStartGame(){
 		return startGame;
 	}
@@ -194,6 +207,9 @@ public class GameControl : MonoBehaviour {
 	}
 	public void TrapRemove(){
 		trapCounter--;
+	}
+	public void RideRemove(){
+		rideCounter--;
 	}
 	public float GetDistance(){
 		return player.transform.position.x;
