@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviour {
 				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2, 0);
 			}
 		} else {
+			rideTimer = 0;
 			ride = false;
 			playerRB.drag = saveDrag;
 			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;

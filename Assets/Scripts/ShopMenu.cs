@@ -43,7 +43,7 @@ public class ShopMenu : MonoBehaviour {
 	}
 	public void LastCharacter(){
 		currentCharacter--;
-		if (currentCharacter > 1)
+		if (currentCharacter < 1)
 			currentCharacter = 3;
 
 		CheckCurrentCharacter ();
