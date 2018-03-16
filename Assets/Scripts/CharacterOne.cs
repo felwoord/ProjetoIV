@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterOne : MonoBehaviour {
-	private int level, str, magic, vit, exp;
+	private int level, str, magic, vit, exp, poi;
 		
 
 }

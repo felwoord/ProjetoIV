@@ -27,15 +27,18 @@ public class GameControl : MonoBehaviour {
 	private float monsterSpawnCounter, trapSpawnCounter, rideSpawnCounter;
 	private int monsterCounter, trapCounter, rideCounter;
 
+	private int str;
 
 	void Start () {
 		int characterID = PlayerPrefs.GetInt ("Character_ID");
-		if (characterID == 1)
+		if (characterID == 1) 
 			player = Instantiate (Resources.Load ("Character1") as GameObject);
-		if (characterID == 2)
+		if (characterID == 2) 
 			player = Instantiate (Resources.Load ("Character2") as GameObject);
-		if (characterID == 3)
+		if (characterID == 3) 
 			player = Instantiate (Resources.Load ("Character3") as GameObject);
+
+		str = PlayerPrefs.GetInt ("Int_" + characterID, 1);
 
 		player.transform.position = new Vector2 (2, 5);
 
@@ -75,11 +78,6 @@ public class GameControl : MonoBehaviour {
 			StartGame ();	//Angle and Power selecting
 		} else {
 			GamePlay ();	//Flying time!
-		}
-
-		if (Input.GetKeyDown (KeyCode.A)) {
-			GameObject ride1 = Instantiate (Resources.Load ("Ride1") as GameObject);
-			ride1.transform.position = new Vector2 (player.transform.position.x + 50, 4.55f);
 		}
 	}
 
@@ -218,5 +216,5 @@ public class GameControl : MonoBehaviour {
 	public float GetDistance(){
 		return player.transform.position.x;
 	}
-
+		
 }
