@@ -27,7 +27,9 @@ public class GameControl : MonoBehaviour {
 	private float monsterSpawnCounter, trapSpawnCounter, rideSpawnCounter;
 	private int monsterCounter, trapCounter, rideCounter;
 
-	private int str;
+	private int str, magic;
+
+	private GameObject[] powerBar;
 
 	void Start () {
 		int characterID = PlayerPrefs.GetInt ("Character_ID");
@@ -38,11 +40,25 @@ public class GameControl : MonoBehaviour {
 		if (characterID == 3) 
 			player = Instantiate (Resources.Load ("Character3") as GameObject);
 
-		str = PlayerPrefs.GetInt ("Int_" + characterID, 1);
+		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
+		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 2);
+		Debug.Log (magic);
 
+		powerBar = new GameObject [magic];
 		player.transform.position = new Vector2 (2, 5);
 
 		player.name = "Player";
+
+		for (int i = 0; i < magic; i++) {
+			powerBar [i] = Instantiate (Resources.Load ("PowerBar") as GameObject);
+			powerBar [i].transform.SetParent (GameObject.Find ("PowerBarParent").transform, false);
+			powerBar [i].name = "PowerBar";
+			if (i > 0) {
+				powerBar [i].transform.position = new Vector3 (powerBar [i - 1].transform.position.x + powerBar [i - 1].GetComponent<RectTransform> ().localScale.x, powerBar [i - 1].transform.position.y, 0);
+			} else {
+				powerBar [i].transform.position = new Vector3 (-55, 102, 0);
+			}
+		}
 		playerRB = player.GetComponent<Rigidbody2D> ();
 		launcher = GameObject.Find ("Launcher");
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
@@ -110,7 +126,7 @@ public class GameControl : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0)) {
 			if (powerSelecting) {
 				powerSelecting = false;
-				powerLaunch = arrow.fillAmount * powerMultiplier;
+				powerLaunch = (arrow.fillAmount * powerMultiplier) + str;
 				playerRB.gravityScale = 1;
 				player.GetComponent<PlayerController> ().enabled = true;
 				player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);

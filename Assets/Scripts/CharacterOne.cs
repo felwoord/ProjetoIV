@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterOne : MonoBehaviour {
-	private int level, str, magic, vit, exp, poi;
-		
-
+	
+	void Update(){
+		if (Input.GetMouseButtonDown (0)) {
+			
+		}
+	}
 }

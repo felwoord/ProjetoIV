@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 	private Rigidbody2D playerRB;
@@ -12,9 +13,12 @@ public class PlayerController : MonoBehaviour {
 	private Vector2 saveVelocity;
 	private float saveDrag;
 
+
 	void Start () {
 		ride = false;
-		playerRB = GetComponent<Rigidbody2D> ();	
+		playerRB = GetComponent<Rigidbody2D> ();
+
+
 	}
 	void Update () {
 		if (ride) {
