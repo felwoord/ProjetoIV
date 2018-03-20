@@ -29,7 +29,7 @@ public class GameControl : MonoBehaviour {
 
 	private int str, magic;
 
-	private GameObject[] powerBar;
+	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
 	void Start () {
 		int characterID = PlayerPrefs.GetInt ("Character_ID");
@@ -41,24 +41,14 @@ public class GameControl : MonoBehaviour {
 			player = Instantiate (Resources.Load ("Character3") as GameObject);
 
 		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
-		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 2);
-		Debug.Log (magic);
+		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 10);
 
-		powerBar = new GameObject [magic];
 		player.transform.position = new Vector2 (2, 5);
 
 		player.name = "Player";
 
-		for (int i = 0; i < magic; i++) {
-			powerBar [i] = Instantiate (Resources.Load ("PowerBar") as GameObject);
-			powerBar [i].transform.SetParent (GameObject.Find ("PowerBarParent").transform, false);
-			powerBar [i].name = "PowerBar";
-			if (i > 0) {
-				powerBar [i].transform.position = new Vector3 (powerBar [i - 1].transform.position.x + powerBar [i - 1].GetComponent<RectTransform> ().localScale.x, powerBar [i - 1].transform.position.y, 0);
-			} else {
-				powerBar [i].transform.position = new Vector3 (-55, 102, 0);
-			}
-		}
+		ManaUI ();
+
 		playerRB = player.GetComponent<Rigidbody2D> ();
 		launcher = GameObject.Find ("Launcher");
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
@@ -88,6 +78,8 @@ public class GameControl : MonoBehaviour {
 		rideCounter = 0;
 
 		playerRB.gravityScale = 0;
+	
+
 	}
 	void Update () {
 		if (startGame) {
@@ -217,6 +209,22 @@ public class GameControl : MonoBehaviour {
 			trapSpawnCounter = 0;
 		}
 	}
+	private void ManaUI(){
+		for (int i = 0; i < magic; i++) {
+			powerBar.Push (Instantiate (Resources.Load ("PowerBar") as GameObject));
+			powerBar[powerBar.Count - 1].transform.SetParent (GameObject.Find ("PowerBarParent").transform, false);
+			powerBar.Peek name = "PowerBar";
+			if (i > 0) {
+				powerBar[powerBar.Count - 1].transform.position = new Vector3 (powerBar [i - 1].transform.position.x + powerBar [i - 1].GetComponent<RectTransform>().rect.width / 1.25f, powerBar [i - 1].transform.position.y, 0);
+				powerBar[powerBar.Count - 1].GetComponent<RectTransform> ().transform.localPosition = new Vector3 (powerBar [i].GetComponent<RectTransform> ().transform.localPosition.x, powerBar [i].GetComponent<RectTransform> ().transform.localPosition.y, 0);
+				powerBar[powerBar.Count - 1].transform.localScale = new Vector3 (100, 30, 0);
+			} else {
+				powerBar[powerBar.Count - 1].transform.position = new Vector3 (powerBar [i].transform.parent.position.x, powerBar [i].transform.parent.position.y, 0);
+				powerBar[powerBar.Count - 1].GetComponent<RectTransform> ().transform.localPosition = new Vector3 (powerBar [i].GetComponent<RectTransform> ().transform.localPosition.x, powerBar [i].GetComponent<RectTransform> ().transform.localPosition.y, 0);
+				powerBar[powerBar.Count - 1].transform.localScale = new Vector3 (100, 30, 0);
+			}
+		}
+	}
 	public bool GetStartGame(){
 		return startGame;
 	}
@@ -232,5 +240,7 @@ public class GameControl : MonoBehaviour {
 	public float GetDistance(){
 		return player.transform.position.x;
 	}
-		
+	public int GetMana(){
+		return powerBar.Count;
+	}
 }
