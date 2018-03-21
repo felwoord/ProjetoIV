@@ -473,6 +473,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 412382347}
+  - component: {fileID: 412382348}
   m_Layer: 5
   m_Name: PowerBarParent
   m_TagString: Untagged
@@ -491,13 +492,35 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1626330496}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 40, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &412382348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 412382346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -405508275, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: -4
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 48.5
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
 --- !u!1 &426150818
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,7 +1060,7 @@ RectTransform:
   - {fileID: 1892381107}
   - {fileID: 18330402}
   m_Father: {fileID: 1626330496}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1191,8 +1214,8 @@ RectTransform:
   - {fileID: 156861764}
   - {fileID: 1891973528}
   - {fileID: 2096060279}
-  - {fileID: 1329196530}
   - {fileID: 412382347}
+  - {fileID: 1329196530}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1817,7 +1840,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 113.91101, y: -32}
+  m_AnchoredPosition: {x: 113.91113, y: -32}
   m_SizeDelta: {x: 206.78998, y: 28.800003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2096060280

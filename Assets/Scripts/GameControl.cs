@@ -27,12 +27,13 @@ public class GameControl : MonoBehaviour {
 	private float monsterSpawnCounter, trapSpawnCounter, rideSpawnCounter;
 	private int monsterCounter, trapCounter, rideCounter;
 
+	private int characterID;
 	private int str, magic;
 
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
 	void Start () {
-		int characterID = PlayerPrefs.GetInt ("Character_ID");
+		characterID = PlayerPrefs.GetInt ("Character_ID");
 		if (characterID == 1) 
 			player = Instantiate (Resources.Load ("Character1") as GameObject);
 		if (characterID == 2) 
@@ -47,7 +48,9 @@ public class GameControl : MonoBehaviour {
 
 		player.name = "Player";
 
-		ManaUI ();
+		for (int i = 0; i < magic; i++) {
+			ManaUI ();
+		}
 
 		playerRB = player.GetComponent<Rigidbody2D> ();
 		launcher = GameObject.Find ("Launcher");
@@ -78,8 +81,6 @@ public class GameControl : MonoBehaviour {
 		rideCounter = 0;
 
 		playerRB.gravityScale = 0;
-	
-
 	}
 	void Update () {
 		if (startGame) {
@@ -88,7 +89,6 @@ public class GameControl : MonoBehaviour {
 			GamePlay ();	//Flying time!
 		}
 	}
-
 	private void GamePlay(){
 		speedText.text = playerRB.velocity.x.ToString("0");
 		distText.text = player.transform.position.x.ToString ("0");
@@ -105,6 +105,10 @@ public class GameControl : MonoBehaviour {
 		if (trapCounter < 3) {
 			SpawnTrap1 ();
 		}
+		rideSpawnCounter += Time.deltaTime;
+		if (rideCounter < 1) {
+			SpawnRide1 ();
+		}
 
 	}
 	private void StartGame(){
@@ -120,8 +124,14 @@ public class GameControl : MonoBehaviour {
 				powerSelecting = false;
 				powerLaunch = (arrow.fillAmount * powerMultiplier) + str;
 				playerRB.gravityScale = 1;
-				player.GetComponent<PlayerController> ().enabled = true;
 				player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);
+				player.GetComponent<PlayerController> ().enabled = true;
+				if (characterID == 1)
+					player.GetComponent<CharacterOne> ().enabled = true;
+				if (characterID == 2) 
+					player.GetComponent<CharacterTwo> ().enabled = true;
+				if (characterID == 3) 
+					player.GetComponent<CharacterOne> ().enabled = true;				
 				Destroy (launcher);
 				speedText.enabled = true;
 				distText.enabled = true;
@@ -201,28 +211,20 @@ public class GameControl : MonoBehaviour {
 	private void SpawnRide1(){
 		if (rideSpawnCounter > 0.5) {
 			int a = Random.Range (1, 10);
-			if (a >= 8) {
+			if (a >= 5) {
 				GameObject ride1 = Instantiate (Resources.Load ("Ride1") as GameObject);
 				ride1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
-				trapCounter++;
+				rideCounter++;
 			}
-			trapSpawnCounter = 0;
+			rideSpawnCounter = 0;
 		}
 	}
-	private void ManaUI(){
-		for (int i = 0; i < magic; i++) {
+	public void ManaUI(){
+		if (powerBar.Count < magic) {
 			powerBar.Push (Instantiate (Resources.Load ("PowerBar") as GameObject));
-			powerBar[powerBar.Count - 1].transform.SetParent (GameObject.Find ("PowerBarParent").transform, false);
-			powerBar.Peek name = "PowerBar";
-			if (i > 0) {
-				powerBar[powerBar.Count - 1].transform.position = new Vector3 (powerBar [i - 1].transform.position.x + powerBar [i - 1].GetComponent<RectTransform>().rect.width / 1.25f, powerBar [i - 1].transform.position.y, 0);
-				powerBar[powerBar.Count - 1].GetComponent<RectTransform> ().transform.localPosition = new Vector3 (powerBar [i].GetComponent<RectTransform> ().transform.localPosition.x, powerBar [i].GetComponent<RectTransform> ().transform.localPosition.y, 0);
-				powerBar[powerBar.Count - 1].transform.localScale = new Vector3 (100, 30, 0);
-			} else {
-				powerBar[powerBar.Count - 1].transform.position = new Vector3 (powerBar [i].transform.parent.position.x, powerBar [i].transform.parent.position.y, 0);
-				powerBar[powerBar.Count - 1].GetComponent<RectTransform> ().transform.localPosition = new Vector3 (powerBar [i].GetComponent<RectTransform> ().transform.localPosition.x, powerBar [i].GetComponent<RectTransform> ().transform.localPosition.y, 0);
-				powerBar[powerBar.Count - 1].transform.localScale = new Vector3 (100, 30, 0);
-			}
+			powerBar.Peek ().transform.SetParent (GameObject.Find ("PowerBarParent").transform, false);
+			powerBar.Peek ().name = "PowerBar";
+			powerBar.Peek ().transform.localScale = new Vector3 (100, 30, 0);
 		}
 	}
 	public bool GetStartGame(){
@@ -242,5 +244,8 @@ public class GameControl : MonoBehaviour {
 	}
 	public int GetMana(){
 		return powerBar.Count;
+	}
+	public void RemovePowerBar(){
+		Destroy (powerBar.Pop ());
 	}
 }
