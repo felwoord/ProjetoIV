@@ -537,6 +537,7 @@ GameObject:
   - component: {fileID: 312997440}
   - component: {fileID: 312997442}
   - component: {fileID: 312997441}
+  - component: {fileID: 312997443}
   m_Layer: 5
   m_Name: PanelStr
   m_TagString: Untagged
@@ -596,6 +597,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 312997439}
+--- !u!114 &312997443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 312997439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 757626a0cccd6dd458c4123cc9d4e641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &343467394
 GameObject:
   m_ObjectHideFlags: 0
@@ -2322,6 +2334,7 @@ GameObject:
   - component: {fileID: 1181321437}
   - component: {fileID: 1181321439}
   - component: {fileID: 1181321438}
+  - component: {fileID: 1181321440}
   m_Layer: 5
   m_Name: PanelVit
   m_TagString: Untagged
@@ -2381,6 +2394,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1181321436}
+--- !u!114 &1181321440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1181321436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 757626a0cccd6dd458c4123cc9d4e641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1225729850
 GameObject:
   m_ObjectHideFlags: 0
@@ -2391,6 +2415,7 @@ GameObject:
   - component: {fileID: 1225729851}
   - component: {fileID: 1225729853}
   - component: {fileID: 1225729852}
+  - component: {fileID: 1225729854}
   m_Layer: 5
   m_Name: PanelMagic
   m_TagString: Untagged
@@ -2450,6 +2475,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1225729850}
+--- !u!114 &1225729854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1225729850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 757626a0cccd6dd458c4123cc9d4e641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1346101948
 GameObject:
   m_ObjectHideFlags: 0
