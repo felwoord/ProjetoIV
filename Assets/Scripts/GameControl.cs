@@ -26,6 +26,8 @@ public class GameControl : MonoBehaviour {
 
 	private float monsterSpawnCounter, trapSpawnCounter, rideSpawnCounter;
 	private int monsterCounter, trapCounter, rideCounter;
+	public bool ride1CD;
+	private float ride1CounterCD;
 
 	private int characterID;
 	private int str, magic;
@@ -80,6 +82,9 @@ public class GameControl : MonoBehaviour {
 		rideSpawnCounter = 0;
 		rideCounter = 0;
 
+		ride1CounterCD = 0;
+		ride1CD = false;
+
 		playerRB.gravityScale = 0;
 	}
 	void Update () {
@@ -112,9 +117,18 @@ public class GameControl : MonoBehaviour {
 		if (trapCounter < 3) {
 			SpawnTrap1 ();
 		}
-		rideSpawnCounter += Time.deltaTime;
-		if (rideCounter < 1) {
-			SpawnRide1 ();
+
+		if (!ride1CD) {
+			rideSpawnCounter += Time.deltaTime;
+			if (rideCounter < 1) {
+				SpawnRide1 ();
+			}
+		} else {
+			ride1CounterCD = +Time.deltaTime;
+			if (ride1CounterCD > 7) {
+				ride1CD = true;
+				ride1CounterCD = 0;
+			}
 		}
 
 	}

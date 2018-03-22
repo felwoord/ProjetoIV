@@ -13,8 +13,13 @@ public class PlayerController : MonoBehaviour {
 	private Vector2 saveVelocity;
 	private float saveDrag;
 
+	private int characterID;
+
+	private GameObject cam;
 
 	void Start () {
+		cam = GameObject.Find ("Main Camera");
+		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		ride = false;
 		playerRB = GetComponent<Rigidbody2D> ();
 
@@ -84,12 +89,20 @@ public class PlayerController : MonoBehaviour {
 			
 			} else {
 				if (!ride) {
+					cam.GetComponent<GameControl> ().ride1CD = true;
 					ride = true;
 					saveVelocity = playerRB.velocity;
 					saveDrag = playerRB.drag;
 					playerRB.drag = 0;
 					playerRB.velocity = new Vector2 (saveVelocity.x, 0);
 					playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
+				
+					if (characterID == 1)
+						GetComponent<CharacterOne> ().SetRide1Sprite();
+					if (characterID == 2) {
+					}
+					if (characterID == 3) {
+					} 
 
 				} else {
 				
@@ -127,6 +140,13 @@ public class PlayerController : MonoBehaviour {
 				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2, 0);
 			}
 		} else {
+			if (characterID == 1)
+				GetComponent<CharacterOne> ().SetDefaultSprite ();
+			if (characterID == 2) {
+			}
+			if (characterID == 3) {
+			} 
+
 			rideTimer = 0;
 			ride = false;
 			playerRB.drag = saveDrag;

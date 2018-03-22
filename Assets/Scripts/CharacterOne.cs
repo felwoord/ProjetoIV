@@ -7,7 +7,7 @@ public class CharacterOne : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private PlayerController playerControl;
 
-	public Sprite deafultSprite;
+	public Sprite defaultSprite;
 	public Sprite ride1Sprite;
 
 	void Start(){
@@ -25,6 +25,16 @@ public class CharacterOne : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public void SetDefaultSprite(){
+		//GetComponent<SpriteRenderer> ().sprite = defaultSprite;
+		GetComponent<SpriteRenderer> ().color = Color.white;
+	}
+	public void SetRide1Sprite(){
+		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
+		GetComponent<SpriteRenderer> ().color = Color.red;
+
 	}
 
 
