@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
 		if (ride) {
 			RideTime ();
 		} else {
-			if (transform.position.y > 28 && playerRB.velocity.y < 0 && !heightCheck) {
+			if (transform.position.y > 65 && playerRB.velocity.y < 0 && !heightCheck) {
 				AboveMaxHeight ();
 			}
 
@@ -89,6 +89,9 @@ public class PlayerController : MonoBehaviour {
 			
 			} else {
 				if (!ride) {
+					GameObject tap = Instantiate (Resources.Load ("Tap") as GameObject);
+					tap.transform.position = new Vector3 (cam.transform.position.x - 6, cam.transform.position.y + 1, 0);
+					tap.transform.parent = cam.transform;
 					cam.GetComponent<GameControl> ().ride1CD = true;
 					ride = true;
 					saveVelocity = playerRB.velocity;
@@ -114,6 +117,13 @@ public class PlayerController : MonoBehaviour {
 			
 	}
 	public void AboveMaxHeight(){
+		if (characterID == 1)
+			GetComponent<CharacterOne> ().SetAboveMaxHeightSprite();
+		if (characterID == 2) {
+		}
+		if (characterID == 3) {
+		} 
+
 		playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.2f, -25);
 		heightCheck = true;
 	}
@@ -130,6 +140,14 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 
+			if (heightCheck) {
+				if (characterID == 1)
+					GetComponent<CharacterOne> ().SetDefaultSprite();
+				if (characterID == 2) {
+				}
+				if (characterID == 3) {
+				} 
+			}
 			heightCheck = false;
 		}
 	}
@@ -164,5 +182,8 @@ public class PlayerController : MonoBehaviour {
 	public bool GetRide()
 	{
 		return ride;
+	}
+	public bool GetHeightCheck(){
+		return heightCheck;
 	}
 }

@@ -25,9 +25,11 @@ public class CameraFollow : MonoBehaviour {
 			} else {
 				transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 			}
-
+				
 			if (player.transform.position.y < 5) {
 				transform.position = new Vector3 (transform.position.x, 5, transform.position.z);
+			} else if (player.transform.position.y > 60) {
+				transform.position = new Vector3 (transform.position.x, 60, transform.position.z);	
 			} else {
 				transform.position = new Vector3 (transform.position.x, player.transform.position.y, transform.position.z);
 			}

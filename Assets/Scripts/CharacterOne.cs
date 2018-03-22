@@ -18,10 +18,12 @@ public class CharacterOne : MonoBehaviour {
 	void Update(){
 		if (Input.GetMouseButtonDown (0)) {
 			if (!playerControl.GetRide ()) {
-				int powerBarsCount = game.GetMana ();
-				if (powerBarsCount > 0) {
-					playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);
-					game.RemovePowerBar ();
+				if (!playerControl.GetHeightCheck ()) {
+					int powerBarsCount = game.GetMana ();
+					if (powerBarsCount > 0) {
+						playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.1f + 2, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);
+						game.RemovePowerBar ();
+					}
 				}
 			}
 		}
@@ -34,6 +36,11 @@ public class CharacterOne : MonoBehaviour {
 	public void SetRide1Sprite(){
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
 		GetComponent<SpriteRenderer> ().color = Color.red;
+
+	}
+	public void SetAboveMaxHeightSprite(){
+		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
+		GetComponent<SpriteRenderer> ().color = Color.yellow;
 
 	}
 

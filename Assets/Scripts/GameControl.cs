@@ -20,9 +20,11 @@ public class GameControl : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private GameObject player;
 	private GameObject lastGround, currentGround, nextGround;
+	private GameObject lastBackGround, currentBackGround, nextBackGround;
 
-	private Text speedText, speedText2;
+	private Text healthText;
 	private Text distText, distText2;
+	private Image healthBar;
 
 	private float monsterSpawnCounter, trapSpawnCounter, rideSpawnCounter;
 	private int monsterCounter, trapCounter, rideCounter;
@@ -30,7 +32,7 @@ public class GameControl : MonoBehaviour {
 	private float ride1CounterCD;
 
 	private int characterID;
-	private int str, magic;
+	private int str, magic, vit;
 
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
@@ -45,6 +47,7 @@ public class GameControl : MonoBehaviour {
 
 		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
 		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 10);
+		vit = PlayerPrefs.GetInt ("Vit_" + characterID, 10);
 
 		player.transform.position = new Vector2 (2, 5);
 
@@ -52,6 +55,9 @@ public class GameControl : MonoBehaviour {
 
 		for (int i = 0; i < magic; i++) {
 			ManaUI ();
+		}
+		foreach (GameObject pwb in powerBar) {
+			pwb.GetComponent<Image> ().enabled = false;
 		}
 
 		playerRB = player.GetComponent<Rigidbody2D> ();
@@ -66,14 +72,18 @@ public class GameControl : MonoBehaviour {
 		currentGround = GameObject.Find ("Ground2");
 		nextGround = GameObject.Find ("Ground3");
 
-		speedText = GameObject.Find ("SpeedText").GetComponent<Text>();
+		lastBackGround = GameObject.Find ("Background");
+		currentBackGround = GameObject.Find ("Background2");
+		nextBackGround = GameObject.Find ("Background3");
+
+		healthText = GameObject.Find ("HealthText").GetComponent<Text>();
 		distText = GameObject.Find ("DistanceText").GetComponent <Text> ();
-		speedText2 = GameObject.Find ("SpeedText2").GetComponent<Text>();
 		distText2 = GameObject.Find ("DistanceText2").GetComponent <Text> ();
-		speedText.enabled = false;
+		healthBar = GameObject.Find ("HealthBar").GetComponent<Image> ();
+		healthText.enabled = false;
 		distText.enabled = false;
-		speedText2.enabled = false;
 		distText2.enabled = false;
+		healthBar.enabled = false;
 
 		monsterSpawnCounter = 0;
 		monsterCounter = 0;
@@ -102,11 +112,16 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void GamePlay(){
-		speedText.text = playerRB.velocity.x.ToString("0");
+		healthText.text = playerRB.velocity.x.ToString("0");
 		distText.text = player.transform.position.x.ToString ("0");
+		healthBar.fillAmount = playerRB.velocity.x / (vit * 10);
 
 		if (player.transform.position.x >= currentGround.transform.position.x) {
 			CreateGround ();
+		}
+			
+		if (player.transform.position.x >= currentBackGround.transform.position.x) {
+			CreateBackGround ();
 		}
 
 		monsterSpawnCounter += Time.deltaTime;
@@ -154,9 +169,12 @@ public class GameControl : MonoBehaviour {
 				if (characterID == 3) 
 					player.GetComponent<CharacterOne> ().enabled = true;				
 				Destroy (launcher);
-				speedText.enabled = true;
+				foreach (GameObject pwb in powerBar) {
+					pwb.GetComponent<Image> ().enabled = true;
+				}
+				healthBar.enabled = true;
+				healthText.enabled = true;
 				distText.enabled = true;
-				speedText2.enabled = true;
 				distText2.enabled = true;
 				startGame = false;
 			}
@@ -174,8 +192,13 @@ public class GameControl : MonoBehaviour {
 		currentGround = nextGround;
 		nextGround = Instantiate (Resources.Load ("Ground") as GameObject);
 		nextGround.transform.position = new Vector2 (currentGround.transform.position.x + 17.5f, currentGround.transform.position.y);
-
-
+	}
+	private void CreateBackGround(){
+		Destroy (lastBackGround);
+		lastBackGround = currentBackGround;
+		currentBackGround = nextBackGround;
+		nextBackGround = Instantiate (Resources.Load ("Background") as GameObject);
+		nextBackGround.transform.position = new Vector3 (currentBackGround.transform.position.x + 64.5f, currentBackGround.transform.position.y, 1);
 	}
 	private void DireciontSelect(){
 		if (launcher.transform.rotation.eulerAngles.z > 300f) {
