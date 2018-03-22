@@ -33,7 +33,7 @@ public class GameControl : MonoBehaviour {
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
 	void Start () {
-		characterID = PlayerPrefs.GetInt ("Character_ID");
+		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		if (characterID == 1) 
 			player = Instantiate (Resources.Load ("Character1") as GameObject);
 		if (characterID == 2) 
@@ -87,6 +87,13 @@ public class GameControl : MonoBehaviour {
 			StartGame ();	//Angle and Power selecting
 		} else {
 			GamePlay ();	//Flying time!
+		}
+
+		if (Input.GetKeyDown (KeyCode.A)) {
+			ManaUI ();
+		}
+		if (Input.GetKeyDown (KeyCode.S)) {
+			RemovePowerBar ();
 		}
 	}
 	private void GamePlay(){
