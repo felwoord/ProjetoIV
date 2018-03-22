@@ -20,6 +20,7 @@ public class ShopMenu : MonoBehaviour {
 	private Image itemDisplay;
 	public Sprite[] itemSprite = new Sprite[2];
 
+
 	// Use this for initialization
 	void Start () {
 		stats = GameObject.Find ("StatsImage");
@@ -86,8 +87,6 @@ public class ShopMenu : MonoBehaviour {
 		PlayerPrefs.SetInt ("Character_ID", currentCharacter);
 		SceneManager.LoadScene ("GameScene");
 	}
-
-
 	public void ItensButton(){
 		itens.GetComponent<RectTransform> ().SetAsLastSibling ();
 	}
@@ -97,7 +96,6 @@ public class ShopMenu : MonoBehaviour {
 	public void AddPoint(int type){
 		//type 1 = str, 2=magic, 3 = vit
 	}
-
 	private void FloatingHints(){
 		panelStr = GameObject.Find ("PanelStr");
 		panelMagic = GameObject.Find ("PanelMagic");
@@ -109,9 +107,9 @@ public class ShopMenu : MonoBehaviour {
 		activeMagic = false;
 		activeVit = false;
 	}
-
 	public void StrFloatingHint(){
 		if (activeStr) {
+			panelStr.GetComponent<HideHint> ().ResetTimer ();
 			panelStr.SetActive (false);
 			activeStr = false;
 		} else {
@@ -121,6 +119,7 @@ public class ShopMenu : MonoBehaviour {
 	}
 	public void MagicFloatingHint(){
 		if (activeMagic) {
+			panelMagic.GetComponent<HideHint> ().ResetTimer ();
 			panelMagic.SetActive (false);
 			activeMagic = false;
 		} else {
@@ -130,6 +129,7 @@ public class ShopMenu : MonoBehaviour {
 	}
 	public void VitFloatingHint(){
 		if (activeVit) {
+			panelVit.GetComponent<HideHint> ().ResetTimer ();
 			panelVit.SetActive (false);
 			activeVit = false;
 		} else {
@@ -137,7 +137,6 @@ public class ShopMenu : MonoBehaviour {
 			activeVit = true;
 		}
 	}
-
 	public void ShowPillow(){
 		itemDisplay.sprite = itemSprite [0];
 		itemDescription.text = pillowDescription;

@@ -24,4 +24,8 @@ public class HideHint : MonoBehaviour {
 			}
 		}
 	}
+
+	public void ResetTimer(){
+		timer = 0;
+	}
 }

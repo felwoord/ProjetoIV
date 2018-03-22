@@ -140,4 +140,9 @@ public class PlayerController : MonoBehaviour {
 		GameObject endRunMenu = GameObject.Find ("EndRunMenu");
 		endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
 	}
+
+	public bool GetRide()
+	{
+		return ride;
+	}
 }
