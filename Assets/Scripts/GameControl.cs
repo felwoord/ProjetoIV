@@ -34,16 +34,14 @@ public class GameControl : MonoBehaviour {
 	private int characterID;
 	private int str, magic, vit;
 
+	private float expGained, goldGained;
+
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
 	void Start () {
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
-		if (characterID == 1) 
-			player = Instantiate (Resources.Load ("Character1") as GameObject);
-		if (characterID == 2) 
-			player = Instantiate (Resources.Load ("Character2") as GameObject);
-		if (characterID == 3) 
-			player = Instantiate (Resources.Load ("Character3") as GameObject);
+
+		player = Instantiate (Resources.Load ("Character" + characterID) as GameObject);
 
 		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
 		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 10);
@@ -96,6 +94,9 @@ public class GameControl : MonoBehaviour {
 		ride1CD = false;
 
 		playerRB.gravityScale = 0;
+
+		expGained = 0;
+		goldGained = 0;
 	}
 	void Update () {
 		if (startGame) {
@@ -292,4 +293,17 @@ public class GameControl : MonoBehaviour {
 	public void RemovePowerBar(){
 		Destroy (powerBar.Pop ());
 	}
+	public void AddExp(float expAmount){
+		expGained += expAmount;
+	}
+	public void AddGold(float goldAmount){
+		goldGained += goldAmount;
+	}
+	public float GetExp(){
+		return expGained;
+	}
+	public float GetGold(){
+		return goldGained;
+	}
+
 }

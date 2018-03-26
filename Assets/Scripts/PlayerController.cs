@@ -16,9 +16,18 @@ public class PlayerController : MonoBehaviour {
 	private int characterID;
 
 	private GameObject cam;
+	private GameControl gameCont;
+
+	private float goldMultMaxHeight, goldMultRide;
+	private float expMultMaxHeight, expMultRide;
+	private float goldMonster1, expMonster1;
+	private float goldRide1, expRide1;
+	private float goldTrap1, expTrap1;
 
 	void Start () {
+		SetRates ();
 		cam = GameObject.Find ("Main Camera");
+		gameCont = cam.GetComponent<GameControl> ();
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		ride = false;
 		playerRB = GetComponent<Rigidbody2D> ();
@@ -46,28 +55,29 @@ public class PlayerController : MonoBehaviour {
 	public void OnTriggerEnter2D(Collider2D col){
 		if (col.gameObject.tag == "Monster1") {
 			if (heightCheck) {
-				// multiplicar pontuação do monstro
-				GameObject.Find ("Main Camera").GetComponent<GameControl> ().MonsterRemove ();
+				gameCont.AddExp (expMonster1 * expMultMaxHeight);
+				gameCont.AddGold (goldMonster1 * goldMultMaxHeight);
+				gameCont.MonsterRemove ();
 				Destroy (col.gameObject);
 			} else {
 				if (!ride) {
-					if (playerRB.velocity.y > 0) {
-						playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, playerRB.velocity.y * 1.08f + 3f);
-					} else {
-						playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, -playerRB.velocity.y * 1.08F + 3f);
-					}
+					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, Mathf.Abs (playerRB.velocity.y) * 1.08f + 3f);
+					gameCont.AddExp (expMonster1);
+					gameCont.AddGold (goldMonster1);
 				} else {
-					
+					gameCont.AddExp (expMonster1 * expMultRide);
+					gameCont.AddGold (goldMonster1 * goldMultRide);
 				}
-				GameObject.Find ("Main Camera").GetComponent<GameControl> ().MonsterRemove ();
+				gameCont.MonsterRemove ();
 				Destroy (col.gameObject);
 			}
 		}
 
 		if (col.gameObject.tag == "Trap1") {
 			if (heightCheck) {
-				// multiplicar pontuação do monstro
-				GameObject.Find ("Main Camera").GetComponent<GameControl> ().MonsterRemove ();
+				gameCont.AddExp (expTrap1 * expMultMaxHeight);
+				gameCont.AddGold (goldTrap1 * goldMultMaxHeight);
+				gameCont.MonsterRemove ();
 				Destroy (col.gameObject);
 			} else {
 				if (!ride) {
@@ -77,16 +87,18 @@ public class PlayerController : MonoBehaviour {
 						EndRun ();
 					}
 				} else {
-					
+					gameCont.AddExp (expTrap1 * expMultRide);
+					gameCont.AddGold (goldTrap1 * goldMultRide);
 				}
-				GameObject.Find ("Main Camera").GetComponent<GameControl> ().TrapRemove ();
+				gameCont.TrapRemove ();
 				Destroy (col.gameObject);
 			}
 		}
 
 		if (col.gameObject.tag == "Ride1") {
 			if (heightCheck) {
-			
+				gameCont.AddExp (expRide1 * expMultMaxHeight);
+				gameCont.AddGold (goldRide1 * goldMultMaxHeight);
 			} else {
 				if (!ride) {
 					GameObject tap = Instantiate (Resources.Load ("Tap") as GameObject);
@@ -107,11 +119,15 @@ public class PlayerController : MonoBehaviour {
 					if (characterID == 3) {
 					} 
 
+					gameCont.AddExp (expRide1);
+					gameCont.AddGold (goldRide1);
+
 				} else {
-				
+					gameCont.AddExp (expRide1 * expMultRide);
+					gameCont.AddGold (goldRide1 * goldMultRide);
 				}
 			}
-			GameObject.Find ("Main Camera").GetComponent<GameControl> ().RideRemove ();
+			gameCont.RideRemove ();
 			Destroy (col.gameObject);
 		}
 			
@@ -178,12 +194,24 @@ public class PlayerController : MonoBehaviour {
 		GameObject endRunMenu = GameObject.Find ("EndRunMenu");
 		endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
 	}
-
 	public bool GetRide()
 	{
 		return ride;
 	}
 	public bool GetHeightCheck(){
 		return heightCheck;
+	}
+
+	private void SetRates(){
+		expMonster1 = 100 ;
+		goldMonster1 = 10;
+		expRide1 = 50;
+		goldRide1 = 5;
+		expTrap1 = 150;
+		goldTrap1 = 50;
+		expMultMaxHeight = 2;
+		goldMultMaxHeight = 2;
+		expMultRide = 2;
+		goldMultRide = 2;
 	}
 }
