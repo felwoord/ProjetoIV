@@ -20,9 +20,22 @@ public class ShopMenu : MonoBehaviour {
 	private Image itemDisplay;
 	public Sprite[] itemSprite = new Sprite[2];
 
+	private float currentGold;
+	private Text goldText;
+
+	private Text levelText, strPointsText, magicPointsText, vitPointsText, pointsLeftText;
+	private int level, strPoints, magicPoints, vitPoints, pointsLeft;
+
 
 	// Use this for initialization
 	void Start () {
+		levelText = GameObject.Find ("Level").GetComponent<Text> ();
+		strPointsText = GameObject.Find ("StrPoints").GetComponent<Text> ();
+		magicPointsText = GameObject.Find ("MagicPoints").GetComponent<Text> ();
+		vitPointsText = GameObject.Find ("VitPoints").GetComponent<Text> ();
+		pointsLeftText = GameObject.Find ("Points").GetComponent<Text> ();
+		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0); 
+		goldText = GameObject.Find ("GoldText").GetComponent<Text> ();
 		stats = GameObject.Find ("StatsImage");
 		itens = GameObject.Find ("ItensImage");
 		playButton = GameObject.Find ("PlayButton").GetComponent<Button> ();
@@ -33,6 +46,7 @@ public class ShopMenu : MonoBehaviour {
 		pillowDescription = "Lose less life when you hit the ground";
 		sightDescription = "Make it easier to aim";
 
+		goldText.text = currentGold.ToString ("0");
 		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
 
 		CheckCurrentCharacter ();
@@ -74,6 +88,18 @@ public class ShopMenu : MonoBehaviour {
 	}
 
 	public void CheckCurrentCharacter(){
+		float currentExp = PlayerPrefs.GetFloat ("CurrentExp_" + currentCharacter, 0);
+		level = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
+		strPoints = PlayerPrefs.GetInt ("Str_" + currentCharacter, 1);
+		magicPoints = PlayerPrefs.GetInt ("Magic_" + currentCharacter, 1);
+		vitPoints = PlayerPrefs.GetInt ("Vit_" + currentCharacter, 1);
+		pointsLeft = PlayerPrefs.GetInt ("PointsLeft_" + currentCharacter, 0);
+		levelText.text = level.ToString("0");
+		strPointsText.text = strPoints.ToString ("0");
+		magicPointsText.text = magicPoints.ToString ("0");
+		vitPointsText.text = vitPoints.ToString ("0");
+		pointsLeftText.text = pointsLeft.ToString ("0");
+
 		if (currentCharacter == 1) {
 			CharacterOne ();
 		} else if (currentCharacter == 2) {

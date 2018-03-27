@@ -44,8 +44,8 @@ public class GameControl : MonoBehaviour {
 		player = Instantiate (Resources.Load ("Character" + characterID) as GameObject);
 
 		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
-		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 10);
-		vit = PlayerPrefs.GetInt ("Vit_" + characterID, 10);
+		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 1);
+		vit = PlayerPrefs.GetInt ("Vit_" + characterID, 1);
 
 		player.transform.position = new Vector2 (2, 5);
 

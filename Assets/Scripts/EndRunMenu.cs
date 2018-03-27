@@ -14,8 +14,12 @@ public class EndRunMenu : MonoBehaviour {
 	private float finalExp, finalGold;
 
 	private int characterID;
+	private int currentLevel;
+	private int newLevel;
 
 	void Start () {
+		expGainedText = GameObject.Find ("ExpGainedText").GetComponent<Text> ();
+		goldGainedText = GameObject.Find ("GoldGainedText").GetComponent<Text> ();
 		finalScoreText = GameObject.Find ("FinalScoreText").GetComponent<Text> ();
 		maxDistance = GameObject.Find ("Player").transform.position.x;
 		finalScoreText.text = maxDistance.ToString ("0");
@@ -26,11 +30,34 @@ public class EndRunMenu : MonoBehaviour {
 
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		currentExp = PlayerPrefs.GetFloat ("CurrentExp_" + characterID, 0);
-		currentGold = PlayerPrefs.GetFloat ("CurrentGold_" + characterID, 0);
+		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0);
+		Debug.Log ("OldExp:" + currentExp);
+
+		currentLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
+
 		currentExp += expGained;
 		currentGold += goldGained;
+
+		Debug.Log ("New Exp" + currentExp);
+
+
+		newLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
+
+		if (newLevel > currentLevel) {
+			int levelup = newLevel - currentLevel;
+			int pointsLeft = PlayerPrefs.GetInt ("PointsLeft_" + characterID, 0);
+			pointsLeft = pointsLeft + (levelup * 3);
+			PlayerPrefs.SetInt ("PointsLeft_" + characterID, pointsLeft);
+			GameObject.Find ("LevelUp").GetComponent<Text> ().enabled = true;
+		}
+
+		expGainedText.text = expGained.ToString("0");
+		goldGainedText.text = goldGained.ToString ("0");
+
 		PlayerPrefs.SetFloat ("CurrentExp_" + characterID, currentExp);
-		PlayerPrefs.SetFloat ("CurrentGold_" + characterID, currentGold);
+		PlayerPrefs.SetFloat ("CurrentGold", currentGold);
+
+		PlayerPrefs.Save ();
 	}
 
 	void Update () {
