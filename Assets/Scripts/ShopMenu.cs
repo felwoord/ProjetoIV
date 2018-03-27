@@ -1,4 +1,15 @@
-﻿using System.Collections;
+﻿//PlayerPrefs:
+//"CurrentGold"
+//"Character_ID"
+//"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
+//"Str_1", 			"Str_2", 		"Str_3"
+//"Magic_1", 		"Magic_2", 		"Magic_3"
+//"Vit_1", 			"Vit_2", 		"Vit_3"
+//"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
+//"PillowLevel"
+//"SightLevel"
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,9 +27,10 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject panelStr, panelMagic, panelVit;
 
 	private string pillowDescription, sightDescription;
-	private Text itemDescription;
+	private Text itemDescription, itemPrice;
 	private Image itemDisplay;
 	public Sprite[] itemSprite = new Sprite[2];
+	private int currentItem, pillowLevel;
 
 	private float currentGold;
 	private Text goldText;
@@ -27,7 +39,6 @@ public class ShopMenu : MonoBehaviour {
 	private int level, strPoints, magicPoints, vitPoints, pointsLeft;
 
 
-	// Use this for initialization
 	void Start () {
 		levelText = GameObject.Find ("Level").GetComponent<Text> ();
 		strPointsText = GameObject.Find ("StrPoints").GetComponent<Text> ();
@@ -49,6 +60,8 @@ public class ShopMenu : MonoBehaviour {
 		goldText.text = currentGold.ToString ("0");
 		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
 
+		currentItem = 1;
+
 		CheckCurrentCharacter ();
 
 		FloatingHints ();
@@ -57,6 +70,10 @@ public class ShopMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(Input.GetKeyDown(KeyCode.O)){
+			PlayerPrefs.DeleteAll();
+			SceneManager.LoadScene ("ShopScene");
+		}
 
 	}
 
@@ -108,9 +125,9 @@ public class ShopMenu : MonoBehaviour {
 			CharacterTree ();
 		}
 	}
-
 	public void Play(){
 		PlayerPrefs.SetInt ("Character_ID", currentCharacter);
+		PlayerPrefs.Save ();
 		SceneManager.LoadScene ("GameScene");
 	}
 	public void ItensButton(){
@@ -120,7 +137,27 @@ public class ShopMenu : MonoBehaviour {
 		stats.GetComponent<RectTransform> ().SetAsLastSibling ();
 	}
 	public void AddPoint(int type){
-		//type 1 = str, 2=magic, 3 = vit
+		if (pointsLeft > 0) {
+			if (type == 1) {
+				strPoints += 1;
+				strPointsText.text = strPoints.ToString ("0");
+				PlayerPrefs.SetInt ("Str_" + currentCharacter, strPoints);
+			}
+			if (type == 2) {
+				magicPoints += 1;
+				magicPointsText.text = magicPoints.ToString ("0");
+				PlayerPrefs.SetInt ("Magic_" + currentCharacter, magicPoints);
+			}
+			if (type == 3) {
+				vitPoints += 1;
+				vitPointsText.text = vitPoints.ToString ("0");
+				PlayerPrefs.SetInt ("Vit_" + currentCharacter, vitPoints);
+			}
+			pointsLeft--;
+			pointsLeftText.text = pointsLeft.ToString ("0");
+			PlayerPrefs.SetInt ("PointsLeft_" + currentCharacter, pointsLeft);
+			PlayerPrefs.Save ();
+		}
 	}
 	private void FloatingHints(){
 		panelStr = GameObject.Find ("PanelStr");
@@ -166,9 +203,11 @@ public class ShopMenu : MonoBehaviour {
 	public void ShowPillow(){
 		itemDisplay.sprite = itemSprite [0];
 		itemDescription.text = pillowDescription;
+		currentItem = 1;
 	}
 	public void ShowSight(){
 		itemDisplay.sprite = itemSprite [1];
 		itemDescription.text = sightDescription;
+		currentItem = 2;
 	}
 }

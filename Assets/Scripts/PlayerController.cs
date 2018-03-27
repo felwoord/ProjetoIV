@@ -1,4 +1,15 @@
-﻿using System.Collections;
+﻿//PlayerPrefs:
+//"CurrentGold"
+//"Character_ID"
+//"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
+//"Str_1", 			"Str_2", 		"Str_3"
+//"Magic_1", 		"Magic_2", 		"Magic_3"
+//"Vit_1", 			"Vit_2", 		"Vit_3"
+//"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
+//"PillowLevel"
+//"SightLevel"
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

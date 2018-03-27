@@ -1,4 +1,15 @@
-﻿using System.Collections;
+﻿//PlayerPrefs:
+//"CurrentGold"
+//"Character_ID"
+//"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
+//"Str_1", 			"Str_2", 		"Str_3"
+//"Magic_1", 		"Magic_2", 		"Magic_3"
+//"Vit_1", 			"Vit_2", 		"Vit_3"
+//"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
+//"PillowLevel"
+//"SightLevel"
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +44,7 @@ public class GameControl : MonoBehaviour {
 
 	private int characterID;
 	private int str, magic, vit;
+	private int mana;
 
 	private float expGained, goldGained;
 
@@ -51,7 +63,8 @@ public class GameControl : MonoBehaviour {
 
 		player.name = "Player";
 
-		for (int i = 0; i < magic; i++) {
+		mana = 1 + Mathf.FloorToInt (magic / 10);
+		for (int i = 0; i < mana; i++) {
 			ManaUI ();
 		}
 		foreach (GameObject pwb in powerBar) {
@@ -116,6 +129,11 @@ public class GameControl : MonoBehaviour {
 		healthText.text = playerRB.velocity.x.ToString("0");
 		distText.text = player.transform.position.x.ToString ("0");
 		healthBar.fillAmount = playerRB.velocity.x / (vit * 10);
+		if (playerRB.velocity.magnitude > vit * 10) {
+			playerRB.drag = 0.5f;
+		} else {
+			playerRB.drag = 0.05f;
+		}
 
 		if (player.transform.position.x >= currentGround.transform.position.x) {
 			CreateGround ();
@@ -265,7 +283,7 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	public void ManaUI(){
-		if (powerBar.Count < magic) {
+		if (powerBar.Count < mana) {
 			powerBar.Push (Instantiate (Resources.Load ("PowerBar") as GameObject));
 			powerBar.Peek ().transform.SetParent (GameObject.Find ("PowerBarParent").transform, false);
 			powerBar.Peek ().name = "PowerBar";

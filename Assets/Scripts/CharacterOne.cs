@@ -1,4 +1,15 @@
-﻿using System.Collections;
+﻿//PlayerPrefs:
+//"CurrentGold"
+//"Character_ID"
+//"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
+//"Str_1", 			"Str_2", 		"Str_3"
+//"Magic_1", 		"Magic_2", 		"Magic_3"
+//"Vit_1", 			"Vit_2", 		"Vit_3"
+//"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
+//"PillowLevel"
+//"SightLevel"
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +21,10 @@ public class CharacterOne : MonoBehaviour {
 	public Sprite defaultSprite;
 	public Sprite ride1Sprite;
 
+	private int magic;
+
 	void Start(){
+		magic = PlayerPrefs.GetInt ("Magic_1", 1);
 		playerControl = GameObject.Find ("Player").GetComponent<PlayerController> ();
 		game = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
 		playerRB = GetComponent<Rigidbody2D> ();
@@ -21,7 +35,7 @@ public class CharacterOne : MonoBehaviour {
 				if (!playerControl.GetHeightCheck ()) {
 					int powerBarsCount = game.GetMana ();
 					if (powerBarsCount > 0) {
-						playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.1f + 2, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);
+						playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);
 						game.RemovePowerBar ();
 					}
 				}

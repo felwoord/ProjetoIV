@@ -1,4 +1,15 @@
-﻿using System.Collections;
+﻿//PlayerPrefs:
+//"CurrentGold"
+//"Character_ID"
+//"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
+//"Str_1", 			"Str_2", 		"Str_3"
+//"Magic_1", 		"Magic_2", 		"Magic_3"
+//"Vit_1", 			"Vit_2", 		"Vit_3"
+//"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
+//"PillowLevel"
+//"SightLevel"
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +36,7 @@ public class EndRunMenu : MonoBehaviour {
 		finalScoreText.text = maxDistance.ToString ("0");
 		cam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 		gameCont = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
-		expGained = gameCont.GetExp ();
+		expGained = gameCont.GetExp () + maxDistance / 10;
 		goldGained = gameCont.GetGold ();
 
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
@@ -34,6 +45,7 @@ public class EndRunMenu : MonoBehaviour {
 		Debug.Log ("OldExp:" + currentExp);
 
 		currentLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
+		Debug.Log ("OldLevel:" + currentLevel);
 
 		currentExp += expGained;
 		currentGold += goldGained;
@@ -42,11 +54,14 @@ public class EndRunMenu : MonoBehaviour {
 
 
 		newLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
+		Debug.Log ("NewLevel:" + newLevel);
 
 		if (newLevel > currentLevel) {
 			int levelup = newLevel - currentLevel;
 			int pointsLeft = PlayerPrefs.GetInt ("PointsLeft_" + characterID, 0);
+			Debug.Log ("OldPoints:" + pointsLeft);
 			pointsLeft = pointsLeft + (levelup * 3);
+			Debug.Log ("NewPoints:" + pointsLeft);
 			PlayerPrefs.SetInt ("PointsLeft_" + characterID, pointsLeft);
 			GameObject.Find ("LevelUp").GetComponent<Text> ().enabled = true;
 		}
