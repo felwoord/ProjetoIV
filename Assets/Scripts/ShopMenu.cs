@@ -27,10 +27,10 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject panelStr, panelMagic, panelVit;
 
 	private string pillowDescription, sightDescription;
-	private Text itemDescription, itemPrice;
+	private Text itemDescription, itemPriceText;
 	private Image itemDisplay;
 	public Sprite[] itemSprite = new Sprite[2];
-	private int currentItem, pillowLevel;
+	private int currentItem, itemPrice, itemLevel;
 
 	private float currentGold;
 	private Text goldText;
@@ -53,6 +53,7 @@ public class ShopMenu : MonoBehaviour {
 		characterDisplay = GameObject.Find ("PlayerDisplay").GetComponent<Image> ();
 		itemDisplay = GameObject.Find ("ItemDisplay").GetComponent<Image> ();
 		itemDescription = GameObject.Find ("ItemDescription").GetComponent<Text> ();
+		itemPriceText = GameObject.Find ("ItemPrice").GetComponent<Text> ();
 
 		pillowDescription = "Lose less life when you hit the ground";
 		sightDescription = "Make it easier to aim";
@@ -60,7 +61,7 @@ public class ShopMenu : MonoBehaviour {
 		goldText.text = currentGold.ToString ("0");
 		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
 
-		currentItem = 1;
+		ShowPillow ();
 
 		CheckCurrentCharacter ();
 
@@ -201,13 +202,24 @@ public class ShopMenu : MonoBehaviour {
 		}
 	}
 	public void ShowPillow(){
+		currentItem = 1;
 		itemDisplay.sprite = itemSprite [0];
 		itemDescription.text = pillowDescription;
-		currentItem = 1;
+		itemLevel = PlayerPrefs.GetInt ("ItemLevel_" + currentItem, 0);
+		itemPrice = (itemLevel * 2);
+		itemPriceText.text = itemPrice.ToString ("0");
+
 	}
 	public void ShowSight(){
+		currentItem = 2;
 		itemDisplay.sprite = itemSprite [1];
 		itemDescription.text = sightDescription;
-		currentItem = 2;
+
+	}
+
+	public void BuyItem(){
+		if (currentGold >= itemPrice) {
+			
+		}
 	}
 }
