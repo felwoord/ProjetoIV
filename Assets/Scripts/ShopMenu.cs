@@ -31,6 +31,7 @@ public class ShopMenu : MonoBehaviour {
 	private Image itemDisplay;
 	public Sprite[] itemSprite = new Sprite[2];
 	private int currentItem, itemPrice, itemLevel;
+	private Button buyButton;
 
 	private float currentGold;
 	private Text goldText;
@@ -40,6 +41,7 @@ public class ShopMenu : MonoBehaviour {
 
 
 	void Start () {
+		buyButton = GameObject.Find ("BuyButton").GetComponent<Button> ();
 		levelText = GameObject.Find ("Level").GetComponent<Text> ();
 		strPointsText = GameObject.Find ("StrPoints").GetComponent<Text> ();
 		magicPointsText = GameObject.Find ("MagicPoints").GetComponent<Text> ();
@@ -206,6 +208,9 @@ public class ShopMenu : MonoBehaviour {
 		itemDisplay.sprite = itemSprite [0];
 		itemDescription.text = pillowDescription;
 		itemLevel = PlayerPrefs.GetInt ("ItemLevel_" + currentItem, 0);
+		if (itemLevel == 0) {
+			
+		}
 		itemPrice = (itemLevel * 2);
 		itemPriceText.text = itemPrice.ToString ("0");
 
@@ -219,7 +224,11 @@ public class ShopMenu : MonoBehaviour {
 
 	public void BuyItem(){
 		if (currentGold >= itemPrice) {
-			
+			currentGold -= itemPrice;
+			goldText.text = currentGold.ToString ("0");
+			itemLevel += 1;
+			PlayerPrefs.SetInt ("ItemLevel_" + currentItem, 0);
+
 		}
 	}
 }
