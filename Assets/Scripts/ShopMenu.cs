@@ -31,7 +31,7 @@ public class ShopMenu : MonoBehaviour {
 	private Image itemDisplay;
 	public Sprite[] itemSprite = new Sprite[2];
 	private int currentItem, itemPrice, itemLevel;
-	private Button buyButton;
+	private GameObject buyButton;
 
 	private float currentGold;
 	private Text goldText;
@@ -41,7 +41,7 @@ public class ShopMenu : MonoBehaviour {
 
 
 	void Start () {
-		buyButton = GameObject.Find ("BuyButton").GetComponent<Button> ();
+		buyButton = GameObject.Find ("BuyButton");
 		levelText = GameObject.Find ("Level").GetComponent<Text> ();
 		strPointsText = GameObject.Find ("StrPoints").GetComponent<Text> ();
 		magicPointsText = GameObject.Find ("MagicPoints").GetComponent<Text> ();
@@ -204,22 +204,27 @@ public class ShopMenu : MonoBehaviour {
 		}
 	}
 	public void ShowPillow(){
-		currentItem = 1;
-		itemDisplay.sprite = itemSprite [0];
-		itemDescription.text = pillowDescription;
-		itemLevel = PlayerPrefs.GetInt ("ItemLevel_" + currentItem, 0);
-		if (itemLevel == 0) {
-			
-		}
-		itemPrice = (itemLevel * 2);
-		itemPriceText.text = itemPrice.ToString ("0");
+		currentItem = 0;
+		ItemChange ();
 
 	}
 	public void ShowSight(){
-		currentItem = 2;
-		itemDisplay.sprite = itemSprite [1];
-		itemDescription.text = sightDescription;
+		currentItem = 1;
+		ItemChange ();
 
+	}
+	private void ItemChange(){
+		itemDisplay.sprite = itemSprite [currentItem];
+		itemDescription.text = pillowDescription;
+		itemLevel = PlayerPrefs.GetInt ("ItemLevel_" + currentItem, 0);
+		if (itemLevel == 0) {
+			buyButton.GetComponent<Text> ().text = "Buy";
+			itemPrice = 1000;
+		} else {
+			buyButton.GetComponent<Text> ().text = "Upgrade";
+			itemPrice = (itemLevel * 200);
+		}
+		itemPriceText.text = itemPrice.ToString ("0");
 	}
 
 	public void BuyItem(){
