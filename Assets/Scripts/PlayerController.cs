@@ -6,8 +6,7 @@
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//"ItemLevel_1 -> Pillow	ItemLevel_2 -> Sight"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -34,6 +33,7 @@ public class PlayerController : MonoBehaviour {
 	private float goldMonster1, expMonster1;
 	private float goldRide1, expRide1;
 	private float goldTrap1, expTrap1;
+	private int pillowLevel, sightLevel;
 
 	void Start () {
 		SetRates ();
@@ -42,6 +42,11 @@ public class PlayerController : MonoBehaviour {
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		ride = false;
 		playerRB = GetComponent<Rigidbody2D> ();
+
+		pillowLevel = PlayerPrefs.GetInt ("ItemLeve_1", 0);
+
+
+		playerRB.sharedMaterial.bounciness += pillowLevel / 100;
 
 
 	}
@@ -157,7 +162,7 @@ public class PlayerController : MonoBehaviour {
 	public void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.tag == "Ground" && !ride) {
 			if (playerRB.velocity.x > 3) {
-				playerRB.velocity = new Vector2 (playerRB.velocity.x * 0.7f - 1.0f, playerRB.velocity.y);
+				playerRB.velocity = new Vector2 (playerRB.velocity.x * 0.7f - 1.0f + pillowLevel/100, playerRB.velocity.y );
 				if (playerRB.velocity.x <= 0) {
 					playerRB.velocity = Vector2.zero;
 				}
@@ -212,7 +217,6 @@ public class PlayerController : MonoBehaviour {
 	public bool GetHeightCheck(){
 		return heightCheck;
 	}
-
 	private void SetRates(){
 		expMonster1 = 100 ;
 		goldMonster1 = 10;

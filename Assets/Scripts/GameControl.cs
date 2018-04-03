@@ -13,7 +13,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
+//Arrumar os coments de PlayerPrefs e o level dos itens
 public class GameControl : MonoBehaviour {
 	private bool directionSelecting, powerSelecting;
 	private GameObject launcher;
@@ -25,6 +38,7 @@ public class GameControl : MonoBehaviour {
 	private Vector2 angleLaunch;
 	private float powerLaunch;
 	public float powerMultiplier;
+	private int sightLevel;
 
 	private bool startGame;
 
@@ -51,6 +65,10 @@ public class GameControl : MonoBehaviour {
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
 	void Start () {
+		int pillowLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
+		Debug.Log ("PillowLevel: "+ pillowLevel); 
+		sightLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
+		Debug.Log ("SightLevel: "+ sightLevel); 
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 
 		player = Instantiate (Resources.Load ("Character" + characterID) as GameObject);
@@ -230,9 +248,9 @@ public class GameControl : MonoBehaviour {
 			directionUp = true;
 		}
 		if (directionUp) {
-			launcher.transform.Rotate (Vector3.forward * launcherRotSpeed * Time.deltaTime);
+			launcher.transform.Rotate (Vector3.forward * (launcherRotSpeed / (sightLevel + 1)) * Time.deltaTime);
 		} else {
-			launcher.transform.Rotate (Vector3.forward * -launcherRotSpeed * Time.deltaTime);
+			launcher.transform.Rotate (Vector3.forward * (-launcherRotSpeed / (sightLevel + 1)) * Time.deltaTime);
 		}
 	}
 	private void PowerSelect(){

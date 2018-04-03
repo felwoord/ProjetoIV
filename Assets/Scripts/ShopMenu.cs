@@ -27,7 +27,7 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject panelStr, panelMagic, panelVit;
 
 	private string pillowDescription, sightDescription;
-	private Text itemDescription, itemPriceText;
+	private Text itemDescription, itemPriceText, itemLevelText;
 	private Image itemDisplay;
 	public Sprite[] itemSprite = new Sprite[2];
 	private int currentItem, itemPrice, itemLevel;
@@ -41,7 +41,8 @@ public class ShopMenu : MonoBehaviour {
 
 
 	void Start () {
-		buyButton = GameObject.Find ("BuyButton");
+		buyButton = GameObject.Find ("BuyButtonText");
+		itemLevelText = GameObject.Find ("ItemLevel").GetComponent<Text> ();
 		levelText = GameObject.Find ("Level").GetComponent<Text> ();
 		strPointsText = GameObject.Find ("StrPoints").GetComponent<Text> ();
 		magicPointsText = GameObject.Find ("MagicPoints").GetComponent<Text> ();
@@ -76,6 +77,11 @@ public class ShopMenu : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.O)){
 			PlayerPrefs.DeleteAll();
 			SceneManager.LoadScene ("ShopScene");
+		}
+		if (Input.GetKeyDown (KeyCode.P)) {
+			currentGold += 1000;
+			PlayerPrefs.SetFloat ("CurrentGold", currentGold);
+			goldText.text = currentGold.ToString ("0");
 		}
 
 	}
@@ -205,24 +211,25 @@ public class ShopMenu : MonoBehaviour {
 	}
 	public void ShowPillow(){
 		currentItem = 0;
-		ItemChange ();
+		ItemChange (pillowDescription);
 
 	}
 	public void ShowSight(){
 		currentItem = 1;
-		ItemChange ();
+		ItemChange (sightDescription);
 
 	}
-	private void ItemChange(){
+	private void ItemChange(string description){
 		itemDisplay.sprite = itemSprite [currentItem];
-		itemDescription.text = pillowDescription;
+		itemDescription.text = description;
 		itemLevel = PlayerPrefs.GetInt ("ItemLevel_" + currentItem, 0);
+		itemLevelText.text = itemLevel.ToString ("0");
 		if (itemLevel == 0) {
 			buyButton.GetComponent<Text> ().text = "Buy";
-			itemPrice = 1000;
+			itemPrice = 10;
 		} else {
 			buyButton.GetComponent<Text> ().text = "Upgrade";
-			itemPrice = (itemLevel * 200);
+			itemPrice = (itemLevel * 20);
 		}
 		itemPriceText.text = itemPrice.ToString ("0");
 	}
@@ -232,7 +239,9 @@ public class ShopMenu : MonoBehaviour {
 			currentGold -= itemPrice;
 			goldText.text = currentGold.ToString ("0");
 			itemLevel += 1;
-			PlayerPrefs.SetInt ("ItemLevel_" + currentItem, 0);
+			PlayerPrefs.SetInt ("ItemLevel_" + currentItem, itemLevel);
+			PlayerPrefs.SetFloat ("CurrentGold", currentGold);
+			ItemChange (itemDescription.text);
 
 		}
 	}
