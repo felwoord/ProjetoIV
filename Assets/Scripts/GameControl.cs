@@ -6,38 +6,24 @@
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//"ItemLevel_0 -> Pillow	ItemLevel_1 -> Sight"
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
+
 public class GameControl : MonoBehaviour {
 	private bool directionSelecting, powerSelecting;
 	private GameObject launcher;
 	private Image arrow;
-	public float launcherRotSpeed;
-	public float arrowFillSpeed;
+	private float launcherRotSpeed;
+	private float arrowFillSpeed;
 	private bool directionUp = true;
 	private bool fillUp = true;
 	private Vector2 angleLaunch;
 	private float powerLaunch;
-	public float powerMultiplier;
+	private float powerMultiplier;
 	private int sightLevel;
 
 	private bool startGame;
@@ -65,10 +51,7 @@ public class GameControl : MonoBehaviour {
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
 	void Start () {
-		int pillowLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
-		Debug.Log ("PillowLevel: "+ pillowLevel); 
-		sightLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
-		Debug.Log ("SightLevel: "+ sightLevel); 
+		sightLevel = PlayerPrefs.GetInt ("ItemLevel_1", 0); 
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 
 		player = Instantiate (Resources.Load ("Character" + characterID) as GameObject);
@@ -114,6 +97,10 @@ public class GameControl : MonoBehaviour {
 		distText2.enabled = false;
 		healthBar.enabled = false;
 
+		launcherRotSpeed = 75f - sightLevel / 3;
+		arrowFillSpeed = 1;
+		powerMultiplier = 100;
+
 		monsterSpawnCounter = 0;
 		monsterCounter = 0;
 		trapSpawnCounter = 0;
@@ -128,6 +115,8 @@ public class GameControl : MonoBehaviour {
 
 		expGained = 0;
 		goldGained = 0;
+
+
 	}
 	void Update () {
 		if (startGame) {
@@ -248,9 +237,9 @@ public class GameControl : MonoBehaviour {
 			directionUp = true;
 		}
 		if (directionUp) {
-			launcher.transform.Rotate (Vector3.forward * (launcherRotSpeed / (sightLevel + 1)) * Time.deltaTime);
+			launcher.transform.Rotate (Vector3.forward * launcherRotSpeed * Time.deltaTime);
 		} else {
-			launcher.transform.Rotate (Vector3.forward * (-launcherRotSpeed / (sightLevel + 1)) * Time.deltaTime);
+			launcher.transform.Rotate (Vector3.forward * -launcherRotSpeed * Time.deltaTime);
 		}
 	}
 	private void PowerSelect(){

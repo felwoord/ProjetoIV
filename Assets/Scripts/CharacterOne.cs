@@ -6,8 +6,7 @@
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//"ItemLevel_0 -> Pillow	ItemLevel_1 -> Sight"
 
 using System.Collections;
 using System.Collections.Generic;

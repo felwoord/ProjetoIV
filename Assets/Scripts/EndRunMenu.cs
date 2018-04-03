@@ -6,8 +6,7 @@
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//"ItemLevel_0 -> Pillow	ItemLevel_1 -> Sight"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -42,19 +41,19 @@ public class EndRunMenu : MonoBehaviour {
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		currentExp = PlayerPrefs.GetFloat ("CurrentExp_" + characterID, 0);
 		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0);
-		Debug.Log ("OldExp:" + currentExp);
+		//Debug.Log ("OldExp:" + currentExp);
 
 		currentLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
-		Debug.Log ("OldLevel:" + currentLevel);
+		//Debug.Log ("OldLevel:" + currentLevel);
 
 		currentExp += expGained;
 		currentGold += goldGained;
 
-		Debug.Log ("New Exp" + currentExp);
+		//Debug.Log ("New Exp" + currentExp);
 
 
 		newLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
-		Debug.Log ("NewLevel:" + newLevel);
+		//Debug.Log ("NewLevel:" + newLevel);
 
 		if (newLevel > currentLevel) {
 			int levelup = newLevel - currentLevel;
