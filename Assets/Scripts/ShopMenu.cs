@@ -6,8 +6,7 @@
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//"ItemLevel_1 -> Pillow	ItemLevel_2 -> Sight	ItemLevel_3 -> SteadyHands		ItemLevel_4 -> Budget"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -26,10 +25,10 @@ public class ShopMenu : MonoBehaviour {
 	private bool activeStr, activeMagic, activeVit;
 	private GameObject panelStr, panelMagic, panelVit;
 
-	private string pillowDescription, sightDescription;
+	private string pillowDescription, sightDescription, steadyHandsDescription, budgetDescription;
 	private Text itemDescription, itemPriceText, itemLevelText;
 	private Image itemDisplay;
-	public Sprite[] itemSprite = new Sprite[2];
+	public Sprite[] itemSprite;
 	private int currentItem, itemPrice, itemLevel;
 	private GameObject buyButton;
 
@@ -41,25 +40,9 @@ public class ShopMenu : MonoBehaviour {
 
 
 	void Start () {
-		buyButton = GameObject.Find ("BuyButtonText");
-		itemLevelText = GameObject.Find ("ItemLevel").GetComponent<Text> ();
-		levelText = GameObject.Find ("Level").GetComponent<Text> ();
-		strPointsText = GameObject.Find ("StrPoints").GetComponent<Text> ();
-		magicPointsText = GameObject.Find ("MagicPoints").GetComponent<Text> ();
-		vitPointsText = GameObject.Find ("VitPoints").GetComponent<Text> ();
-		pointsLeftText = GameObject.Find ("Points").GetComponent<Text> ();
-		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0); 
-		goldText = GameObject.Find ("GoldText").GetComponent<Text> ();
-		stats = GameObject.Find ("StatsImage");
-		itens = GameObject.Find ("ItensImage");
-		playButton = GameObject.Find ("PlayButton").GetComponent<Button> ();
-		characterDisplay = GameObject.Find ("PlayerDisplay").GetComponent<Image> ();
-		itemDisplay = GameObject.Find ("ItemDisplay").GetComponent<Image> ();
-		itemDescription = GameObject.Find ("ItemDescription").GetComponent<Text> ();
-		itemPriceText = GameObject.Find ("ItemPrice").GetComponent<Text> ();
+		GameObjectFind ();
 
-		pillowDescription = "Lose less life when you hit the ground";
-		sightDescription = "Make it easier to aim";
+		Descriptions ();
 
 		goldText.text = currentGold.ToString ("0");
 		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
@@ -86,6 +69,30 @@ public class ShopMenu : MonoBehaviour {
 
 	}
 
+	private void GameObjectFind(){
+		buyButton = GameObject.Find ("BuyButtonText");
+		itemLevelText = GameObject.Find ("ItemLevel").GetComponent<Text> ();
+		levelText = GameObject.Find ("Level").GetComponent<Text> ();
+		strPointsText = GameObject.Find ("StrPoints").GetComponent<Text> ();
+		magicPointsText = GameObject.Find ("MagicPoints").GetComponent<Text> ();
+		vitPointsText = GameObject.Find ("VitPoints").GetComponent<Text> ();
+		pointsLeftText = GameObject.Find ("Points").GetComponent<Text> ();
+		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0); 
+		goldText = GameObject.Find ("GoldText").GetComponent<Text> ();
+		stats = GameObject.Find ("StatsImage");
+		itens = GameObject.Find ("ItensImage");
+		playButton = GameObject.Find ("PlayButton").GetComponent<Button> ();
+		characterDisplay = GameObject.Find ("PlayerDisplay").GetComponent<Image> ();
+		itemDisplay = GameObject.Find ("ItemDisplay").GetComponent<Image> ();
+		itemDescription = GameObject.Find ("ItemDescription").GetComponent<Text> ();
+		itemPriceText = GameObject.Find ("ItemPrice").GetComponent<Text> ();
+	}
+	private void Descriptions(){
+		pillowDescription = "Lose less life when you hit the ground";
+		sightDescription = "Make it easier to aim";
+		steadyHandsDescription = "Make it easier to select launching power";
+		budgetDescription = "Earn more money at the end of the run";
+	}
 	public void CharacterOne(){
 		characterDisplay.sprite = characterSprite [0];
 		playButton.interactable = true;
@@ -212,12 +219,18 @@ public class ShopMenu : MonoBehaviour {
 	public void ShowPillow(){
 		currentItem = 0;
 		ItemChange (pillowDescription);
-
 	}
 	public void ShowSight(){
 		currentItem = 1;
 		ItemChange (sightDescription);
-
+	}
+	public void ShowSteadyHands(){
+		currentItem = 2;
+		ItemChange (steadyHandsDescription);
+	}
+	public void ShowBudget(){
+		currentItem = 3;
+		ItemChange (budgetDescription);
 	}
 	private void ItemChange(string description){
 		itemDisplay.sprite = itemSprite [currentItem];
@@ -246,3 +259,6 @@ public class ShopMenu : MonoBehaviour {
 		}
 	}
 }
+
+/// buff => add velocidade horizontal
+/// ride => sequencia de botoes a serem apertados

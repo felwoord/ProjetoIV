@@ -6,27 +6,13 @@
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//"ItemLevel_1 -> Pillow	ItemLevel_2 -> Sight	ItemLevel_3 -> SteadyHands		ItemLevel_4 -> Budget"
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
+
 public class GameControl : MonoBehaviour {
 	private bool directionSelecting, powerSelecting;
 	private GameObject launcher;
