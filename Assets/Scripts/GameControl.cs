@@ -13,20 +13,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
-//Arrumar os coments de PlayerPrefs e o level dos itens
 public class GameControl : MonoBehaviour {
 	private bool directionSelecting, powerSelecting;
 	private GameObject launcher;
