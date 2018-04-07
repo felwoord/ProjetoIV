@@ -1,13 +1,16 @@
 ﻿//PlayerPrefs:
 //"CurrentGold"
 //"Character_ID"
+//
 //"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
 //"Str_1", 			"Str_2", 		"Str_3"
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//
+//"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
+//"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
+//"ItemLevel_1 -> Ride 1,	ItemLevel_1 -> Ride 2
 
 using System.Collections;
 using System.Collections.Generic;
@@ -31,7 +34,7 @@ public class CharacterOne : MonoBehaviour {
 	}
 	void Update(){
 		if (Input.GetMouseButtonDown (0)) {
-			if (!playerControl.GetRide ()) {
+			if (!playerControl.GetRide1 ()) {
 				if (!playerControl.GetHeightCheck ()) {
 					int powerBarsCount = game.GetMana ();
 					if (powerBarsCount > 0) {
@@ -50,7 +53,10 @@ public class CharacterOne : MonoBehaviour {
 	public void SetRide1Sprite(){
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
 		GetComponent<SpriteRenderer> ().color = Color.red;
-
+	}
+	public void SetRide2Sprite(){
+		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
+		GetComponent<SpriteRenderer> ().color = Color.blue;
 	}
 	public void SetAboveMaxHeightSprite(){
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	

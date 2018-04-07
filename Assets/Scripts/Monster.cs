@@ -15,7 +15,7 @@ public class Monster : MonoBehaviour {
 
 	void Update () {
 		if (transform.position.x < player.transform.position.x - 10) {
-			GameObject.Find ("Main Camera").GetComponent<GameControl> ().MonsterRemove ();
+			GameObject.Find ("Main Camera").GetComponent<GameControl> ().Buff1Remove ();
 			Destroy (gameObject);
 		}
 

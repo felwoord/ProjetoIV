@@ -12,7 +12,7 @@ public class Ride1 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (transform.position.x < player.transform.position.x - 10) {
-			GameObject.Find ("Main Camera").GetComponent<GameControl> ().RideRemove ();
+			GameObject.Find ("Main Camera").GetComponent<GameControl> ().Ride1Remove ();
 			Destroy (gameObject);
 		}
 	}

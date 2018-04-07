@@ -1,12 +1,16 @@
 ﻿//PlayerPrefs:
 //"CurrentGold"
 //"Character_ID"
+//
 //"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
 //"Str_1", 			"Str_2", 		"Str_3"
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"ItemLevel_1 -> Pillow	ItemLevel_2 -> Sight"
+//
+//"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
+//"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
+//"ItemLevel_1 -> Ride 1,	ItemLevel_1 -> Ride 2
 
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +20,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private bool heightCheck;
-	private bool ride;
+	private bool ride1;
 	private float rideTimer;
 	private float counter;
 
@@ -30,20 +34,25 @@ public class PlayerController : MonoBehaviour {
 
 	private float goldMultMaxHeight, goldMultRide;
 	private float expMultMaxHeight, expMultRide;
-	private float goldMonster1, expMonster1;
+	private float goldBuff1, expBuff1;
+	private float goldBuff2, expBuff2;
 	private float goldRide1, expRide1;
+	private float goldRide2, expRide2;
 	private float goldTrap1, expTrap1;
-	private int pillowLevel, sightLevel;
+
+	private int pillowLevel, ride1Level, ride2Level;
 
 	void Start () {
 		SetRates ();
 		cam = GameObject.Find ("Main Camera");
 		gameCont = cam.GetComponent<GameControl> ();
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
-		ride = false;
+		ride1 = false;
 		playerRB = GetComponent<Rigidbody2D> ();
 
 		pillowLevel = PlayerPrefs.GetInt ("ItemLeve_1", 0);
+		ride1Level = PlayerPrefs.GetInt ("ItemLevel_8", 0);
+		ride2Level = PlayerPrefs.GetInt ("ItemLevel_9", 0);
 
 
 		playerRB.sharedMaterial.bounciness += pillowLevel / 100;
@@ -51,8 +60,8 @@ public class PlayerController : MonoBehaviour {
 
 	}
 	void Update () {
-		if (ride) {
-			RideTime ();
+		if (ride1) {
+			Ride1Time ();
 		} else {
 			if (transform.position.y > 65 && playerRB.velocity.y < 0 && !heightCheck) {
 				AboveMaxHeight ();
@@ -69,22 +78,41 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	public void OnTriggerEnter2D(Collider2D col){
-		if (col.gameObject.tag == "Monster1") {
+		if (col.gameObject.tag == "Buff1") {
 			if (heightCheck) {
-				gameCont.AddExp (expMonster1 * expMultMaxHeight);
-				gameCont.AddGold (goldMonster1 * goldMultMaxHeight);
-				gameCont.MonsterRemove ();
+				gameCont.AddExp (expBuff1 * expMultMaxHeight);
+				gameCont.AddGold (goldBuff1 * goldMultMaxHeight);
+				gameCont.Buff1Remove ();
 				Destroy (col.gameObject);
 			} else {
-				if (!ride) {
+				if (!ride1) {
 					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, Mathf.Abs (playerRB.velocity.y) * 1.08f + 3f);
-					gameCont.AddExp (expMonster1);
-					gameCont.AddGold (goldMonster1);
+					gameCont.AddExp (expBuff1);
+					gameCont.AddGold (goldBuff1);
 				} else {
-					gameCont.AddExp (expMonster1 * expMultRide);
-					gameCont.AddGold (goldMonster1 * goldMultRide);
+					gameCont.AddExp (expBuff1 * expMultRide);
+					gameCont.AddGold (goldBuff1 * goldMultRide);
 				}
-				gameCont.MonsterRemove ();
+				gameCont.Buff1Remove ();
+				Destroy (col.gameObject);
+			}
+		}
+		if (col.gameObject.tag == "Buff2") {
+			if (heightCheck) {
+				gameCont.AddExp (expBuff2 * expMultMaxHeight);
+				gameCont.AddGold (goldBuff2 * goldMultMaxHeight);
+				gameCont.Buff1Remove ();
+				Destroy (col.gameObject);
+			} else {
+				if (!ride1) {
+					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, Mathf.Abs (playerRB.velocity.y) * 1.08f + 3f);
+					gameCont.AddExp (expBuff2);
+					gameCont.AddGold (goldBuff2);
+				} else {
+					gameCont.AddExp (expBuff2 * expMultRide);
+					gameCont.AddGold (goldBuff2 * goldMultRide);
+				}
+				gameCont.Buff1Remove ();
 				Destroy (col.gameObject);
 			}
 		}
@@ -93,10 +121,10 @@ public class PlayerController : MonoBehaviour {
 			if (heightCheck) {
 				gameCont.AddExp (expTrap1 * expMultMaxHeight);
 				gameCont.AddGold (goldTrap1 * goldMultMaxHeight);
-				gameCont.MonsterRemove ();
+				gameCont.Buff1Remove ();
 				Destroy (col.gameObject);
 			} else {
-				if (!ride) {
+				if (!ride1) {
 					if (playerRB.velocity.x > 5) {
 						playerRB.velocity = new Vector2 (playerRB.velocity.x * 0.5f, playerRB.velocity.y * 0.5f);
 					} else {
@@ -116,12 +144,12 @@ public class PlayerController : MonoBehaviour {
 				gameCont.AddExp (expRide1 * expMultMaxHeight);
 				gameCont.AddGold (goldRide1 * goldMultMaxHeight);
 			} else {
-				if (!ride) {
+				if (!ride1) {
 					GameObject tap = Instantiate (Resources.Load ("Tap") as GameObject);
 					tap.transform.position = new Vector3 (cam.transform.position.x - 6, cam.transform.position.y + 1, 0);
 					tap.transform.parent = cam.transform;
 					cam.GetComponent<GameControl> ().ride1CD = true;
-					ride = true;
+					ride1 = true;
 					saveVelocity = playerRB.velocity;
 					saveDrag = playerRB.drag;
 					playerRB.drag = 0;
@@ -143,7 +171,42 @@ public class PlayerController : MonoBehaviour {
 					gameCont.AddGold (goldRide1 * goldMultRide);
 				}
 			}
-			gameCont.RideRemove ();
+			gameCont.Ride1Remove ();
+			Destroy (col.gameObject);
+		}
+		if (col.gameObject.tag == "Ride2") {
+			if (heightCheck) {
+				gameCont.AddExp (expRide2 * expMultMaxHeight);
+				gameCont.AddGold (goldRide2 * goldMultMaxHeight);
+			} else {
+				if (!ride1) {
+					GameObject tap = Instantiate (Resources.Load ("Tap") as GameObject);
+					tap.transform.position = new Vector3 (cam.transform.position.x - 6, cam.transform.position.y + 1, 0);
+					tap.transform.parent = cam.transform;
+					cam.GetComponent<GameControl> ().ride2CD = true;
+					ride1 = true;
+					saveVelocity = playerRB.velocity;
+					saveDrag = playerRB.drag;
+					playerRB.drag = 0;
+					playerRB.velocity = new Vector2 (saveVelocity.x, 0);
+					playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
+
+					if (characterID == 1)
+						GetComponent<CharacterOne> ().SetRide1Sprite();
+					if (characterID == 2) {
+					}
+					if (characterID == 3) {
+					} 
+
+					gameCont.AddExp (expRide2);
+					gameCont.AddGold (goldRide2);
+
+				} else {
+					gameCont.AddExp (expRide2 * expMultRide);
+					gameCont.AddGold (goldRide2 * goldMultRide);
+				}
+			}
+			gameCont.Ride2Remove ();
 			Destroy (col.gameObject);
 		}
 			
@@ -160,14 +223,14 @@ public class PlayerController : MonoBehaviour {
 		heightCheck = true;
 	}
 	public void OnCollisionEnter2D(Collision2D col){
-		if (col.gameObject.tag == "Ground" && !ride) {
+		if (col.gameObject.tag == "Ground" && !ride1) {
 			if (playerRB.velocity.x > 3) {
 				playerRB.velocity = new Vector2 (playerRB.velocity.x * 0.7f - 1.0f + pillowLevel/100, playerRB.velocity.y );
 				if (playerRB.velocity.x <= 0) {
 					playerRB.velocity = Vector2.zero;
 				}
 			} else {
-				if (!ride) {
+				if (!ride1) {
 					EndRun ();
 				}
 			}
@@ -183,7 +246,7 @@ public class PlayerController : MonoBehaviour {
 			heightCheck = false;
 		}
 	}
-	private void RideTime(){
+	private void Ride1Time(){
 		rideTimer += Time.deltaTime;
 		if (rideTimer < 5) {
 			if (Input.GetMouseButtonDown(0)) {
@@ -198,7 +261,7 @@ public class PlayerController : MonoBehaviour {
 			} 
 
 			rideTimer = 0;
-			ride = false;
+			ride1 = false;
 			playerRB.drag = saveDrag;
 			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;
 			playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs(saveVelocity.y));
@@ -210,22 +273,32 @@ public class PlayerController : MonoBehaviour {
 		GameObject endRunMenu = GameObject.Find ("EndRunMenu");
 		endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
 	}
-	public bool GetRide()
+	public bool GetRide1()
 	{
-		return ride;
+		return ride1;
 	}
 	public bool GetHeightCheck(){
 		return heightCheck;
 	}
 	private void SetRates(){
-		expMonster1 = 100 ;
-		goldMonster1 = 10;
+		expBuff1 = 100 ;
+		goldBuff1 = 10;
+
+		expBuff2 = 100 ;
+		goldBuff2 = 10;
+
 		expRide1 = 50;
 		goldRide1 = 5;
+
+		expRide2 = 50;
+		goldRide2 = 5;
+
 		expTrap1 = 150;
 		goldTrap1 = 50;
+
 		expMultMaxHeight = 2;
 		goldMultMaxHeight = 2;
+
 		expMultRide = 2;
 		goldMultRide = 2;
 	}

@@ -4,10 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Monster1
   - Ground
   - Trap1
   - Ride1
+  - Buff1
+  - Buff2
   layers:
   - Default
   - TransparentFX

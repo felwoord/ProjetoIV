@@ -1,13 +1,16 @@
 ﻿//PlayerPrefs:
 //"CurrentGold"
 //"Character_ID"
+//
 //"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
 //"Str_1", 			"Str_2", 		"Str_3"
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//
+//"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
+//"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
+//"ItemLevel_1 -> Ride 1,	ItemLevel_1 -> Ride 2
 
 using System.Collections;
 using System.Collections.Generic;
@@ -17,14 +20,14 @@ public class GameControl : MonoBehaviour {
 	private bool directionSelecting, powerSelecting;
 	private GameObject launcher;
 	private Image arrow;
-	public float launcherRotSpeed;
-	public float arrowFillSpeed;
+	private float launcherRotSpeed;
+	private float arrowFillSpeed;
 	private bool directionUp = true;
 	private bool fillUp = true;
 	private Vector2 angleLaunch;
 	private float powerLaunch;
-	public float powerMultiplier;
-	private int sightLevel;
+	private float powerMultiplier;
+	private int sightLevel, steadyHandsLevel, buff1Level, buff2Level, trapLevel;
 
 	private bool startGame;
 
@@ -37,10 +40,14 @@ public class GameControl : MonoBehaviour {
 	private Text distText, distText2;
 	private Image healthBar;
 
-	private float monsterSpawnCounter, trapSpawnCounter, rideSpawnCounter;
-	private int monsterCounter, trapCounter, rideCounter;
+	private float buff1SpawnCounter, buff2SpawnCounter, trapSpawnCounter, ride1SpawnCounter, ride2SpawnCounter;
+	private int buff1Counter, buff2Counter, trapCounter, ride1Counter, ride2Counter;
 	public bool ride1CD;
 	private float ride1CounterCD;
+	public bool ride2CD;
+	private float ride2CounterCD;
+
+	private float buff1Time, buff2Time, trapTime, ride1Time, ride2Time;
 
 	private int characterID;
 	private int str, magic, vit;
@@ -49,13 +56,28 @@ public class GameControl : MonoBehaviour {
 	private float expGained, goldGained;
 
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
+	//Set Times
 
 	void Start () {
-		int pillowLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
-		Debug.Log ("PillowLevel: "+ pillowLevel); 
-		sightLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
-		Debug.Log ("SightLevel: "+ sightLevel); 
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
+
+		sightLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
+		steadyHandsLevel = PlayerPrefs.GetInt ("ItemLevel_3", 0);
+		buff1Level = PlayerPrefs.GetInt ("ItemLevel_5", 0);
+		buff2Level = PlayerPrefs.GetInt ("ItemLevel_6", 0);
+		trapLevel = PlayerPrefs.GetInt ("ItemLevel_7", 0);
 
 		player = Instantiate (Resources.Load ("Character" + characterID) as GameObject);
 
@@ -100,20 +122,33 @@ public class GameControl : MonoBehaviour {
 		distText2.enabled = false;
 		healthBar.enabled = false;
 
-		monsterSpawnCounter = 0;
-		monsterCounter = 0;
+		buff1SpawnCounter = 0;
+		buff1Counter = 0;
+		buff2SpawnCounter = 0;
+		buff2Counter = 0;
 		trapSpawnCounter = 0;
 		trapCounter = 0;
-		rideSpawnCounter = 0;
-		rideCounter = 0;
+		ride1SpawnCounter = 0;
+		ride1Counter = 0;
+		ride2SpawnCounter = 0;
+		ride2Counter = 0;
 
 		ride1CounterCD = 0;
 		ride1CD = false;
+		ride2CounterCD = 0;
+		ride2CD = false;
 
 		playerRB.gravityScale = 0;
 
 		expGained = 0;
 		goldGained = 0;
+
+		launcherRotSpeed = 1 / (0.01f * sightLevel);
+		arrowFillSpeed =   1 / (0.01f * steadyHandsLevel);
+		powerMultiplier =  1 * str;
+
+		SetTimes ();
+
 	}
 	void Update () {
 		if (startGame) {
@@ -147,25 +182,39 @@ public class GameControl : MonoBehaviour {
 			CreateBackGround ();
 		}
 
-		monsterSpawnCounter += Time.deltaTime;
-		if (monsterCounter < 15) {
-			SpawnMonster1 ();
+		buff1SpawnCounter += Time.deltaTime;
+		if (buff1Counter < 15) {
+			SpawnBuff1 ();
+		}
+		buff2SpawnCounter += Time.deltaTime;
+		if (buff2Counter < 15) {
+			SpawnBuff2 ();
 		}
 		trapSpawnCounter += Time.deltaTime;
 		if (trapCounter < 3) {
 			SpawnTrap1 ();
 		}
 
-		if (!ride1CD) {
-			rideSpawnCounter += Time.deltaTime;
-			if (rideCounter < 1) {
+		if (!ride1CD && !ride2CD) {
+			ride1SpawnCounter += Time.deltaTime;
+			if (ride1Counter < 1) {
 				SpawnRide1 ();
+			}
+
+			ride2SpawnCounter += Time.deltaTime;
+			if (ride2Counter < 1) {
+				SpawnRide2 ();
 			}
 		} else {
 			ride1CounterCD = +Time.deltaTime;
 			if (ride1CounterCD > 7) {
 				ride1CD = true;
 				ride1CounterCD = 0;
+			}
+			ride2CounterCD = +Time.deltaTime;
+			if (ride2CounterCD > 7) {
+				ride2CD = true;
+				ride2CounterCD = 0;
 			}
 		}
 
@@ -181,7 +230,7 @@ public class GameControl : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0)) {
 			if (powerSelecting) {
 				powerSelecting = false;
-				powerLaunch = (arrow.fillAmount * powerMultiplier) + str;
+				powerLaunch = arrow.fillAmount * powerMultiplier;
 				playerRB.gravityScale = 1;
 				player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);
 				player.GetComponent<PlayerController> ().enabled = true;
@@ -234,9 +283,9 @@ public class GameControl : MonoBehaviour {
 			directionUp = true;
 		}
 		if (directionUp) {
-			launcher.transform.Rotate (Vector3.forward * (launcherRotSpeed / (sightLevel + 1)) * Time.deltaTime);
+			launcher.transform.Rotate (Vector3.forward * launcherRotSpeed * Time.deltaTime);
 		} else {
-			launcher.transform.Rotate (Vector3.forward * (-launcherRotSpeed / (sightLevel + 1)) * Time.deltaTime);
+			launcher.transform.Rotate (Vector3.forward * -launcherRotSpeed * Time.deltaTime);
 		}
 	}
 	private void PowerSelect(){
@@ -253,15 +302,26 @@ public class GameControl : MonoBehaviour {
 			arrow.fillAmount -= arrowFillSpeed * Time.deltaTime;
 		}
 	}
-	private void SpawnMonster1(){
-		if (monsterSpawnCounter > 0.1) {
+	private void SpawnBuff1(){
+		if (buff1SpawnCounter > 0.1) {
 			int a = Random.Range (1, 10);
 			if (a >= 7) {
-				GameObject monster1 = Instantiate (Resources.Load ("Monster1") as GameObject);
-				monster1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
-				monsterCounter++;
+				GameObject buff1 = Instantiate (Resources.Load ("Buff1") as GameObject);
+				buff1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
+				buff1Counter++;
 			}
-			monsterSpawnCounter = 0;
+			buff1SpawnCounter = 0;
+		}
+	}
+	private void SpawnBuff2(){
+		if (buff2SpawnCounter > 0.1) {
+			int a = Random.Range (1, 10);
+			if (a >= 7) {
+				GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
+				buff2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
+				buff2Counter++;
+			}
+			buff2SpawnCounter = 0;
 		}
 	}
 	private void SpawnTrap1(){
@@ -276,14 +336,25 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void SpawnRide1(){
-		if (rideSpawnCounter > 0.5) {
+		if (ride1SpawnCounter > 0.5) {
 			int a = Random.Range (1, 10);
 			if (a >= 5) {
 				GameObject ride1 = Instantiate (Resources.Load ("Ride1") as GameObject);
 				ride1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
-				rideCounter++;
+				ride1Counter++;
 			}
-			rideSpawnCounter = 0;
+			ride1SpawnCounter = 0;
+		}
+	}
+	private void SpawnRide2(){
+		if (ride2SpawnCounter > 0.5) {
+			int a = Random.Range (1, 10);
+			if (a >= 5) {
+				GameObject ride2 = Instantiate (Resources.Load ("Ride2") as GameObject);
+				ride2.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
+				ride2Counter++;
+			}
+			ride2SpawnCounter = 0;
 		}
 	}
 	public void ManaUI(){
@@ -294,17 +365,26 @@ public class GameControl : MonoBehaviour {
 			powerBar.Peek ().transform.localScale = new Vector3 (100, 30, 0);
 		}
 	}
+	private void SetTimes(){
+	
+	}
 	public bool GetStartGame(){
 		return startGame;
 	}
-	public void MonsterRemove(){
-		monsterCounter--;
+	public void Buff1Remove(){
+		buff1Counter--;
+	}
+	public void Buff2Remove(){
+		buff2Counter--;
 	}
 	public void TrapRemove(){
 		trapCounter--;
 	}
-	public void RideRemove(){
-		rideCounter--;
+	public void Ride1Remove(){
+		ride1Counter--;
+	}
+	public void Ride2Remove(){
+		ride2Counter--;
 	}
 	public float GetDistance(){
 		return player.transform.position.x;

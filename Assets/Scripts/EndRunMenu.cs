@@ -1,13 +1,16 @@
 ﻿//PlayerPrefs:
 //"CurrentGold"
 //"Character_ID"
+//
 //"CurrentExp_1", 	"CurrentExp_2", "CurrentExp_3"
 //"Str_1", 			"Str_2", 		"Str_3"
 //"Magic_1", 		"Magic_2", 		"Magic_3"
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
-//"PillowLevel"
-//"SightLevel"
+//
+//"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
+//"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
+//"ItemLevel_1 -> Ride 1,	ItemLevel_1 -> Ride 2
 
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +31,13 @@ public class EndRunMenu : MonoBehaviour {
 	private int currentLevel;
 	private int newLevel;
 
+	private int budgetLevel;
+	private float budgetFormula;
+
 	void Start () {
+		budgetLevel = PlayerPrefs.GetInt ("ItemLevel_4", 0);
+		budgetFormula = 1 + (0.1f * budgetLevel);
+
 		expGainedText = GameObject.Find ("ExpGainedText").GetComponent<Text> ();
 		goldGainedText = GameObject.Find ("GoldGainedText").GetComponent<Text> ();
 		finalScoreText = GameObject.Find ("FinalScoreText").GetComponent<Text> ();
