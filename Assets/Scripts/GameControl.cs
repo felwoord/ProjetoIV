@@ -143,8 +143,14 @@ public class GameControl : MonoBehaviour {
 		expGained = 0;
 		goldGained = 0;
 
-		launcherRotSpeed = 1 / (0.01f * sightLevel);
-		arrowFillSpeed =   1 / (0.01f * steadyHandsLevel);
+		if (sightLevel > 0 && steadyHandsLevel > 0) {
+			launcherRotSpeed = 1 / (0.01f * sightLevel);
+			arrowFillSpeed = 1 / (0.5f * (steadyHandsLevel / 2));
+		} else {
+			launcherRotSpeed = 1 / 0.01f;
+			arrowFillSpeed = 1 / 0.1f;
+		}
+
 		powerMultiplier =  1 * str;
 
 		SetTimes ();
@@ -317,9 +323,9 @@ public class GameControl : MonoBehaviour {
 		if (buff2SpawnCounter > 0.1) {
 			int a = Random.Range (1, 10);
 			if (a >= 7) {
-				GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
-				buff2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
-				buff2Counter++;
+//				GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
+//				buff2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
+//				buff2Counter++;
 			}
 			buff2SpawnCounter = 0;
 		}

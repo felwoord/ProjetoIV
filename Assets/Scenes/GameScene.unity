@@ -726,10 +726,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644343e09d8732747903f70ab9270d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launcherRotSpeed: 75
-  arrowFillSpeed: 1
-  powerMultiplier: 100
   ride1CD: 0
+  ride2CD: 0
 --- !u!114 &727054624
 MonoBehaviour:
   m_ObjectHideFlags: 0
