@@ -64,11 +64,11 @@ public class GameControl : MonoBehaviour {
 	void Start () {
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 
-		sightLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
-		steadyHandsLevel = PlayerPrefs.GetInt ("ItemLevel_3", 0);
-		buff1Level = PlayerPrefs.GetInt ("ItemLevel_5", 0);
-		buff2Level = PlayerPrefs.GetInt ("ItemLevel_6", 0);
-		trapLevel = PlayerPrefs.GetInt ("ItemLevel_7", 0);
+		sightLevel = PlayerPrefs.GetInt ("ItemLevel_1", 0);
+		steadyHandsLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
+		buff1Level = PlayerPrefs.GetInt ("ItemLevel_4", 0);
+		buff2Level = PlayerPrefs.GetInt ("ItemLevel_5", 0);
+		trapLevel = PlayerPrefs.GetInt ("ItemLevel_6", 0);
 
 		player = Instantiate (Resources.Load ("Character" + characterID) as GameObject);
 
@@ -136,13 +136,15 @@ public class GameControl : MonoBehaviour {
 
 		if (sightLevel > 0 && steadyHandsLevel > 0) {
 			launcherRotSpeed = 1 / (0.01f * sightLevel);
-			arrowFillSpeed = 1 / (0.5f * (steadyHandsLevel / 2));
+			arrowFillSpeed = 1 / (0.75f * (steadyHandsLevel / 2));
 		} else {
 			launcherRotSpeed = 1 / 0.01f;
-			arrowFillSpeed = 1 / 0.1f;
+			arrowFillSpeed = 1 / 0.75f;
 		}
 
-		powerMultiplier =  1 * str;
+		Debug.Log (steadyHandsLevel);
+		Debug.Log (arrowFillSpeed);
+		powerMultiplier =  10 * str/2;
 
 		SetTimes ();
 
@@ -301,8 +303,8 @@ public class GameControl : MonoBehaviour {
 	}
 	private void SpawnBuff1(){
 		if (buff1SpawnCounter > buff1Time) {
-			float a = Random.Range (1f, 10f);
-			if (a >= buff1Chance) {
+			float a = Random.Range (0f, 10f);
+			if (a > buff1Chance) {
 				GameObject buff1 = Instantiate (Resources.Load ("Buff1") as GameObject);
 				buff1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				buff1Counter++;
@@ -312,8 +314,8 @@ public class GameControl : MonoBehaviour {
 	}
 	private void SpawnBuff2(){
 		if (buff2SpawnCounter > buff2Time) {
-			float a = Random.Range (1f, 10f);
-			if (a >= buff2Chance) {
+			float a = Random.Range (0f, 10f);
+			if (a > buff2Chance) {
 				GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
 				buff2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				buff2Counter++;
@@ -323,8 +325,8 @@ public class GameControl : MonoBehaviour {
 	}
 	private void SpawnTrap1(){
 		if (trapSpawnCounter > trapTime) {
-			float a = Random.Range (1f, 10f);
-			if (a >= trapChance) {
+			float a = Random.Range (0f, 10f);
+			if (a > trapChance) {
 				GameObject trap1 = Instantiate (Resources.Load ("Trap1") as GameObject);
 				trap1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
 				trapCounter++;
@@ -334,8 +336,8 @@ public class GameControl : MonoBehaviour {
 	}
 	private void SpawnRide1(){
 		if (ride1SpawnCounter > ride1Time) {
-			float a = Random.Range (1f, 10f);
-			if (a >= ride1Chance) {
+			float a = Random.Range (0f, 10f);
+			if (a > ride1Chance) {
 				GameObject ride1 = Instantiate (Resources.Load ("Ride1") as GameObject);
 				ride1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
 				ride1Counter++;
@@ -345,8 +347,8 @@ public class GameControl : MonoBehaviour {
 	}
 	private void SpawnRide2(){
 		if (ride2SpawnCounter > ride2Time) {
-			float a = Random.Range (1f, 10f);
-			if (a >= ride2Chance) {
+			float a = Random.Range (0f, 10f);
+			if (a > ride2Chance) {
 				GameObject ride2 = Instantiate (Resources.Load ("Ride2") as GameObject);
 				ride2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				ride2Counter++;
@@ -363,11 +365,13 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void SetTimes(){
+		//chance = (10 - x) * 10
+
 		buff1Time = 1;
 		buff1Chance = 10;
 		buff1MaxQtd = 15;
 
-		buff2Time = 10;
+		buff2Time = 1;
 		buff2Chance = 5;
 		buff2MaxQtd = 15;
 
@@ -375,14 +379,14 @@ public class GameControl : MonoBehaviour {
 		trapChance = 5;
 		trapMaxQtd = 5;
 
-		ride1Time = 100;
-		ride1Chance = 8;
-		ride1MaxQtd = 2;
+		ride1Time = 1;
+		ride1Chance = 1;
+		ride1MaxQtd = 5;
 		ride1CDTime = 7;
 
-		ride2Time = 100;
-		ride2Chance = 8;
-		ride2MaxQtd = 2;
+		ride2Time = 1;
+		ride2Chance = 1;
+		ride2MaxQtd = 10;
 		ride2CDTime = 7;
 	}
 	public bool GetStartGame(){

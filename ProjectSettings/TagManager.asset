@@ -9,6 +9,7 @@ TagManager:
   - Ride1
   - Buff1
   - Buff2
+  - Ride2
   layers:
   - Default
   - TransparentFX

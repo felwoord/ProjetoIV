@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour {
 	private bool ride1;
 	private bool ride2;
 	private float ride1Timer;
+	private float ride2Timer;
 	private float counter;
 
 	private Vector2 saveVelocity;
@@ -31,7 +32,6 @@ public class PlayerController : MonoBehaviour {
 	private int characterID;
 
 	private GameObject cam;
-	private GameObject canv;
 	private GameControl gameCont;
 
 	private float goldMultMaxHeight, goldMultRide;
@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		SetRates ();
 		cam = GameObject.Find ("Main Camera");
-		canv = GameObject.Find ("Canvas");
 		gameCont = cam.GetComponent<GameControl> ();
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		ride1 = false;
@@ -183,8 +182,9 @@ public class PlayerController : MonoBehaviour {
 				gameCont.AddGold (goldRide2 * goldMultMaxHeight);
 			} else {
 				if (!ride1 && !ride2) {
-					GameObject tap = Instantiate (Resources.Load ("Ride2Canvas") as GameObject);
-					tap.transform.position = new Vector3 (cam.transform.position.x, cam.transform.position.y, 0);
+					GameObject ride2Canv = Instantiate (Resources.Load ("Ride2Canvas") as GameObject);
+					ride2Canv.transform.position = new Vector3 (cam.transform.position.x, cam.transform.position.y, 0);
+					ride2Canv.name = "Ride2Canvas";
 					cam.GetComponent<GameControl> ().ride2CD = true;
 					ride2 = true;
 					saveVelocity = playerRB.velocity;
@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour {
 					playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
 
 					if (characterID == 1)
-						GetComponent<CharacterOne> ().SetRide1Sprite();
+						GetComponent<CharacterOne> ().SetRide2Sprite();
 					if (characterID == 2) {
 					}
 					if (characterID == 3) {
@@ -262,19 +262,18 @@ public class PlayerController : MonoBehaviour {
 			if (characterID == 3) {
 			} 
 
+
 			ride1Timer = 0;
 			ride1 = false;
 			playerRB.drag = saveDrag;
 			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;
-			playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs(saveVelocity.y));
+			playerRB.velocity = new Vector2 (playerRB.velocity.x, 20);
 		}
 	}
 	private void Ride2Time(){
-		ride1Timer += Time.deltaTime;
-		if (ride1Timer < 5) {
-			if (Input.GetMouseButtonDown(0)) {
-				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2, 0);
-			}
+		ride2Timer += Time.deltaTime;
+		if (ride2Timer < 5) {
+
 		} else {
 			if (characterID == 1)
 				GetComponent<CharacterOne> ().SetDefaultSprite ();
@@ -283,8 +282,9 @@ public class PlayerController : MonoBehaviour {
 			if (characterID == 3) {
 			} 
 
-			ride1Timer = 0;
-			ride1 = false;
+			Destroy (GameObject.Find ("Ride2Canvas"));
+			ride2Timer = 0;
+			ride2 = false;
 			playerRB.drag = saveDrag;
 			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;
 			playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs(saveVelocity.y));

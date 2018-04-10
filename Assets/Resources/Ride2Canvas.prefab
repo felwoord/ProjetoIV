@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114982716195640354}
   - component: {fileID: 114146888352484012}
   - component: {fileID: 114541276254310596}
+  - component: {fileID: 114994798089871006}
   m_Layer: 5
   m_Name: Ride2Canvas
   m_TagString: Untagged
@@ -41,6 +42,7 @@ GameObject:
   - component: {fileID: 222781414943459062}
   - component: {fileID: 114067291412239538}
   - component: {fileID: 114936766908403578}
+  - component: {fileID: 114127499034130722}
   m_Layer: 5
   m_Name: Ride2Target
   m_TagString: Untagged
@@ -75,6 +77,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114127499034130722
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629658187694242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d59af44cc6dafb44094c2f4d3b83685e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114146888352484012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -140,7 +153,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114067291412239538}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114127499034130722}
+        m_MethodName: Hit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114982716195640354
@@ -164,6 +188,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114994798089871006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1167843033920534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02850e708f79a6245850015b70b85722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222781414943459062
 CanvasRenderer:
   m_ObjectHideFlags: 1

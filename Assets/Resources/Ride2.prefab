@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114509104534400012}
   m_Layer: 0
   m_Name: Ride2
-  m_TagString: Ride1
+  m_TagString: Ride2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

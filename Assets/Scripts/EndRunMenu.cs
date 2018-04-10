@@ -35,7 +35,7 @@ public class EndRunMenu : MonoBehaviour {
 	private float budgetFormula;
 
 	void Start () {
-		budgetLevel = PlayerPrefs.GetInt ("ItemLevel_4", 0);
+		budgetLevel = PlayerPrefs.GetInt ("ItemLevel_3", 0);
 		budgetFormula = 1 + (0.1f * budgetLevel);
 
 		expGainedText = GameObject.Find ("ExpGainedText").GetComponent<Text> ();
@@ -51,19 +51,15 @@ public class EndRunMenu : MonoBehaviour {
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		currentExp = PlayerPrefs.GetFloat ("CurrentExp_" + characterID, 0);
 		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0);
-		Debug.Log ("OldExp:" + currentExp);
 
 		currentLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
-		Debug.Log ("OldLevel:" + currentLevel);
 
 		currentExp += expGained;
 		currentGold += goldGained;
 
-		Debug.Log ("New Exp" + currentExp);
 
 
 		newLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
-		Debug.Log ("NewLevel:" + newLevel);
 
 		if (newLevel > currentLevel) {
 			int levelup = newLevel - currentLevel;
