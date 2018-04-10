@@ -34,7 +34,7 @@ public class CharacterOne : MonoBehaviour {
 	}
 	void Update(){
 		if (Input.GetMouseButtonDown (0)) {
-			if (!playerControl.GetRide1 ()) {
+			if (!playerControl.GetRide1 () && !playerControl.GetRide2 ()) {
 				if (!playerControl.GetHeightCheck ()) {
 					int powerBarsCount = game.GetMana ();
 					if (powerBarsCount > 0) {

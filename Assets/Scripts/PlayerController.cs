@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private bool heightCheck;
 	private bool ride1;
-	private float rideTimer;
+	private bool ride2;
+	private float ride1Timer;
 	private float counter;
 
 	private Vector2 saveVelocity;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour {
 	private int characterID;
 
 	private GameObject cam;
+	private GameObject canv;
 	private GameControl gameCont;
 
 	private float goldMultMaxHeight, goldMultRide;
@@ -45,9 +47,11 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		SetRates ();
 		cam = GameObject.Find ("Main Camera");
+		canv = GameObject.Find ("Canvas");
 		gameCont = cam.GetComponent<GameControl> ();
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		ride1 = false;
+		ride2 = false;
 		playerRB = GetComponent<Rigidbody2D> ();
 
 		pillowLevel = PlayerPrefs.GetInt ("ItemLeve_1", 0);
@@ -57,12 +61,13 @@ public class PlayerController : MonoBehaviour {
 
 		playerRB.sharedMaterial.bounciness += pillowLevel / 100;
 
-
 	}
 	void Update () {
 		if (ride1) {
 			Ride1Time ();
-		} else {
+		} else if (ride2){
+			Ride2Time ();
+		}else {
 			if (transform.position.y > 65 && playerRB.velocity.y < 0 && !heightCheck) {
 				AboveMaxHeight ();
 			}
@@ -85,7 +90,7 @@ public class PlayerController : MonoBehaviour {
 				gameCont.Buff1Remove ();
 				Destroy (col.gameObject);
 			} else {
-				if (!ride1) {
+				if (!ride1 && !ride2) {
 					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, Mathf.Abs (playerRB.velocity.y) * 1.08f + 3f);
 					gameCont.AddExp (expBuff1);
 					gameCont.AddGold (goldBuff1);
@@ -104,8 +109,8 @@ public class PlayerController : MonoBehaviour {
 				gameCont.Buff1Remove ();
 				Destroy (col.gameObject);
 			} else {
-				if (!ride1) {
-					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, Mathf.Abs (playerRB.velocity.y) * 1.08f + 3f);
+				if (!ride1 && !ride2) {
+					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.08F + 10, Mathf.Abs (playerRB.velocity.y) * 1.02f);
 					gameCont.AddExp (expBuff2);
 					gameCont.AddGold (goldBuff2);
 				} else {
@@ -116,7 +121,6 @@ public class PlayerController : MonoBehaviour {
 				Destroy (col.gameObject);
 			}
 		}
-
 		if (col.gameObject.tag == "Trap1") {
 			if (heightCheck) {
 				gameCont.AddExp (expTrap1 * expMultMaxHeight);
@@ -124,7 +128,7 @@ public class PlayerController : MonoBehaviour {
 				gameCont.Buff1Remove ();
 				Destroy (col.gameObject);
 			} else {
-				if (!ride1) {
+				if (!ride1 && !ride2) {
 					if (playerRB.velocity.x > 5) {
 						playerRB.velocity = new Vector2 (playerRB.velocity.x * 0.5f, playerRB.velocity.y * 0.5f);
 					} else {
@@ -138,13 +142,12 @@ public class PlayerController : MonoBehaviour {
 				Destroy (col.gameObject);
 			}
 		}
-
 		if (col.gameObject.tag == "Ride1") {
 			if (heightCheck) {
 				gameCont.AddExp (expRide1 * expMultMaxHeight);
 				gameCont.AddGold (goldRide1 * goldMultMaxHeight);
 			} else {
-				if (!ride1) {
+				if (!ride1 && !ride2) {
 					GameObject tap = Instantiate (Resources.Load ("Tap") as GameObject);
 					tap.transform.position = new Vector3 (cam.transform.position.x - 6, cam.transform.position.y + 1, 0);
 					tap.transform.parent = cam.transform;
@@ -179,12 +182,11 @@ public class PlayerController : MonoBehaviour {
 				gameCont.AddExp (expRide2 * expMultMaxHeight);
 				gameCont.AddGold (goldRide2 * goldMultMaxHeight);
 			} else {
-				if (!ride1) {
-					GameObject tap = Instantiate (Resources.Load ("Tap") as GameObject);
-					tap.transform.position = new Vector3 (cam.transform.position.x - 6, cam.transform.position.y + 1, 0);
-					tap.transform.parent = cam.transform;
+				if (!ride1 && !ride2) {
+					GameObject tap = Instantiate (Resources.Load ("Ride2Canvas") as GameObject);
+					tap.transform.position = new Vector3 (cam.transform.position.x, cam.transform.position.y, 0);
 					cam.GetComponent<GameControl> ().ride2CD = true;
-					ride1 = true;
+					ride2 = true;
 					saveVelocity = playerRB.velocity;
 					saveDrag = playerRB.drag;
 					playerRB.drag = 0;
@@ -223,14 +225,14 @@ public class PlayerController : MonoBehaviour {
 		heightCheck = true;
 	}
 	public void OnCollisionEnter2D(Collision2D col){
-		if (col.gameObject.tag == "Ground" && !ride1) {
+		if (col.gameObject.tag == "Ground" && !ride1 && !ride2) {
 			if (playerRB.velocity.x > 3) {
 				playerRB.velocity = new Vector2 (playerRB.velocity.x * 0.7f - 1.0f + pillowLevel/100, playerRB.velocity.y );
 				if (playerRB.velocity.x <= 0) {
 					playerRB.velocity = Vector2.zero;
 				}
 			} else {
-				if (!ride1) {
+				if (!ride1 && !ride2) {
 					EndRun ();
 				}
 			}
@@ -247,8 +249,8 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	private void Ride1Time(){
-		rideTimer += Time.deltaTime;
-		if (rideTimer < 5) {
+		ride1Timer += Time.deltaTime;
+		if (ride1Timer < 5) {
 			if (Input.GetMouseButtonDown(0)) {
 				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2, 0);
 			}
@@ -260,7 +262,28 @@ public class PlayerController : MonoBehaviour {
 			if (characterID == 3) {
 			} 
 
-			rideTimer = 0;
+			ride1Timer = 0;
+			ride1 = false;
+			playerRB.drag = saveDrag;
+			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;
+			playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs(saveVelocity.y));
+		}
+	}
+	private void Ride2Time(){
+		ride1Timer += Time.deltaTime;
+		if (ride1Timer < 5) {
+			if (Input.GetMouseButtonDown(0)) {
+				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2, 0);
+			}
+		} else {
+			if (characterID == 1)
+				GetComponent<CharacterOne> ().SetDefaultSprite ();
+			if (characterID == 2) {
+			}
+			if (characterID == 3) {
+			} 
+
+			ride1Timer = 0;
 			ride1 = false;
 			playerRB.drag = saveDrag;
 			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;
@@ -276,6 +299,10 @@ public class PlayerController : MonoBehaviour {
 	public bool GetRide1()
 	{
 		return ride1;
+	}
+	public bool GetRide2()
+	{
+		return ride2;
 	}
 	public bool GetHeightCheck(){
 		return heightCheck;

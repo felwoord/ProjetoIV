@@ -47,7 +47,11 @@ public class GameControl : MonoBehaviour {
 	public bool ride2CD;
 	private float ride2CounterCD;
 
-	private float buff1Time, buff2Time, trapTime, ride1Time, ride2Time;
+	private float buff1Time, buff1Chance, buff1MaxQtd;
+	private float buff2Time, buff2Chance, buff2MaxQtd;
+	private float trapTime, trapChance, trapMaxQtd; 
+	private float ride1Time, ride1Chance, ride1CDTime, ride1MaxQtd; 
+	private float ride2Time, ride2Chance, ride2CDTime, ride2MaxQtd;
 
 	private int characterID;
 	private int str, magic, vit;
@@ -56,19 +60,6 @@ public class GameControl : MonoBehaviour {
 	private float expGained, goldGained;
 
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
-	//Set Times
 
 	void Start () {
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
@@ -189,36 +180,36 @@ public class GameControl : MonoBehaviour {
 		}
 
 		buff1SpawnCounter += Time.deltaTime;
-		if (buff1Counter < 15) {
+		if (buff1Counter < buff1MaxQtd) {
 			SpawnBuff1 ();
 		}
 		buff2SpawnCounter += Time.deltaTime;
-		if (buff2Counter < 15) {
+		if (buff2Counter < buff2MaxQtd) {
 			SpawnBuff2 ();
 		}
 		trapSpawnCounter += Time.deltaTime;
-		if (trapCounter < 3) {
+		if (trapCounter < trapMaxQtd) {
 			SpawnTrap1 ();
 		}
 
 		if (!ride1CD && !ride2CD) {
 			ride1SpawnCounter += Time.deltaTime;
-			if (ride1Counter < 1) {
+			if (ride1Counter < ride1MaxQtd) {
 				SpawnRide1 ();
 			}
 
 			ride2SpawnCounter += Time.deltaTime;
-			if (ride2Counter < 1) {
+			if (ride2Counter < ride2MaxQtd) {
 				SpawnRide2 ();
 			}
 		} else {
 			ride1CounterCD = +Time.deltaTime;
-			if (ride1CounterCD > 7) {
+			if (ride1CounterCD > ride1CDTime) {
 				ride1CD = true;
 				ride1CounterCD = 0;
 			}
 			ride2CounterCD = +Time.deltaTime;
-			if (ride2CounterCD > 7) {
+			if (ride2CounterCD > ride2CDTime) {
 				ride2CD = true;
 				ride2CounterCD = 0;
 			}
@@ -309,9 +300,9 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void SpawnBuff1(){
-		if (buff1SpawnCounter > 0.1) {
-			int a = Random.Range (1, 10);
-			if (a >= 7) {
+		if (buff1SpawnCounter > buff1Time) {
+			float a = Random.Range (1f, 10f);
+			if (a >= buff1Chance) {
 				GameObject buff1 = Instantiate (Resources.Load ("Buff1") as GameObject);
 				buff1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				buff1Counter++;
@@ -320,20 +311,20 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void SpawnBuff2(){
-		if (buff2SpawnCounter > 0.1) {
-			int a = Random.Range (1, 10);
-			if (a >= 7) {
-//				GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
-//				buff2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
-//				buff2Counter++;
+		if (buff2SpawnCounter > buff2Time) {
+			float a = Random.Range (1f, 10f);
+			if (a >= buff2Chance) {
+				GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
+				buff2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
+				buff2Counter++;
 			}
 			buff2SpawnCounter = 0;
 		}
 	}
 	private void SpawnTrap1(){
-		if (trapSpawnCounter > 0.1) {
-			int a = Random.Range (1, 10);
-			if (a >= 8) {
+		if (trapSpawnCounter > trapTime) {
+			float a = Random.Range (1f, 10f);
+			if (a >= trapChance) {
 				GameObject trap1 = Instantiate (Resources.Load ("Trap1") as GameObject);
 				trap1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
 				trapCounter++;
@@ -342,9 +333,9 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void SpawnRide1(){
-		if (ride1SpawnCounter > 0.5) {
-			int a = Random.Range (1, 10);
-			if (a >= 5) {
+		if (ride1SpawnCounter > ride1Time) {
+			float a = Random.Range (1f, 10f);
+			if (a >= ride1Chance) {
 				GameObject ride1 = Instantiate (Resources.Load ("Ride1") as GameObject);
 				ride1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
 				ride1Counter++;
@@ -353,11 +344,11 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void SpawnRide2(){
-		if (ride2SpawnCounter > 0.5) {
-			int a = Random.Range (1, 10);
-			if (a >= 5) {
+		if (ride2SpawnCounter > ride2Time) {
+			float a = Random.Range (1f, 10f);
+			if (a >= ride2Chance) {
 				GameObject ride2 = Instantiate (Resources.Load ("Ride2") as GameObject);
-				ride2.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
+				ride2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				ride2Counter++;
 			}
 			ride2SpawnCounter = 0;
@@ -372,7 +363,27 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void SetTimes(){
-	
+		buff1Time = 1;
+		buff1Chance = 10;
+		buff1MaxQtd = 15;
+
+		buff2Time = 10;
+		buff2Chance = 5;
+		buff2MaxQtd = 15;
+
+		trapTime = 3;
+		trapChance = 5;
+		trapMaxQtd = 5;
+
+		ride1Time = 100;
+		ride1Chance = 8;
+		ride1MaxQtd = 2;
+		ride1CDTime = 7;
+
+		ride2Time = 100;
+		ride2Chance = 8;
+		ride2MaxQtd = 2;
+		ride2CDTime = 7;
 	}
 	public bool GetStartGame(){
 		return startGame;
