@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour {
 					ride1 = true;
 					saveVelocity = playerRB.velocity;
 					saveDrag = playerRB.drag;
-					playerRB.drag = 0;
+					playerRB.drag = 0.0f;
 					playerRB.velocity = new Vector2 (saveVelocity.x, 0);
 					playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
 				
@@ -185,11 +185,12 @@ public class PlayerController : MonoBehaviour {
 					GameObject ride2Canv = Instantiate (Resources.Load ("Ride2Canvas") as GameObject);
 					ride2Canv.transform.position = new Vector3 (cam.transform.position.x, cam.transform.position.y, 0);
 					ride2Canv.name = "Ride2Canvas";
+					ride2Canv.GetComponent<RectTransform> ().SetAsLastSibling();
 					cam.GetComponent<GameControl> ().ride2CD = true;
 					ride2 = true;
 					saveVelocity = playerRB.velocity;
 					saveDrag = playerRB.drag;
-					playerRB.drag = 0;
+					playerRB.drag = 0.0f;
 					playerRB.velocity = new Vector2 (saveVelocity.x, 0);
 					playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
 

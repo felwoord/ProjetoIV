@@ -35,6 +35,7 @@ public class GameControl : MonoBehaviour {
 	private GameObject player;
 	private GameObject lastGround, currentGround, nextGround;
 	private GameObject lastBackGround, currentBackGround, nextBackGround;
+	private PlayerController playerCont;
 
 	private Text healthText;
 	private Text distText, distText2;
@@ -62,6 +63,7 @@ public class GameControl : MonoBehaviour {
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
 	void Start () {
+
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 
 		sightLevel = PlayerPrefs.GetInt ("ItemLevel_1", 0);
@@ -89,6 +91,7 @@ public class GameControl : MonoBehaviour {
 		}
 
 		playerRB = player.GetComponent<Rigidbody2D> ();
+		playerCont = player.GetComponent<PlayerController> ();
 		launcher = GameObject.Find ("Launcher");
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
 
@@ -142,11 +145,12 @@ public class GameControl : MonoBehaviour {
 			arrowFillSpeed = 1 / 0.75f;
 		}
 
-		Debug.Log (steadyHandsLevel);
-		Debug.Log (arrowFillSpeed);
+
 		powerMultiplier =  10 * str/2;
 
 		SetTimes ();
+
+
 
 	}
 	void Update () {
@@ -167,10 +171,12 @@ public class GameControl : MonoBehaviour {
 		healthText.text = playerRB.velocity.x.ToString("0");
 		distText.text = player.transform.position.x.ToString ("0");
 		healthBar.fillAmount = playerRB.velocity.x / (vit * 10);
-		if (playerRB.velocity.magnitude > vit * 10) {
-			playerRB.drag = 0.5f;
-		} else {
-			playerRB.drag = 0.05f;
+		if (!playerCont.GetRide1 () && !playerCont.GetRide2 ()) {
+			if (playerRB.velocity.magnitude > vit * 10) {
+				playerRB.drag = 0.5f;
+			} else {
+				playerRB.drag = 0.05f;
+			}
 		}
 
 		if (player.transform.position.x >= currentGround.transform.position.x) {
@@ -368,7 +374,7 @@ public class GameControl : MonoBehaviour {
 		//chance = (10 - x) * 10
 
 		buff1Time = 1;
-		buff1Chance = 10;
+		buff1Chance = 5;
 		buff1MaxQtd = 15;
 
 		buff2Time = 1;
@@ -384,9 +390,9 @@ public class GameControl : MonoBehaviour {
 		ride1MaxQtd = 5;
 		ride1CDTime = 7;
 
-		ride2Time = 1;
-		ride2Chance = 1;
-		ride2MaxQtd = 10;
+		ride2Time = 0.5f;
+		ride2Chance = 5;
+		ride2MaxQtd = 20;
 		ride2CDTime = 7;
 	}
 	public bool GetStartGame(){
