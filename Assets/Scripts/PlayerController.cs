@@ -10,7 +10,7 @@
 //
 //"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
 //"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
-//"ItemLevel_1 -> Ride 1,	ItemLevel_1 -> Ride 2
+//"ItemLevel_8 -> Ride 1,	ItemLevel_9 -> Ride 2
 
 using System.Collections;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
 	private float goldRide2, expRide2;
 	private float goldTrap1, expTrap1;
 
-	private int pillowLevel, ride1Level, ride2Level;
+	private int pillowLevel, ride1Level;
 
 	void Start () {
 		SetRates ();
@@ -55,7 +55,6 @@ public class PlayerController : MonoBehaviour {
 
 		pillowLevel = PlayerPrefs.GetInt ("ItemLeve_1", 0);
 		ride1Level = PlayerPrefs.GetInt ("ItemLevel_8", 0);
-		ride2Level = PlayerPrefs.GetInt ("ItemLevel_9", 0);
 
 
 		playerRB.sharedMaterial.bounciness += pillowLevel / 100;
@@ -253,7 +252,7 @@ public class PlayerController : MonoBehaviour {
 		ride1Timer += Time.deltaTime;
 		if (ride1Timer < 5) {
 			if (Input.GetMouseButtonDown(0)) {
-				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2, 0);
+				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2 + (ride1Level / 4), 0);
 			}
 		} else {
 			if (characterID == 1)

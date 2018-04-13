@@ -10,7 +10,7 @@
 //
 //"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
 //"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
-//"ItemLevel_1 -> Ride 1,	ItemLevel_1 -> Ride 2
+//"ItemLevel_8 -> Ride 1,	ItemLevel_9 -> Ride 2
 
 using System.Collections;
 using System.Collections.Generic;
@@ -173,9 +173,21 @@ public class GameControl : MonoBehaviour {
 		healthBar.fillAmount = playerRB.velocity.x / (vit * 10);
 		if (!playerCont.GetRide1 () && !playerCont.GetRide2 ()) {
 			if (playerRB.velocity.magnitude > vit * 10) {
-				playerRB.drag = 0.5f;
+				if (player.transform.position.y < 36) {
+					playerRB.drag = 0.5f;
+				} else if (player.transform.position.y >= 36 && player.transform.position.y < 65) {
+					playerRB.drag = 0.25f;
+				} else {
+					playerRB.drag = 0;
+				}
 			} else {
-				playerRB.drag = 0.05f;
+				if (player.transform.position.y < 36) {
+					playerRB.drag = 0.05f;
+				} else if (player.transform.position.y >= 36 && player.transform.position.y < 65) {
+					playerRB.drag = 0.025f;
+				} else {
+					playerRB.drag = 0;
+				}
 			}
 		}
 
@@ -371,17 +383,19 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void SetTimes(){
-		//chance = (10 - x) * 10
+		//time -> interval (seconds) to try to spawn again
+		//chance -> chance to spawn 
+		//chance% = (10 - x) * 10
 
-		buff1Time = 1;
+		buff1Time = 1 - (buff1Level/10);
 		buff1Chance = 5;
 		buff1MaxQtd = 15;
 
-		buff2Time = 1;
+		buff2Time = 1 - (buff2Level/10);
 		buff2Chance = 5;
 		buff2MaxQtd = 15;
 
-		trapTime = 3;
+		trapTime = 3 + (trapLevel/10);
 		trapChance = 5;
 		trapMaxQtd = 5;
 
