@@ -41,8 +41,8 @@ public class GameControl : MonoBehaviour {
 	private Text distText, distText2;
 	private Image healthBar;
 
-	private float buff1SpawnCounter, buff2SpawnCounter, trapSpawnCounter, ride1SpawnCounter, ride2SpawnCounter;
-	private int buff1Counter, buff2Counter, trapCounter, ride1Counter, ride2Counter;
+	private float buff1SpawnCounter, buff2SpawnCounter, trapSpawnCounter, ride1SpawnCounter, ride2SpawnCounter, manaOrbSpawnCounter;
+	private int buff1Counter, buff2Counter, trapCounter, ride1Counter, ride2Counter, manaOrbCounter;
 	public bool ride1CD;
 	private float ride1CounterCD;
 	public bool ride2CD;
@@ -53,6 +53,7 @@ public class GameControl : MonoBehaviour {
 	private float trapTime, trapChance, trapMaxQtd; 
 	private float ride1Time, ride1Chance, ride1CDTime, ride1MaxQtd; 
 	private float ride2Time, ride2Chance, ride2CDTime, ride2MaxQtd;
+	private float manaOrbTime, manaOrbChance, manaOrbMaxQtd;
 
 	private int characterID;
 	private int str, magic, vit;
@@ -127,6 +128,8 @@ public class GameControl : MonoBehaviour {
 		ride1Counter = 0;
 		ride2SpawnCounter = 0;
 		ride2Counter = 0;
+		manaOrbSpawnCounter = 0;
+		manaOrbCounter = 0;
 
 		ride1CounterCD = 0;
 		ride1CD = false;
@@ -138,11 +141,14 @@ public class GameControl : MonoBehaviour {
 		expGained = 0;
 		goldGained = 0;
 
-		if (sightLevel > 0 && steadyHandsLevel > 0) {
+		if (sightLevel > 0) {
 			launcherRotSpeed = 1 / (0.01f * sightLevel);
-			arrowFillSpeed = 1 / (0.75f * (steadyHandsLevel / 2));
 		} else {
 			launcherRotSpeed = 1 / 0.01f;
+		}
+		if (steadyHandsLevel > 0) {
+			arrowFillSpeed = 1 / (0.75f * (steadyHandsLevel / 2));
+		} else {
 			arrowFillSpeed = 1 / 0.75f;
 		}
 
@@ -210,6 +216,10 @@ public class GameControl : MonoBehaviour {
 		trapSpawnCounter += Time.deltaTime;
 		if (trapCounter < trapMaxQtd) {
 			SpawnTrap1 ();
+		}
+		manaOrbSpawnCounter += Time.deltaTime;
+		if (manaOrbCounter < manaOrbMaxQtd) {
+			SpawnManaOrb ();
 		}
 
 		if (!ride1CD && !ride2CD) {
@@ -352,6 +362,17 @@ public class GameControl : MonoBehaviour {
 			trapSpawnCounter = 0;
 		}
 	}
+	private void SpawnManaOrb(){
+		if (manaOrbSpawnCounter > manaOrbTime) {
+			float a = Random.Range (0f, 10f);
+			if (a > manaOrbChance) {
+				GameObject manaOrb = Instantiate (Resources.Load ("ManaOrb") as GameObject);
+				manaOrb.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
+				manaOrbCounter++;
+			}
+			manaOrbSpawnCounter = 0;
+		}
+	}
 	private void SpawnRide1(){
 		if (ride1SpawnCounter > ride1Time) {
 			float a = Random.Range (0f, 10f);
@@ -398,6 +419,10 @@ public class GameControl : MonoBehaviour {
 		trapTime = 3 + (trapLevel/10);
 		trapChance = 5;
 		trapMaxQtd = 5;
+
+		manaOrbTime = 2;
+		manaOrbChance = 0;
+		manaOrbMaxQtd = 20;
 
 		ride1Time = 1;
 		ride1Chance = 1;

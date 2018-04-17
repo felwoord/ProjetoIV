@@ -10,6 +10,7 @@ TagManager:
   - Buff1
   - Buff2
   - Ride2
+  - Mana
   layers:
   - Default
   - TransparentFX

@@ -211,6 +211,10 @@ public class PlayerController : MonoBehaviour {
 			gameCont.Ride2Remove ();
 			Destroy (col.gameObject);
 		}
+		if (col.gameObject.tag == "Mana") {
+			gameCont.ManaUI ();
+			Destroy (col.gameObject);
+		}
 			
 	}
 	public void AboveMaxHeight(){
