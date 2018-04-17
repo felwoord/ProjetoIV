@@ -55,7 +55,7 @@ public class EndRunMenu : MonoBehaviour {
 		currentLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
 
 		currentExp += expGained;
-		currentGold += goldGained;
+		currentGold += goldGained * budgetFormula;
 
 
 
@@ -64,9 +64,7 @@ public class EndRunMenu : MonoBehaviour {
 		if (newLevel > currentLevel) {
 			int levelup = newLevel - currentLevel;
 			int pointsLeft = PlayerPrefs.GetInt ("PointsLeft_" + characterID, 0);
-			Debug.Log ("OldPoints:" + pointsLeft);
 			pointsLeft = pointsLeft + (levelup * 3);
-			Debug.Log ("NewPoints:" + pointsLeft);
 			PlayerPrefs.SetInt ("PointsLeft_" + characterID, pointsLeft);
 			GameObject.Find ("LevelUp").GetComponent<Text> ().enabled = true;
 		}

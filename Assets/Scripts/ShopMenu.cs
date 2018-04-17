@@ -44,6 +44,8 @@ public class ShopMenu : MonoBehaviour {
 	private Text levelText, strPointsText, magicPointsText, vitPointsText, pointsLeftText;
 	private int level, strPoints, magicPoints, vitPoints, pointsLeft;
 
+	private GameObject optionMenu, deleteSaveConfirm;
+	private bool menuEnabled, deleteMenuEnabled;
 
 	void Start () {
 		GameObjectFind ();
@@ -58,6 +60,10 @@ public class ShopMenu : MonoBehaviour {
 
 		FloatingHints ();
 
+		deleteSaveConfirm.SetActive (false);
+		deleteMenuEnabled = false;
+		optionMenu.SetActive (false);
+		menuEnabled = false;
 	}
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.O)){
@@ -88,6 +94,8 @@ public class ShopMenu : MonoBehaviour {
 		itemDisplay = GameObject.Find ("ItemDisplay").GetComponent<Image> ();
 		itemDescription = GameObject.Find ("ItemDescription").GetComponent<Text> ();
 		itemPriceText = GameObject.Find ("ItemPrice").GetComponent<Text> ();
+		optionMenu = GameObject.Find ("OptionMenu");
+		deleteSaveConfirm = GameObject.Find ("DeleteSaveConf");
 	}
 	private void Descriptions(){
 		pillowDescription = "Lose less life when you hit the ground";
@@ -273,7 +281,6 @@ public class ShopMenu : MonoBehaviour {
 		}
 		itemPriceText.text = itemPrice.ToString ("0");
 	}
-
 	public void BuyItem(){
 		if (currentGold >= itemPrice) {
 			currentGold -= itemPrice;
@@ -284,5 +291,25 @@ public class ShopMenu : MonoBehaviour {
 			ItemChange (itemDescription.text);
 
 		}
+	}
+	public void OptionMenuButton(){
+		if (!menuEnabled) {
+			optionMenu.SetActive (true);
+		} else {
+			optionMenu.SetActive (false);
+		}
+		menuEnabled = !menuEnabled;
+	}
+	public void DeleteSaveData1(){
+		if (!deleteMenuEnabled) {
+			deleteSaveConfirm.SetActive (true);
+		} else {
+			deleteSaveConfirm.SetActive (false);
+		}
+		deleteMenuEnabled = !deleteMenuEnabled;
+	}
+	public void DeleteSaveData2(){
+		PlayerPrefs.DeleteAll ();
+		SceneManager.LoadScene ("ShopScene");
 	}
 }
