@@ -57,6 +57,7 @@ public class GameControl : MonoBehaviour {
 	private int characterID;
 	private int str, magic, vit;
 	private int mana;
+	private float maxSpeed;
 
 	private float expGained, goldGained;
 
@@ -146,12 +147,10 @@ public class GameControl : MonoBehaviour {
 		}
 
 
-		powerMultiplier =  10 * str/2;
+		powerMultiplier = (10 * str / 2) + 8;
+		maxSpeed = (vit * 10) + 5;
 
 		SetTimes ();
-
-
-
 	}
 	void Update () {
 		if (startGame) {
@@ -170,9 +169,10 @@ public class GameControl : MonoBehaviour {
 	private void GamePlay(){
 		healthText.text = playerRB.velocity.x.ToString("0");
 		distText.text = player.transform.position.x.ToString ("0");
-		healthBar.fillAmount = playerRB.velocity.x / (vit * 10);
+		healthBar.fillAmount = playerRB.velocity.x / maxSpeed;
+
 		if (!playerCont.GetRide1 () && !playerCont.GetRide2 ()) {
-			if (playerRB.velocity.magnitude > vit * 10) {
+			if (playerRB.velocity.x > maxSpeed) {
 				if (player.transform.position.y < 36) {
 					playerRB.drag = 0.5f;
 				} else if (player.transform.position.y >= 36 && player.transform.position.y < 65) {
