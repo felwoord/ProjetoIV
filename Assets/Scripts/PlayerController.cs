@@ -11,6 +11,9 @@
 //"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
 //"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
 //"ItemLevel_8 -> Ride 1,	ItemLevel_9 -> Ride 2
+//
+//"Diamond"
+//"ExtraLife"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -44,7 +47,10 @@ public class PlayerController : MonoBehaviour {
 
 	private int pillowLevel, ride1Level;
 
+	private int manaCounter;
+
 	void Start () {
+		manaCounter = 0;
 		SetRates ();
 		cam = GameObject.Find ("Main Camera");
 		gameCont = cam.GetComponent<GameControl> ();
@@ -78,6 +84,11 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				counter = 0;
 			}
+		}
+
+		if (manaCounter > 10) {
+			gameCont.ManaUI ();
+			manaCounter = 0;
 		}
 	}
 	public void OnTriggerEnter2D(Collider2D col){
@@ -215,6 +226,7 @@ public class PlayerController : MonoBehaviour {
 			gameCont.ManaUI ();
 			Destroy (col.gameObject);
 		}
+		manaCounter++;
 			
 	}
 	public void AboveMaxHeight(){

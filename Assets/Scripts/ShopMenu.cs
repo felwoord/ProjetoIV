@@ -11,6 +11,9 @@
 //"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
 //"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
 //"ItemLevel_8 -> Ride 1,	ItemLevel_9 -> Ride 2
+//
+//"Diamond"
+//"ExtraLife"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -47,6 +50,9 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject optionMenu, deleteSaveConfirm;
 	private bool menuEnabled, deleteMenuEnabled;
 
+	private int diamondQtd, extraLifeQtd;
+	private Text diamond, extraLife;
+
 	void Start () {
 		GameObjectFind ();
 		Descriptions ();
@@ -64,6 +70,11 @@ public class ShopMenu : MonoBehaviour {
 		deleteMenuEnabled = false;
 		optionMenu.SetActive (false);
 		menuEnabled = false;
+
+		diamondQtd = PlayerPrefs.GetInt ("Diamond", 0);
+		diamond.text = diamondQtd.ToString ();
+		extraLifeQtd = PlayerPrefs.GetInt ("ExtraLife", 0);
+		extraLife.text = extraLifeQtd.ToString ();
 	}
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.O)){
@@ -96,6 +107,8 @@ public class ShopMenu : MonoBehaviour {
 		itemPriceText = GameObject.Find ("ItemPrice").GetComponent<Text> ();
 		optionMenu = GameObject.Find ("OptionMenu");
 		deleteSaveConfirm = GameObject.Find ("DeleteSaveConf");
+		diamond = GameObject.Find ("DiamondText").GetComponent<Text> ();
+		extraLife = GameObject.Find ("ExtraLifeText").GetComponent<Text> ();
 	}
 	private void Descriptions(){
 		pillowDescription = "Lose less life when you hit the ground";
@@ -134,7 +147,6 @@ public class ShopMenu : MonoBehaviour {
 
 		CheckCurrentCharacter ();
 	}
-
 	public void CheckCurrentCharacter(){
 		float currentExp = PlayerPrefs.GetFloat ("CurrentExp_" + currentCharacter, 0);
 		level = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
