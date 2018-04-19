@@ -49,7 +49,11 @@ public class PlayerController : MonoBehaviour {
 
 	private int manaCounter;
 
+	private bool gotDiamond, extraLifeAvaliable;
+	private int extraLife;
+
 	void Start () {
+		gotDiamond = false;
 		manaCounter = 0;
 		SetRates ();
 		cam = GameObject.Find ("Main Camera");
@@ -62,9 +66,12 @@ public class PlayerController : MonoBehaviour {
 		pillowLevel = PlayerPrefs.GetInt ("ItemLeve_1", 0);
 		ride1Level = PlayerPrefs.GetInt ("ItemLevel_8", 0);
 
-
 		playerRB.sharedMaterial.bounciness += pillowLevel / 100;
 
+		extraLife = PlayerPrefs.GetInt ("ExtraLife", 0);
+		if (extraLife > 0) {
+			extraLifeAvaliable = true;
+		}
 	}
 	void Update () {
 		if (ride1) {
@@ -86,7 +93,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (manaCounter > 10) {
+		if (manaCounter > 9) {
 			gameCont.ManaUI ();
 			manaCounter = 0;
 		}
@@ -226,6 +233,10 @@ public class PlayerController : MonoBehaviour {
 			gameCont.ManaUI ();
 			Destroy (col.gameObject);
 		}
+		if (col.gameObject.tag == "Mana") {
+			gotDiamond = true;
+			gameCont.SetDiamond ();
+		}
 		manaCounter++;
 			
 	}
@@ -309,8 +320,24 @@ public class PlayerController : MonoBehaviour {
 	private void EndRun(){
 		playerRB.velocity = Vector2.zero;
 		playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-		GameObject endRunMenu = GameObject.Find ("EndRunMenu");
-		endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
+
+		if (extraLifeAvaliable) {
+			extraLife--;
+			PlayerPrefs.SetInt ("ExtraLife", extraLife);
+			extraLifeAvaliable = false;
+			gameCont.SecondLaunch ();
+		}else{
+			if (gotDiamond) {
+				//perguntar se o jogador quer assistir uma rewarded para receber o diamante
+				//se aceitar, chamar uma Rewarded, checkar se assistiu, dar a recompensa, chamar o menu de final de jogo
+				//
+				//se nao aceitar, chamar o menu de final de jogo
+			}else{
+				//chamar uma Interstitial, ao acabar, chamar o menu de final de jogo
+			}
+			GameObject endRunMenu = GameObject.Find ("EndRunMenu");
+			endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
+		}
 	}
 	public bool GetRide1()
 	{

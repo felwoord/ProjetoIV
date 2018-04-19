@@ -44,8 +44,8 @@ public class GameControl : MonoBehaviour {
 	private Text distText, distText2;
 	private Image healthBar;
 
-	private float buff1SpawnCounter, buff2SpawnCounter, trapSpawnCounter, ride1SpawnCounter, ride2SpawnCounter, manaOrbSpawnCounter;
-	private int buff1Counter, buff2Counter, trapCounter, ride1Counter, ride2Counter, manaOrbCounter;
+	private float buff1SpawnCounter, buff2SpawnCounter, trapSpawnCounter, ride1SpawnCounter, ride2SpawnCounter, manaOrbSpawnCounter, diamondSpawnCounter;
+	private int buff1Counter, buff2Counter, trapCounter, ride1Counter, ride2Counter, manaOrbCounter, diamondCounter;
 	public bool ride1CD;
 	private float ride1CounterCD;
 	public bool ride2CD;
@@ -57,6 +57,7 @@ public class GameControl : MonoBehaviour {
 	private float ride1Time, ride1Chance, ride1CDTime, ride1MaxQtd; 
 	private float ride2Time, ride2Chance, ride2CDTime, ride2MaxQtd;
 	private float manaOrbTime, manaOrbChance, manaOrbMaxQtd;
+	private float diamondTime, diamondChance, diamondMaxQtd;
 
 	private int characterID;
 	private int str, magic, vit;
@@ -64,6 +65,8 @@ public class GameControl : MonoBehaviour {
 	private float maxSpeed;
 
 	private float expGained, goldGained;
+
+	private bool gotDiamond;
 
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
@@ -133,6 +136,8 @@ public class GameControl : MonoBehaviour {
 		ride2Counter = 0;
 		manaOrbSpawnCounter = 0;
 		manaOrbCounter = 0;
+		diamondSpawnCounter = 0;
+		diamondCounter = 0;
 
 		ride1CounterCD = 0;
 		ride1CD = false;
@@ -158,6 +163,8 @@ public class GameControl : MonoBehaviour {
 
 		powerMultiplier = (10 * str / 2) + 8;
 		maxSpeed = (vit * 10) + 5;
+
+		gotDiamond = false;
 
 		SetTimes ();
 	}
@@ -223,6 +230,12 @@ public class GameControl : MonoBehaviour {
 		manaOrbSpawnCounter += Time.deltaTime;
 		if (manaOrbCounter < manaOrbMaxQtd) {
 			SpawnManaOrb ();
+		}
+		if (!gotDiamond) {
+			diamondSpawnCounter += Time.deltaTime;
+			if (diamondCounter < diamondMaxQtd) {
+				SpawnDiamond ();
+			}
 		}
 
 		if (!ride1CD && !ride2CD) {
@@ -376,6 +389,17 @@ public class GameControl : MonoBehaviour {
 			manaOrbSpawnCounter = 0;
 		}
 	}
+	private void SpawnDiamond(){
+		if (diamondCounter > diamondTime) {
+			float a = Random.Range (0f, 10f);
+			if (a > diamondChance) {
+				GameObject diamond = Instantiate (Resources.Load ("Diamond") as GameObject);
+				diamond.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
+				diamondCounter++;
+			}
+			diamondSpawnCounter = 0;
+		}
+	}
 	private void SpawnRide1(){
 		if (ride1SpawnCounter > ride1Time) {
 			float a = Random.Range (0f, 10f);
@@ -424,8 +448,12 @@ public class GameControl : MonoBehaviour {
 		trapMaxQtd = 5;
 
 		manaOrbTime = 2;
-		manaOrbChance = 0;
+		manaOrbChance = 8;
 		manaOrbMaxQtd = 20;
+
+		diamondTime = 10;
+		diamondChance = 9.9f;
+		diamondMaxQtd = 1;
 
 		ride1Time = 1;
 		ride1Chance = 1;
@@ -476,5 +504,10 @@ public class GameControl : MonoBehaviour {
 	public float GetGold(){
 		return goldGained;
 	}
-
+	public void SetDiamond(){
+		gotDiamond = true;
+	}
+	public void SecondLaunch(){
+		player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch / 2, ForceMode2D.Impulse);
+	}
 }

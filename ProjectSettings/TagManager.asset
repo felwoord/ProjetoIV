@@ -11,6 +11,7 @@ TagManager:
   - Buff2
   - Ride2
   - Mana
+  - Diamond
   layers:
   - Default
   - TransparentFX
