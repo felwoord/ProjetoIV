@@ -11,6 +11,11 @@
 //"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
 //"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
 //"ItemLevel_8 -> Ride 1,	ItemLevel_9 -> Ride 2
+//
+//"Diamond"
+//"ExtraLife"
+//"DoubleGold"
+//"DoubleExp"
 
 using System.Collections;
 using System.Collections.Generic;

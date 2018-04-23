@@ -55,7 +55,7 @@ public class CharacterOne : MonoBehaviour {
 
 		if (delay) {
 			counter += Time.deltaTime;
-			if (counter > 3) {
+			if (counter > 1) {
 				delay = false;
 				counter = 0;
 			}
@@ -78,10 +78,5 @@ public class CharacterOne : MonoBehaviour {
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
 		GetComponent<SpriteRenderer> ().color = Color.yellow;
 
-	}
-
-
-	public void AddExp(){
-		
 	}
 }

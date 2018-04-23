@@ -39,6 +39,8 @@ public class EndRunMenu : MonoBehaviour {
 	private int budgetLevel;
 	private float budgetFormula;
 
+	private int doubleExp, doubleGold;
+
 	void Start () {
 		budgetLevel = PlayerPrefs.GetInt ("ItemLevel_3", 0);
 		budgetFormula = 1 + (0.1f * budgetLevel);
@@ -56,12 +58,24 @@ public class EndRunMenu : MonoBehaviour {
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		currentExp = PlayerPrefs.GetFloat ("CurrentExp_" + characterID, 0);
 		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0);
+		doubleExp = PlayerPrefs.GetInt ("DoubleExp", 0);
+		doubleGold = PlayerPrefs.GetInt ("DoubleGold", 0);
 
 		currentLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
 
-		currentExp += expGained;
-		currentGold += goldGained * budgetFormula;
+		if (doubleExp > 0) {
+			currentExp += expGained * 2;
+			doubleExp--;
+		} else {
+			currentExp += expGained;
+		}
 
+		if (doubleGold > 0) {
+			currentGold += goldGained * budgetFormula * 2;
+			doubleGold--;
+		} else {
+			currentGold += goldGained * budgetFormula;
+		}
 
 
 		newLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
