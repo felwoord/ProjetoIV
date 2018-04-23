@@ -14,6 +14,8 @@
 //
 //"Diamond"
 //"ExtraLife"
+//"DoubleGold"
+//"DoubleExp"
 
 using System.Collections;
 using System.Collections.Generic;

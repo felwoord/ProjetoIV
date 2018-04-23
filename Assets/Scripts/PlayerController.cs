@@ -14,6 +14,8 @@
 //
 //"Diamond"
 //"ExtraLife"
+//"DoubleGold"
+//"DoubleExp"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -282,8 +284,10 @@ public class PlayerController : MonoBehaviour {
 				playerRB.velocity = new Vector2 (playerRB.velocity.x + 2 + (ride1Level / 4), 0);
 			}
 		} else {
-			if (characterID == 1)
+			if (characterID == 1) {
 				GetComponent<CharacterOne> ().SetDefaultSprite ();
+				GetComponent<CharacterOne> ().delay = true;
+			}
 			if (characterID == 2) {
 			}
 			if (characterID == 3) {
@@ -302,8 +306,10 @@ public class PlayerController : MonoBehaviour {
 		if (ride2Timer < 5) {
 
 		} else {
-			if (characterID == 1)
+			if (characterID == 1) {
 				GetComponent<CharacterOne> ().SetDefaultSprite ();
+				GetComponent<CharacterOne> ().delay = true;
+			}
 			if (characterID == 2) {
 			}
 			if (characterID == 3) {
@@ -320,12 +326,19 @@ public class PlayerController : MonoBehaviour {
 	private void EndRun(){
 		playerRB.velocity = Vector2.zero;
 		playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-
+		int mana = gameCont.GetMana ();
+		for (int i = 0; i < mana; i++) {
+			gameCont.RemovePowerBar ();
+		}
 		if (extraLifeAvaliable) {
+			//perguntar se quer usar a vida extra
 			extraLife--;
 			PlayerPrefs.SetInt ("ExtraLife", extraLife);
 			extraLifeAvaliable = false;
 			gameCont.SecondLaunch ();
+			for (int i = 0; i < mana; i++) {
+				gameCont.ManaUI ();
+			}
 		}else{
 			if (gotDiamond) {
 				//perguntar se o jogador quer assistir uma rewarded para receber o diamante

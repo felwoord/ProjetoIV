@@ -14,6 +14,8 @@
 //
 //"Diamond"
 //"ExtraLife"
+//"DoubleGold"
+//"DoubleExp"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +31,9 @@ public class CharacterOne : MonoBehaviour {
 
 	private int magic;
 
+	public bool delay;
+	private float counter;
+
 	void Start(){
 		magic = PlayerPrefs.GetInt ("Magic_1", 1);
 		playerControl = GameObject.Find ("Player").GetComponent<PlayerController> ();
@@ -36,7 +41,7 @@ public class CharacterOne : MonoBehaviour {
 		playerRB = GetComponent<Rigidbody2D> ();
 	}
 	void Update(){
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (0) && !delay) {
 			if (!playerControl.GetRide1 () && !playerControl.GetRide2 ()) {
 				if (!playerControl.GetHeightCheck ()) {
 					int powerBarsCount = game.GetMana ();
@@ -45,6 +50,14 @@ public class CharacterOne : MonoBehaviour {
 						game.RemovePowerBar ();
 					}
 				}
+			}
+		}
+
+		if (delay) {
+			counter += Time.deltaTime;
+			if (counter > 3) {
+				delay = false;
+				counter = 0;
 			}
 		}
 	}

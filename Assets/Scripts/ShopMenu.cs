@@ -14,6 +14,8 @@
 //
 //"Diamond"
 //"ExtraLife"
+//"DoubleGold"
+//"DoubleExp"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -50,8 +52,8 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject optionMenu, deleteSaveConfirm;
 	private bool menuEnabled, deleteMenuEnabled;
 
-	private int diamondQtd, extraLifeQtd;
-	private Text diamond, extraLife;
+	private int diamondQtd, extraLifeQtd, doubleGoldQtd, doubleExpQtd;
+	private Text diamond, extraLife, doubleGold, doubleExp;
 
 	void Start () {
 		GameObjectFind ();
@@ -75,6 +77,10 @@ public class ShopMenu : MonoBehaviour {
 		diamond.text = diamondQtd.ToString ();
 		extraLifeQtd = PlayerPrefs.GetInt ("ExtraLife", 0);
 		extraLife.text = extraLifeQtd.ToString ();
+		doubleGoldQtd = PlayerPrefs.GetInt ("DoubleGold", 0);
+		doubleGold.text = doubleGoldQtd.ToString ();
+		doubleExpQtd = PlayerPrefs.GetInt ("DoubleExp", 0);
+		doubleExp.text = doubleExpQtd.ToString ();
 	}
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.O)){
@@ -109,6 +115,8 @@ public class ShopMenu : MonoBehaviour {
 		deleteSaveConfirm = GameObject.Find ("DeleteSaveConf");
 		diamond = GameObject.Find ("DiamondText").GetComponent<Text> ();
 		extraLife = GameObject.Find ("ExtraLifeText").GetComponent<Text> ();
+		doubleGold = GameObject.Find ("DoubleGoldText").GetComponent<Text> ();
+		doubleExp = GameObject.Find ("DoubleExpText").GetComponent<Text> ();
 	}
 	private void Descriptions(){
 		pillowDescription = "Lose less life when you hit the ground";
@@ -302,6 +310,25 @@ public class ShopMenu : MonoBehaviour {
 			PlayerPrefs.SetFloat ("CurrentGold", currentGold);
 			ItemChange (itemDescription.text);
 
+		}
+	}
+	public void BuyCashItem(int item){
+		//1 = ExtraLife, 2 = DoubleGold, 3 = Double
+		if (diamondQtd > 0) {
+			switch (item) {
+			case 1:
+				//Open UI confirmation to buy extra life
+				break;
+			case 2:
+				//Open UI confirmation to buy double gold
+				break;
+			case 3:
+				//Open UI confirmation to buy double exp
+				break;
+			}
+		} else {
+			Debug.Log ("Not enough Diamonds");
+			//open UI to buy Diamonds (In-App Purchase)
 		}
 	}
 	public void OptionMenuButton(){
