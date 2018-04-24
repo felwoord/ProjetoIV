@@ -93,6 +93,8 @@ public class EndRunMenu : MonoBehaviour {
 
 		PlayerPrefs.SetFloat ("CurrentExp_" + characterID, currentExp);
 		PlayerPrefs.SetFloat ("CurrentGold", currentGold);
+		PlayerPrefs.SetInt ("DoubleExp", doubleExp);
+		PlayerPrefs.SetInt ("DoubleGold", doubleGold);
 
 		PlayerPrefs.Save ();
 	}

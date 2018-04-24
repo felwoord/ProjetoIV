@@ -24,7 +24,7 @@ public class CanvResizer : MonoBehaviour {
 				#if UNITY_STANDALONE
 				canvScaler.referenceResolution = new Vector2 (1920, 1080) * 0.5f;
 				#else
-				canvScaler.referenceResolution = new Vector2 (1920, 1080);
+				canvScaler.referenceResolution = new Vector2 (1920, 1080) * 0.5f;
 				#endif
 			}
 

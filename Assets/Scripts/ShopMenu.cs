@@ -334,6 +334,7 @@ public class ShopMenu : MonoBehaviour {
 	public void OptionMenuButton(){
 		if (!menuEnabled) {
 			optionMenu.SetActive (true);
+			optionMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
 		} else {
 			optionMenu.SetActive (false);
 		}

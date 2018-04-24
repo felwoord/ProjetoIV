@@ -75,7 +75,9 @@ public class GameControl : MonoBehaviour {
 	void Start () {
 
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
-
+		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
+		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 1);
+		vit = PlayerPrefs.GetInt ("Vit_" + characterID, 1);
 		sightLevel = PlayerPrefs.GetInt ("ItemLevel_1", 0);
 		steadyHandsLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
 		buff1Level = PlayerPrefs.GetInt ("ItemLevel_4", 0);
@@ -83,13 +85,7 @@ public class GameControl : MonoBehaviour {
 		trapLevel = PlayerPrefs.GetInt ("ItemLevel_6", 0);
 
 		player = Instantiate (Resources.Load ("Character" + characterID) as GameObject);
-
-		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
-		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 1);
-		vit = PlayerPrefs.GetInt ("Vit_" + characterID, 1);
-
 		player.transform.position = new Vector2 (2, 5);
-
 		player.name = "Player";
 
 		mana = 1 + Mathf.FloorToInt (magic / 10);
@@ -167,6 +163,9 @@ public class GameControl : MonoBehaviour {
 		maxSpeed = (vit * 10) + 5;
 
 		gotDiamond = false;
+
+
+		FirstBuffs ();
 
 		SetTimes ();
 	}
@@ -511,5 +510,19 @@ public class GameControl : MonoBehaviour {
 	}
 	public void SecondLaunch(){
 		player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch / 2, ForceMode2D.Impulse);
+	}
+	private void FirstBuffs(){
+		float a = Random.Range (0f, 10f);
+		if (a > 2) {
+			GameObject buff1 = Instantiate (Resources.Load ("Buff1") as GameObject);
+			buff1.transform.position = new Vector2 (25f, Random.Range (3, 10));
+			buff1Counter++;
+		}
+		float b = Random.Range (0f, 10f);
+		if (b > 3) {
+			GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
+			buff2.transform.position = new Vector2 (Random.Range (25, 40), 1.7f);
+			buff2Counter++;
+		}
 	}
 }
