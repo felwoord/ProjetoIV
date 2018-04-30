@@ -55,6 +55,9 @@ public class ShopMenu : MonoBehaviour {
 	private int diamondQtd, extraLifeQtd, doubleGoldQtd, doubleExpQtd;
 	private Text diamond, extraLife, doubleGold, doubleExp;
 
+	private GameObject cashShopMenu;
+	private bool cashShopEnabled;
+
 	void Start () {
 		GameObjectFind ();
 		Descriptions ();
@@ -72,6 +75,8 @@ public class ShopMenu : MonoBehaviour {
 		deleteMenuEnabled = false;
 		optionMenu.SetActive (false);
 		menuEnabled = false;
+		cashShopMenu.SetActive (false);
+		cashShopEnabled = false;
 
 		diamondQtd = PlayerPrefs.GetInt ("Diamond", 0);
 		diamond.text = diamondQtd.ToString ();
@@ -117,6 +122,8 @@ public class ShopMenu : MonoBehaviour {
 		extraLife = GameObject.Find ("ExtraLifeText").GetComponent<Text> ();
 		doubleGold = GameObject.Find ("DoubleGoldText").GetComponent<Text> ();
 		doubleExp = GameObject.Find ("DoubleExpText").GetComponent<Text> ();
+		cashShopMenu = GameObject.Find ("CashShopMenu");
+
 	}
 	private void Descriptions(){
 		pillowDescription = "Lose less life when you hit the ground";
@@ -327,9 +334,17 @@ public class ShopMenu : MonoBehaviour {
 				break;
 			}
 		} else {
-			Debug.Log ("Not enough Diamonds");
-			//open UI to buy Diamonds (In-App Purchase)
+			CashShopMenuButton ();
 		}
+	}
+	public void CashShopMenuButton(){
+		if (!cashShopEnabled) {
+			cashShopMenu.SetActive (true);
+			cashShopMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+		} else {
+			cashShopMenu.SetActive (false);
+		}
+		cashShopEnabled = !cashShopEnabled;
 	}
 	public void OptionMenuButton(){
 		if (!menuEnabled) {
