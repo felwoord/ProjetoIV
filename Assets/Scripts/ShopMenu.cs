@@ -58,6 +58,8 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject cashShopMenu, extraLifeConfMenu, doubleGoldConfMenu, doubleExpConfMenu;
 	private bool cashShopEnabled, extraLifeConfEnabled, doubleGoldConfEnabled, doubleExpConfEnabled;
 
+	private int adsShow;
+
 	void Start () {
 		GameObjectFind ();
 		Descriptions ();
@@ -365,6 +367,7 @@ public class ShopMenu : MonoBehaviour {
 		}
 		diamondQtd--;
 		PlayerPrefs.SetInt ("Diamond", diamondQtd);
+		PlayerPrefs.Save ();
 	}
 	public void ExtraLifeConfirmationButton(){
 		if (!extraLifeConfEnabled) {
@@ -427,5 +430,23 @@ public class ShopMenu : MonoBehaviour {
 		diamondQtd += qtd;
 		diamond.text = diamondQtd.ToString ();
 		PlayerPrefs.SetInt ("Diamond", diamondQtd);
+	}
+	public void InfinityBuffs(){
+		extraLifeQtd = 999999;
+		extraLife.text = extraLifeQtd.ToString ();
+		PlayerPrefs.SetInt ("ExtraLife", extraLifeQtd);
+
+		doubleGoldQtd = 999999;
+		doubleGold.text = doubleGoldQtd.ToString ();
+		PlayerPrefs.SetInt ("DoubleGold", doubleGoldQtd);
+		
+		doubleExpQtd = 999999;
+		doubleExp.text = doubleExpQtd.ToString ();
+		PlayerPrefs.SetInt ("DoubleExp", doubleExpQtd);
+
+		PlayerPrefs.Save ();
+	}
+	public void BuyRemoveAds(){
+		
 	}
 }
