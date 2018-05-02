@@ -55,37 +55,16 @@ public class ShopMenu : MonoBehaviour {
 	private int diamondQtd, extraLifeQtd, doubleGoldQtd, doubleExpQtd;
 	private Text diamond, extraLife, doubleGold, doubleExp;
 
-	private GameObject cashShopMenu;
-	private bool cashShopEnabled;
+	private GameObject cashShopMenu, extraLifeConfMenu, doubleGoldConfMenu, doubleExpConfMenu;
+	private bool cashShopEnabled, extraLifeConfEnabled, doubleGoldConfEnabled, doubleExpConfEnabled;
 
 	void Start () {
 		GameObjectFind ();
 		Descriptions ();
-
-		goldText.text = currentGold.ToString ("0");
-		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
-
+		GetPlayerPrefs ();
 		ShowPillow ();
-
 		CheckCurrentCharacter ();
-
-		FloatingHints ();
-
-		deleteSaveConfirm.SetActive (false);
-		deleteMenuEnabled = false;
-		optionMenu.SetActive (false);
-		menuEnabled = false;
-		cashShopMenu.SetActive (false);
-		cashShopEnabled = false;
-
-		diamondQtd = PlayerPrefs.GetInt ("Diamond", 0);
-		diamond.text = diamondQtd.ToString ();
-		extraLifeQtd = PlayerPrefs.GetInt ("ExtraLife", 0);
-		extraLife.text = extraLifeQtd.ToString ();
-		doubleGoldQtd = PlayerPrefs.GetInt ("DoubleGold", 0);
-		doubleGold.text = doubleGoldQtd.ToString ();
-		doubleExpQtd = PlayerPrefs.GetInt ("DoubleExp", 0);
-		doubleExp.text = doubleExpQtd.ToString ();
+		HideMenus ();
 	}
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.O)){
@@ -107,7 +86,9 @@ public class ShopMenu : MonoBehaviour {
 		magicPointsText = GameObject.Find ("MagicPoints").GetComponent<Text> ();
 		vitPointsText = GameObject.Find ("VitPoints").GetComponent<Text> ();
 		pointsLeftText = GameObject.Find ("Points").GetComponent<Text> ();
-		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0); 
+		panelStr = GameObject.Find ("PanelStr");
+		panelMagic = GameObject.Find ("PanelMagic");
+		panelVit = GameObject.Find ("PanelVit");
 		goldText = GameObject.Find ("GoldText").GetComponent<Text> ();
 		stats = GameObject.Find ("StatsImage");
 		itens = GameObject.Find ("ItensImage");
@@ -123,7 +104,42 @@ public class ShopMenu : MonoBehaviour {
 		doubleGold = GameObject.Find ("DoubleGoldText").GetComponent<Text> ();
 		doubleExp = GameObject.Find ("DoubleExpText").GetComponent<Text> ();
 		cashShopMenu = GameObject.Find ("CashShopMenu");
-
+		extraLifeConfMenu = GameObject.Find ("ExtraLifeConfirmation");
+		doubleGoldConfMenu = GameObject.Find ("DoubleGoldConfirmation");
+		doubleExpConfMenu = GameObject.Find ("DoubleExpConfirmation");
+	}
+	private void HideMenus(){
+		panelStr.SetActive (false);
+		activeStr = false;
+		panelMagic.SetActive (false);
+		activeMagic = false;
+		panelVit.SetActive (false);
+		activeVit = false;
+		deleteSaveConfirm.SetActive (false);
+		deleteMenuEnabled = false;
+		optionMenu.SetActive (false);
+		menuEnabled = false;
+		cashShopMenu.SetActive (false);
+		cashShopEnabled = false;
+		extraLifeConfMenu.SetActive (false);
+		extraLifeConfEnabled = false;
+		doubleGoldConfMenu.SetActive (false);
+		doubleGoldConfEnabled = false;
+		doubleExpConfMenu.SetActive (false);
+		doubleExpConfEnabled = false;
+	}
+	private void GetPlayerPrefs (){
+		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
+		currentGold = PlayerPrefs.GetFloat ("CurrentGold", 0); 
+		goldText.text = currentGold.ToString ("0");
+		diamondQtd = PlayerPrefs.GetInt ("Diamond", 0);
+		diamond.text = diamondQtd.ToString ();
+		extraLifeQtd = PlayerPrefs.GetInt ("ExtraLife", 0);
+		extraLife.text = extraLifeQtd.ToString ();
+		doubleGoldQtd = PlayerPrefs.GetInt ("DoubleGold", 0);
+		doubleGold.text = doubleGoldQtd.ToString ();
+		doubleExpQtd = PlayerPrefs.GetInt ("DoubleExp", 0);
+		doubleExp.text = doubleExpQtd.ToString ();
 	}
 	private void Descriptions(){
 		pillowDescription = "Lose less life when you hit the ground";
@@ -216,17 +232,6 @@ public class ShopMenu : MonoBehaviour {
 			PlayerPrefs.SetInt ("PointsLeft_" + currentCharacter, pointsLeft);
 			PlayerPrefs.Save ();
 		}
-	}
-	private void FloatingHints(){
-		panelStr = GameObject.Find ("PanelStr");
-		panelMagic = GameObject.Find ("PanelMagic");
-		panelVit = GameObject.Find ("PanelVit");
-		panelStr.SetActive (false);
-		panelMagic.SetActive (false);
-		panelVit.SetActive (false);
-		activeStr = false;
-		activeMagic = false;
-		activeVit = false;
 	}
 	public void StrFloatingHint(){
 		if (activeStr) {
@@ -324,18 +329,69 @@ public class ShopMenu : MonoBehaviour {
 		if (diamondQtd > 0) {
 			switch (item) {
 			case 1:
-				//Open UI confirmation to buy extra life
+				ExtraLifeConfirmationButton ();
 				break;
 			case 2:
-				//Open UI confirmation to buy double gold
+				DoubleGoldConfirmationButton ();
 				break;
 			case 3:
-				//Open UI confirmation to buy double exp
+				DoubleExpConfirmationButton ();
 				break;
 			}
 		} else {
 			CashShopMenuButton ();
 		}
+	}
+	public void BuyCashItemConfirmation(int item){
+		switch (item) {
+		case 1:
+			extraLifeQtd++;
+			extraLife.text = extraLifeQtd.ToString ();
+			PlayerPrefs.SetInt ("ExtraLife", extraLifeQtd);
+			ExtraLifeConfirmationButton ();
+			break;
+		case 2:
+			doubleGoldQtd++;
+			doubleGold.text = doubleGoldQtd.ToString ();
+			PlayerPrefs.SetInt ("DoubleGold", doubleGoldQtd);
+			DoubleGoldConfirmationButton ();
+			break;
+		case 3:
+			doubleExpQtd++;
+			doubleExp.text = doubleExpQtd.ToString ();
+			PlayerPrefs.SetInt ("DoubleExp", doubleExpQtd);
+			DoubleExpConfirmationButton ();
+			break;
+		}
+		diamondQtd--;
+		PlayerPrefs.SetInt ("Diamond", diamondQtd);
+	}
+	public void ExtraLifeConfirmationButton(){
+		if (!extraLifeConfEnabled) {
+			extraLifeConfMenu.SetActive (true);
+			extraLifeConfMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+		} else {
+			extraLifeConfMenu.SetActive (false);
+		}
+		extraLifeConfEnabled = !extraLifeConfEnabled;
+	}
+	public void DoubleGoldConfirmationButton(){
+		if (!doubleGoldConfEnabled) {
+			doubleGoldConfMenu.SetActive (true);
+			doubleGoldConfMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+		} else {
+			doubleGoldConfMenu.SetActive (false);
+		}
+		doubleGoldConfEnabled = !doubleGoldConfEnabled;
+	}
+	public void DoubleExpConfirmationButton(){
+		if (!doubleExpConfEnabled) {
+			doubleExpConfMenu.SetActive (true);
+			doubleExpConfMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+		} else {
+			doubleExpConfMenu.SetActive (false);
+		}
+		doubleExpConfEnabled = !doubleExpConfEnabled;
 	}
 	public void CashShopMenuButton(){
 		if (!cashShopEnabled) {
@@ -366,5 +422,10 @@ public class ShopMenu : MonoBehaviour {
 	public void DeleteSaveData2(){
 		PlayerPrefs.DeleteAll ();
 		SceneManager.LoadScene ("ShopScene");
+	}
+	public void AddDiamonds(int qtd){
+		diamondQtd += qtd;
+		diamond.text = diamondQtd.ToString ();
+		PlayerPrefs.SetInt ("Diamond", diamondQtd);
 	}
 }
