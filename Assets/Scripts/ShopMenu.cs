@@ -58,7 +58,8 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject cashShopMenu, extraLifeConfMenu, doubleGoldConfMenu, doubleExpConfMenu;
 	private bool cashShopEnabled, extraLifeConfEnabled, doubleGoldConfEnabled, doubleExpConfEnabled;
 
-	private int adsShow;
+	private GameObject removeAds;
+	private int ads;
 
 	void Start () {
 		GameObjectFind ();
@@ -67,6 +68,10 @@ public class ShopMenu : MonoBehaviour {
 		ShowPillow ();
 		CheckCurrentCharacter ();
 		HideMenus ();
+
+		if (ads == 0) {
+			removeAds.SetActive (false);
+		}
 	}
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.O)){
@@ -109,6 +114,7 @@ public class ShopMenu : MonoBehaviour {
 		extraLifeConfMenu = GameObject.Find ("ExtraLifeConfirmation");
 		doubleGoldConfMenu = GameObject.Find ("DoubleGoldConfirmation");
 		doubleExpConfMenu = GameObject.Find ("DoubleExpConfirmation");
+		removeAds = GameObject.Find ("RemoveAds");
 	}
 	private void HideMenus(){
 		panelStr.SetActive (false);
@@ -142,6 +148,7 @@ public class ShopMenu : MonoBehaviour {
 		doubleGold.text = doubleGoldQtd.ToString ();
 		doubleExpQtd = PlayerPrefs.GetInt ("DoubleExp", 0);
 		doubleExp.text = doubleExpQtd.ToString ();
+		ads = PlayerPrefs.GetInt ("Ads", 1);
 	}
 	private void Descriptions(){
 		pillowDescription = "Lose less life when you hit the ground";
@@ -447,6 +454,12 @@ public class ShopMenu : MonoBehaviour {
 		PlayerPrefs.Save ();
 	}
 	public void BuyRemoveAds(){
-		
+		ads = 0;
+		PlayerPrefs.SetInt ("Ads", ads);
+		PlayerPrefs.Save ();
+		SceneManager.LoadScene ("ShopScene");
+	}
+	public void LoadScene(){
+		SceneManager.LoadScene("ShopScene");
 	}
 }
