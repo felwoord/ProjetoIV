@@ -16,6 +16,7 @@
 //"ExtraLife"
 //"DoubleGold"
 //"DoubleExp"
+//"Ads"
 
 using System.Collections;
 using System.Collections.Generic;

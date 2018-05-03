@@ -209,7 +209,7 @@ namespace UnityEngine.Purchasing
             private List<IAPButton> activeButtons = new List<IAPButton>();
             private List<IAPListener> activeListeners = new List<IAPListener> ();
 
-            protected IStoreController controller;
+			public IStoreController controller;
             protected IExtensionProvider extensions;
 
             private IAPButtonStoreManager()

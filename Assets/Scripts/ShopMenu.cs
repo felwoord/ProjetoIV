@@ -16,12 +16,15 @@
 //"ExtraLife"
 //"DoubleGold"
 //"DoubleExp"
+//"Ads"
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Purchasing;
+
 
 public class ShopMenu : MonoBehaviour {
 	private Image characterDisplay;
@@ -61,6 +64,8 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject removeAds;
 	private int ads;
 
+	private GameObject cashItemsBar, restorePurchaseButton;
+
 	void Start () {
 		GameObjectFind ();
 		Descriptions ();
@@ -69,21 +74,24 @@ public class ShopMenu : MonoBehaviour {
 		CheckCurrentCharacter ();
 		HideMenus ();
 
+		#if UNITY_STANDALONE
+		ads = 0;
+		PlayerPrefs.SetInt("Ads", ads);
+		cashItemsBar.SetActive(false);
+		#else
+		#if UNITY_IOS
+		restorePurchaseButton.SetActive(true);
+		#else
+		//RestorePurchase();
+		restorePurchaseButton.SetActive(false);
+		#endif
+		#endif
+
 		if (ads == 0) {
 			removeAds.SetActive (false);
 		}
 	}
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.O)){
-			PlayerPrefs.DeleteAll();
-			SceneManager.LoadScene ("ShopScene");
-		}
-		if (Input.GetKeyDown (KeyCode.P)) {
-			currentGold += 1000;
-			PlayerPrefs.SetFloat ("CurrentGold", currentGold);
-			goldText.text = currentGold.ToString ("0");
-		}
-
 	}
 	private void GameObjectFind(){
 		buyButton = GameObject.Find ("BuyButtonText");
@@ -115,6 +123,8 @@ public class ShopMenu : MonoBehaviour {
 		doubleGoldConfMenu = GameObject.Find ("DoubleGoldConfirmation");
 		doubleExpConfMenu = GameObject.Find ("DoubleExpConfirmation");
 		removeAds = GameObject.Find ("RemoveAds");
+		cashItemsBar = GameObject.Find ("CashItemsBar");
+		restorePurchaseButton = GameObject.Find ("RPButton");
 	}
 	private void HideMenus(){
 		panelStr.SetActive (false);
@@ -461,5 +471,14 @@ public class ShopMenu : MonoBehaviour {
 	}
 	public void LoadScene(){
 		SceneManager.LoadScene("ShopScene");
+	}
+	public void RestorePurchase(){
+		ProductCollection productCatalog = IAPButton.IAPButtonStoreManager.Instance.controller.products;
+		if (productCatalog.WithID ("com.marvelik.projetoIV.removeads").hasReceipt) {
+			BuyRemoveAds ();
+		}
+		if (productCatalog.WithID ("com.marvelik.projetoIV.permabuffs").hasReceipt) {
+			InfinityBuffs ();
+		}
 	}
 }
