@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Purchasing;
 
 public class ShopMenu : MonoBehaviour {
 	private Image characterDisplay;
@@ -463,17 +462,4 @@ public class ShopMenu : MonoBehaviour {
 	public void LoadScene(){
 		SceneManager.LoadScene("ShopScene");
 	}
-
-//	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
-//	{
-//		extensions.GetExtension<IAppleExtensions> ().RestoreTransactions (result => {
-//			if (result) {
-//				// This does not mean anything was restored,
-//				// merely that the restoration process succeeded.
-//			} else {
-//				// Restoration failed.
-//			}
-//		});
-//	}
-
 }
