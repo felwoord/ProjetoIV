@@ -72,8 +72,12 @@ public class GameControl : MonoBehaviour {
 	private bool gotDiamond;
 
 	private GameObject useExtraLifeMenu;
+	private GameObject gotDiamondMenu;
 
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
+
+	private Text extraLifeLeft;
+	private int extraLife;
 
 	void Start () {
 		GetPlayerPrefs ();
@@ -97,6 +101,9 @@ public class GameControl : MonoBehaviour {
 
 
 		GameObjectFind ();
+
+
+		extraLifeLeft.text = extraLife.ToString ();
 
 		startGame = true;
 		directionSelecting = true;
@@ -146,6 +153,7 @@ public class GameControl : MonoBehaviour {
 		buff1Level = PlayerPrefs.GetInt ("ItemLevel_4", 0);
 		buff2Level = PlayerPrefs.GetInt ("ItemLevel_5", 0);
 		trapLevel = PlayerPrefs.GetInt ("ItemLevel_6", 0);
+		extraLife = PlayerPrefs.GetInt ("ExtraLife", 0);
 	}
 	private void GameObjectFind(){
 		lastGround = GameObject.Find ("Ground");
@@ -162,6 +170,8 @@ public class GameControl : MonoBehaviour {
 		healthBar = GameObject.Find ("HealthBar").GetComponent<Image> ();
 
 		useExtraLifeMenu = GameObject.Find ("UseExtraLifeMenu");
+		gotDiamondMenu = GameObject.Find ("GotDiamondMenu");
+		extraLifeLeft = GameObject.Find ("ExtraLifeLeft").GetComponent<Text> ();
 	}
 	private void ZeroAll(){
 		healthText.enabled = false;
@@ -197,6 +207,7 @@ public class GameControl : MonoBehaviour {
 		gotDiamond = false;
 
 		useExtraLifeMenu.SetActive (false);
+		gotDiamondMenu.SetActive (false);
 	}
 	private void GamePlay(){
 		healthText.text = playerRB.velocity.x.ToString("0");
@@ -553,6 +564,18 @@ public class GameControl : MonoBehaviour {
 		playerCont.UseExtraLife ();
 	}
 	public void DontUseEL(){
+		useExtraLifeMenu.SetActive (false);
 		playerCont.DontUseExtraLife ();
+	}
+	public void ShowGotDiamondMenu(){
+		gotDiamondMenu.SetActive(true);
+	}
+	public void ShowRV(){
+		gotDiamondMenu.SetActive(false);
+		playerCont.ShowRewarded ();
+	}
+	public void DontShowRV(){
+		gotDiamondMenu.SetActive(false);
+		playerCont.CallEndGameMenu ();
 	}
 }

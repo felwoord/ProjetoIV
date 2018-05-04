@@ -24,6 +24,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Purchasing;
+using UnityEngine.Advertisements;
 
 
 public class ShopMenu : MonoBehaviour {
@@ -480,6 +481,35 @@ public class ShopMenu : MonoBehaviour {
 		}
 		if (productCatalog.WithID ("com.marvelik.projetoIV.permabuffs").hasReceipt) {
 			InfinityBuffs ();
+		}
+	}
+	public void ShowRewarded()
+	{
+		ShowOptions options = new ShowOptions();
+		options.resultCallback = HandleShowResult;
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+	void HandleShowResult(ShowResult result)
+	{
+		if (result == ShowResult.Finished)
+		{
+			diamondQtd = PlayerPrefs.GetInt ("Diamond", 0);
+			diamondQtd++;
+			diamond.text = diamondQtd.ToString ();
+			PlayerPrefs.SetInt ("Diamond", diamondQtd);
+			PlayerPrefs.Save ();
+		}
+		else if (result == ShowResult.Skipped)
+		{
+			Debug.LogWarning("Pulo o video e nao assistiu inteiro! Shame on you!");
+
+		}
+		else if (result == ShowResult.Failed)
+		{
+			Debug.LogError("Falha ao carregar o video.");
 		}
 	}
 }

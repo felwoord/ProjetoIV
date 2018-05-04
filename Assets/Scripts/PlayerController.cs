@@ -22,6 +22,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Advertisements;
 
 public class PlayerController : MonoBehaviour {
 	private Rigidbody2D playerRB;
@@ -55,7 +56,13 @@ public class PlayerController : MonoBehaviour {
 	private bool gotDiamond, extraLifeAvaliable;
 	private int extraLife;
 
+	private int ads;
+
+	private bool doOnce1, doOnce2;
+
 	void Start () {
+		doOnce1 = false;
+		doOnce2 = false;
 		gotDiamond = false;
 		manaCounter = 0;
 		SetRates ();
@@ -75,6 +82,9 @@ public class PlayerController : MonoBehaviour {
 		if (extraLife > 0) {
 			extraLifeAvaliable = true;
 		}
+
+
+		ads = PlayerPrefs.GetInt ("Ads", 1);
 	}
 	void Update () {
 		if (ride1) {
@@ -332,9 +342,15 @@ public class PlayerController : MonoBehaviour {
 			gameCont.RemovePowerBar ();
 		}
 		if (extraLifeAvaliable) {
-			gameCont.ShowUseExtraLifeMenu ();
-		}else{
-			DontUseExtraLife ();
+			if (!doOnce1) {
+				gameCont.ShowUseExtraLifeMenu ();
+				doOnce1 = true;
+			}
+		} else {
+			if (!doOnce2) {
+				DontUseExtraLife ();
+				doOnce2 = true;
+			}
 		}
 	}
 	public bool GetRide1()
@@ -381,15 +397,61 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	public void DontUseExtraLife(){
-		if (gotDiamond) {
-			//perguntar se o jogador quer assistir uma rewarded para receber o diamante
-			//se aceitar, chamar uma Rewarded, checkar se assistiu, dar a recompensa, chamar o menu de final de jogo
-			//
-			//se nao aceitar, chamar o menu de final de jogo
-		}else{
-			//chamar uma Interstitial, ao acabar, chamar o menu de final de jogo
+		if (ads == 1) {
+			if (gotDiamond) {
+				gameCont.ShowGotDiamondMenu ();
+			} else {
+				ShowInterstitial ();
+			}
+		} else {
+			if (gotDiamond) {
+				int diamond = PlayerPrefs.GetInt ("Diamond", 0);
+				diamond++;
+				PlayerPrefs.SetInt ("Diamond", diamond);
+				PlayerPrefs.Save ();
+			}
+			CallEndGameMenu ();
 		}
+	}
+	public void CallEndGameMenu(){
 		GameObject endRunMenu = GameObject.Find ("EndRunMenu");
 		endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
+	}
+	public void ShowInterstitial()
+	{
+		if (Advertisement.IsReady("video"))
+		{
+			Advertisement.Show("video");
+		}
+		CallEndGameMenu ();
+	}
+	public void ShowRewarded()
+	{
+		ShowOptions options = new ShowOptions();
+		options.resultCallback = HandleShowResult;
+		if (Advertisement.IsReady("rewardedVideo"))
+		{
+			Advertisement.Show("rewardedVideo", options);
+		}
+	}
+	void HandleShowResult(ShowResult result)
+	{
+		if (result == ShowResult.Finished)
+		{
+			int diamond = PlayerPrefs.GetInt ("Diamond", 0);
+			diamond++;
+			PlayerPrefs.SetInt ("Diamond", diamond);
+			PlayerPrefs.Save ();
+		}
+		else if (result == ShowResult.Skipped)
+		{
+			Debug.LogWarning("Pulo o video e nao assistiu inteiro! Shame on you!");
+
+		}
+		else if (result == ShowResult.Failed)
+		{
+			Debug.LogError("Falha ao carregar o video.");
+		}
+		CallEndGameMenu ();
 	}
 }
