@@ -332,25 +332,9 @@ public class PlayerController : MonoBehaviour {
 			gameCont.RemovePowerBar ();
 		}
 		if (extraLifeAvaliable) {
-			//perguntar se quer usar a vida extra
-			extraLife--;
-			PlayerPrefs.SetInt ("ExtraLife", extraLife);
-			extraLifeAvaliable = false;
-			gameCont.SecondLaunch ();
-			for (int i = 0; i < mana; i++) {
-				gameCont.ManaUI ();
-			}
+			gameCont.ShowUseExtraLifeMenu ();
 		}else{
-			if (gotDiamond) {
-				//perguntar se o jogador quer assistir uma rewarded para receber o diamante
-				//se aceitar, chamar uma Rewarded, checkar se assistiu, dar a recompensa, chamar o menu de final de jogo
-				//
-				//se nao aceitar, chamar o menu de final de jogo
-			}else{
-				//chamar uma Interstitial, ao acabar, chamar o menu de final de jogo
-			}
-			GameObject endRunMenu = GameObject.Find ("EndRunMenu");
-			endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
+			DontUseExtraLife ();
 		}
 	}
 	public bool GetRide1()
@@ -385,5 +369,27 @@ public class PlayerController : MonoBehaviour {
 
 		expMultRide = 2;
 		goldMultRide = 2;
+	}
+	public void UseExtraLife(){
+		extraLife--;
+		PlayerPrefs.SetInt ("ExtraLife", extraLife);
+		extraLifeAvaliable = false;
+		gameCont.SecondLaunch ();
+		int mana = gameCont.GetMana ();
+		for (int i = 0; i < mana; i++) {
+			gameCont.ManaUI ();
+		}
+	}
+	public void DontUseExtraLife(){
+		if (gotDiamond) {
+			//perguntar se o jogador quer assistir uma rewarded para receber o diamante
+			//se aceitar, chamar uma Rewarded, checkar se assistiu, dar a recompensa, chamar o menu de final de jogo
+			//
+			//se nao aceitar, chamar o menu de final de jogo
+		}else{
+			//chamar uma Interstitial, ao acabar, chamar o menu de final de jogo
+		}
+		GameObject endRunMenu = GameObject.Find ("EndRunMenu");
+		endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
 	}
 }

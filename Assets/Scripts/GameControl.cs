@@ -524,7 +524,12 @@ public class GameControl : MonoBehaviour {
 		gotDiamond = true;
 	}
 	public void SecondLaunch(){
-		player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch / 2, ForceMode2D.Impulse);
+		player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch / 2, ForceMode2D.Impulse); //// Balancear!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	private void FirstBuffs(){
 		float a = Random.Range (0f, 10f);
@@ -539,5 +544,15 @@ public class GameControl : MonoBehaviour {
 			buff2.transform.position = new Vector2 (Random.Range (25, 40), 1.7f);
 			buff2Counter++;
 		}
+	}
+	public void ShowUseExtraLifeMenu(){
+		useExtraLifeMenu.SetActive (true);
+	}
+	public void UseEL(){
+		useExtraLifeMenu.SetActive (false);
+		playerCont.UseExtraLife ();
+	}
+	public void DontUseEL(){
+		playerCont.DontUseExtraLife ();
 	}
 }

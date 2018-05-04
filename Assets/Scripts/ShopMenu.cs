@@ -74,18 +74,18 @@ public class ShopMenu : MonoBehaviour {
 		CheckCurrentCharacter ();
 		HideMenus ();
 
-		#if UNITY_STANDALONE
-		ads = 0;
-		PlayerPrefs.SetInt("Ads", ads);
-		cashItemsBar.SetActive(false);
-		#else
-		#if UNITY_IOS
-		restorePurchaseButton.SetActive(true);
-		#else
-		//RestorePurchase();
-		restorePurchaseButton.SetActive(false);
-		#endif
-		#endif
+//		#if UNITY_STANDALONE
+//		ads = 0;
+//		PlayerPrefs.SetInt("Ads", ads);
+//		cashItemsBar.SetActive(false);
+//		#else
+//		#if UNITY_IOS
+//		restorePurchaseButton.SetActive(true);
+//		#else
+//		//RestorePurchase();
+//		restorePurchaseButton.SetActive(false);
+//		#endif
+//		#endif
 
 		if (ads == 0) {
 			removeAds.SetActive (false);
@@ -383,6 +383,7 @@ public class ShopMenu : MonoBehaviour {
 			break;
 		}
 		diamondQtd--;
+		diamond.text = diamondQtd.ToString ();
 		PlayerPrefs.SetInt ("Diamond", diamondQtd);
 		PlayerPrefs.Save ();
 	}
