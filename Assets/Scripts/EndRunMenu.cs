@@ -54,7 +54,7 @@ public class EndRunMenu : MonoBehaviour {
 		cam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 		gameCont = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
 		expGained = gameCont.GetExp () + maxDistance / 10;
-		goldGained = gameCont.GetGold ();
+		goldGained = gameCont.GetGold () + maxDistance / 20;
 
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
 		currentExp = PlayerPrefs.GetFloat ("CurrentExp_" + characterID, 0);

@@ -71,19 +71,12 @@ public class GameControl : MonoBehaviour {
 
 	private bool gotDiamond;
 
+	private GameObject useExtraLifeMenu;
+
 	private Stack<GameObject> powerBar = new Stack<GameObject>();
 
 	void Start () {
-
-		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
-		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
-		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 1);
-		vit = PlayerPrefs.GetInt ("Vit_" + characterID, 1);
-		sightLevel = PlayerPrefs.GetInt ("ItemLevel_1", 0);
-		steadyHandsLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
-		buff1Level = PlayerPrefs.GetInt ("ItemLevel_4", 0);
-		buff2Level = PlayerPrefs.GetInt ("ItemLevel_5", 0);
-		trapLevel = PlayerPrefs.GetInt ("ItemLevel_6", 0);
+		GetPlayerPrefs ();
 
 		player = Instantiate (Resources.Load ("Character" + characterID) as GameObject);
 		player.transform.position = new Vector2 (2, 5);
@@ -102,10 +95,59 @@ public class GameControl : MonoBehaviour {
 		launcher = GameObject.Find ("Launcher");
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
 
+
+		GameObjectFind ();
+
 		startGame = true;
 		directionSelecting = true;
 		powerSelecting = false;
-	
+
+		ZeroAll ();
+
+		if (sightLevel > 0) {
+			launcherRotSpeed = 1 / (0.01f * sightLevel);
+		} else {
+			launcherRotSpeed = 1 / 0.01f;
+		}
+		if (steadyHandsLevel > 0) {
+			arrowFillSpeed = 1 / (0.75f * (steadyHandsLevel / 2));
+		} else {
+			arrowFillSpeed = 1 / 0.75f;
+		}
+			
+		powerMultiplier = (10 * str / 2) + 8;
+		maxSpeed = (vit * 10) + 5;
+
+		FirstBuffs ();
+
+		SetTimes ();
+	}
+	void Update () {
+		if (startGame) {
+			StartGame ();	//Angle and Power selecting
+		} else {
+			GamePlay ();	//Flying time!
+		}
+
+		if (Input.GetKeyDown (KeyCode.A)) {
+			ManaUI ();
+		}
+		if (Input.GetKeyDown (KeyCode.S)) {
+			RemovePowerBar ();
+		}
+	}
+	private void GetPlayerPrefs(){
+		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
+		str = PlayerPrefs.GetInt ("Str_" + characterID, 1);
+		magic = PlayerPrefs.GetInt ("Magic_" + characterID, 1);
+		vit = PlayerPrefs.GetInt ("Vit_" + characterID, 1);
+		sightLevel = PlayerPrefs.GetInt ("ItemLevel_1", 0);
+		steadyHandsLevel = PlayerPrefs.GetInt ("ItemLevel_2", 0);
+		buff1Level = PlayerPrefs.GetInt ("ItemLevel_4", 0);
+		buff2Level = PlayerPrefs.GetInt ("ItemLevel_5", 0);
+		trapLevel = PlayerPrefs.GetInt ("ItemLevel_6", 0);
+	}
+	private void GameObjectFind(){
 		lastGround = GameObject.Find ("Ground");
 		currentGround = GameObject.Find ("Ground2");
 		nextGround = GameObject.Find ("Ground3");
@@ -118,6 +160,10 @@ public class GameControl : MonoBehaviour {
 		distText = GameObject.Find ("DistanceText").GetComponent <Text> ();
 		distText2 = GameObject.Find ("DistanceText2").GetComponent <Text> ();
 		healthBar = GameObject.Find ("HealthBar").GetComponent<Image> ();
+
+		useExtraLifeMenu = GameObject.Find ("UseExtraLifeMenu");
+	}
+	private void ZeroAll(){
 		healthText.enabled = false;
 		distText.enabled = false;
 		distText2.enabled = false;
@@ -148,41 +194,9 @@ public class GameControl : MonoBehaviour {
 		expGained = 0;
 		goldGained = 0;
 
-		if (sightLevel > 0) {
-			launcherRotSpeed = 1 / (0.01f * sightLevel);
-		} else {
-			launcherRotSpeed = 1 / 0.01f;
-		}
-		if (steadyHandsLevel > 0) {
-			arrowFillSpeed = 1 / (0.75f * (steadyHandsLevel / 2));
-		} else {
-			arrowFillSpeed = 1 / 0.75f;
-		}
-
-
-		powerMultiplier = (10 * str / 2) + 8;
-		maxSpeed = (vit * 10) + 5;
-
 		gotDiamond = false;
 
-
-		FirstBuffs ();
-
-		SetTimes ();
-	}
-	void Update () {
-		if (startGame) {
-			StartGame ();	//Angle and Power selecting
-		} else {
-			GamePlay ();	//Flying time!
-		}
-
-		if (Input.GetKeyDown (KeyCode.A)) {
-			ManaUI ();
-		}
-		if (Input.GetKeyDown (KeyCode.S)) {
-			RemovePowerBar ();
-		}
+		useExtraLifeMenu.SetActive (false);
 	}
 	private void GamePlay(){
 		healthText.text = playerRB.velocity.x.ToString("0");
