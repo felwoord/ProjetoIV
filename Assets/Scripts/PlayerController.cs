@@ -60,7 +60,12 @@ public class PlayerController : MonoBehaviour {
 
 	private bool doOnce1, doOnce2;
 
+	private Text heightTxt;
+	private Image heightImg;
 	void Start () {
+		heightTxt = GameObject.Find ("Height").GetComponent<Text> ();
+		heightImg = GameObject.Find ("ShowHeight").GetComponent<Image> ();
+
 		doOnce1 = false;
 		doOnce2 = false;
 		gotDiamond = false;
@@ -109,6 +114,16 @@ public class PlayerController : MonoBehaviour {
 		if (manaCounter > 9) {
 			gameCont.ManaUI ();
 			manaCounter = 0;
+		}
+
+		heightTxt.text = transform.position.y.ToString ("0");
+
+		if (transform.position.y > 65) {
+			heightImg.enabled = true;
+			heightTxt.enabled = true;
+		} else {
+			heightImg.enabled = false;
+			heightTxt.enabled = false;
 		}
 	}
 	public void OnTriggerEnter2D(Collider2D col){
@@ -401,7 +416,7 @@ public class PlayerController : MonoBehaviour {
 			if (gotDiamond) {
 				gameCont.ShowGotDiamondMenu ();
 			} else {
-				ShowInterstitial ();
+				Invoke("ShowInterstitial", 2);
 			}
 		} else {
 			if (gotDiamond) {

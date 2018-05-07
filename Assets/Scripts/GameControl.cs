@@ -535,12 +535,7 @@ public class GameControl : MonoBehaviour {
 		gotDiamond = true;
 	}
 	public void SecondLaunch(){
-		player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch / 2, ForceMode2D.Impulse); //// Balancear!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		player.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (1.5f, 1) * powerMultiplier / 25, ForceMode2D.Impulse);
 	}
 	private void FirstBuffs(){
 		float a = Random.Range (0f, 10f);
