@@ -17,6 +17,8 @@
 //"DoubleGold"
 //"DoubleExp"
 //"Ads"
+//
+//"TopDistance"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -261,7 +263,7 @@ public class PlayerController : MonoBehaviour {
 			gameCont.ManaUI ();
 			Destroy (col.gameObject);
 		}
-		if (col.gameObject.tag == "Mana") {
+		if (col.gameObject.tag == "Diamond") {
 			gotDiamond = true;
 			gameCont.SetDiamond ();
 		}
@@ -416,7 +418,7 @@ public class PlayerController : MonoBehaviour {
 			if (gotDiamond) {
 				gameCont.ShowGotDiamondMenu ();
 			} else {
-				Invoke("ShowInterstitial", 2);
+				Invoke("ShowInterstitial", 1);
 			}
 		} else {
 			if (gotDiamond) {

@@ -17,6 +17,8 @@
 //"DoubleGold"
 //"DoubleExp"
 //"Ads"
+//
+//"TopDistance"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -44,10 +46,13 @@ public class EndRunMenu : MonoBehaviour {
 	private GameObject doubleGoldImage;
 	private int doubleExp, doubleGold;
 
+	private float topDistance;
+	private Text topDistTxt;
+
 	void Start () {
 		budgetLevel = PlayerPrefs.GetInt ("ItemLevel_3", 0);
 		budgetFormula = 1 + (0.1f * budgetLevel);
-
+		topDistance = PlayerPrefs.GetFloat ("TopDistance", 0);
 		expGainedText = GameObject.Find ("ExpGainedText").GetComponent<Text> ();
 		goldGainedText = GameObject.Find ("GoldGainedText").GetComponent<Text> ();
 		finalScoreText = GameObject.Find ("FinalScoreText").GetComponent<Text> ();
@@ -57,6 +62,12 @@ public class EndRunMenu : MonoBehaviour {
 		goldGainedDoubleText = GameObject.Find ("2xGoldGainedText").GetComponent<Text> ();
 		maxDistance = GameObject.Find ("Player").transform.position.x;
 		finalScoreText.text = maxDistance.ToString ("0");
+		if (maxDistance > topDistance) {
+			topDistance = maxDistance;
+			PlayerPrefs.SetFloat ("TopDistance", topDistance);
+		}
+		topDistTxt = GameObject.Find ("TopDistanceText").GetComponent<Text> ();
+		topDistTxt.text = topDistance.ToString ("0");
 		cam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 		gameCont = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
 		expGained = gameCont.GetExp () + maxDistance / 10;
@@ -72,7 +83,7 @@ public class EndRunMenu : MonoBehaviour {
 
 		if (doubleExp > 0) {
 			currentExp += expGained * 2;
-			expGainedDoubleText.text = (expGained * 2).ToString ();
+			expGainedDoubleText.text = (expGained * 2).ToString ("0");
 			doubleExp--;
 		} else {
 			currentExp += expGained;
@@ -81,7 +92,7 @@ public class EndRunMenu : MonoBehaviour {
 
 		if (doubleGold > 0) {
 			currentGold += goldGained * budgetFormula * 2;
-			goldGainedDoubleText.text = (goldGained * budgetFormula * 2).ToString ();
+			goldGainedDoubleText.text = (goldGained * budgetFormula * 2).ToString ("0");
 			doubleGold--;
 		} else {
 			currentGold += goldGained * budgetFormula;
@@ -96,7 +107,7 @@ public class EndRunMenu : MonoBehaviour {
 			int pointsLeft = PlayerPrefs.GetInt ("PointsLeft_" + characterID, 0);
 			pointsLeft = pointsLeft + (levelup * 3);
 			PlayerPrefs.SetInt ("PointsLeft_" + characterID, pointsLeft);
-			GameObject.Find ("LevelUp").GetComponent<Text> ().enabled = true;
+			GameObject.Find ("LevelUp").GetComponent<LevelUpText> ().enabled = true;
 		}
 
 		expGainedText.text = expGained.ToString("0");
