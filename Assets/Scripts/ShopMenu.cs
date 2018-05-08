@@ -61,8 +61,10 @@ public class ShopMenu : MonoBehaviour {
 	private int diamondQtd, extraLifeQtd, doubleGoldQtd, doubleExpQtd;
 	private Text diamond, extraLife, doubleGold, doubleExp;
 
-	private GameObject cashShopMenu, extraLifeConfMenu, doubleGoldConfMenu, doubleExpConfMenu;
-	private bool cashShopEnabled, extraLifeConfEnabled, doubleGoldConfEnabled, doubleExpConfEnabled;
+	private GameObject cashShopMenu, cashItemConfMenu;
+	private bool cashShopEnabled, cashItemConfEnabled;
+	private Text cashItemConf;
+	private int cashItem;
 
 	private GameObject removeAds;
 	private int ads;
@@ -122,12 +124,11 @@ public class ShopMenu : MonoBehaviour {
 		doubleGold = GameObject.Find ("DoubleGoldText").GetComponent<Text> ();
 		doubleExp = GameObject.Find ("DoubleExpText").GetComponent<Text> ();
 		cashShopMenu = GameObject.Find ("CashShopMenu");
-		extraLifeConfMenu = GameObject.Find ("ExtraLifeConfirmation");
-		doubleGoldConfMenu = GameObject.Find ("DoubleGoldConfirmation");
-		doubleExpConfMenu = GameObject.Find ("DoubleExpConfirmation");
+		cashItemConfMenu = GameObject.Find ("CashItemConfirmation");
 		removeAds = GameObject.Find ("RemoveAds");
 		cashItemsBar = GameObject.Find ("CashItemsBar");
 		restorePurchaseButton = GameObject.Find ("RPButton");
+		cashItemConf = GameObject.Find ("ConfirmationText").GetComponent<Text> ();
 	}
 	private void HideMenus(){
 		panelStr.SetActive (false);
@@ -142,12 +143,8 @@ public class ShopMenu : MonoBehaviour {
 		menuEnabled = false;
 		cashShopMenu.SetActive (false);
 		cashShopEnabled = false;
-		extraLifeConfMenu.SetActive (false);
-		extraLifeConfEnabled = false;
-		doubleGoldConfMenu.SetActive (false);
-		doubleGoldConfEnabled = false;
-		doubleExpConfMenu.SetActive (false);
-		doubleExpConfEnabled = false;
+		cashItemConfMenu.SetActive (false);
+		cashItemConfEnabled = false;
 	}
 	private void GetPlayerPrefs (){
 		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
@@ -343,46 +340,162 @@ public class ShopMenu : MonoBehaviour {
 			PlayerPrefs.SetInt ("ItemLevel_" + currentItem, itemLevel);
 			PlayerPrefs.SetFloat ("CurrentGold", currentGold);
 			ItemChange (itemDescription.text);
+		}
+	}
 
-		}
-	}
+
+
+
+
+
+
 	public void BuyCashItem(int item){
-		//1 = ExtraLife, 2 = DoubleGold, 3 = Double
-		if (diamondQtd > 0) {
-			switch (item) {
-			case 1:
-				ExtraLifeConfirmationButton ();
-				break;
-			case 2:
-				DoubleGoldConfirmationButton ();
-				break;
-			case 3:
-				DoubleExpConfirmationButton ();
-				break;
-			}
-		} else {
-			CashShopMenuButton ();
-		}
-	}
-	public void BuyCashItemConfirmation(int item){
 		switch (item) {
+		case 101:
+			if (diamondQtd >= 1) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 105:
+			if (diamondQtd >= 5) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 115:
+			if (diamondQtd >= 13) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 130:
+			if (diamondQtd >= 26) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 160:
+			if (diamondQtd >= 49) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 201:
+			if (diamondQtd >= 1) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 205:
+			if (diamondQtd >= 5) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 215:
+			if (diamondQtd >= 13) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 230:
+			if (diamondQtd >= 26) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 260:
+			if (diamondQtd >= 49) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 301:
+			if (diamondQtd >= 1) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 305:
+			if (diamondQtd >= 5) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 315:
+			if (diamondQtd >= 13) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 330:
+			if (diamondQtd >= 26) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 360:
+			if (diamondQtd >= 49) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		}
+
+	}
+
+
+	public void BuyCashItemConfirmation(){
+		switch (cashItem) {
+
 		case 1:
 			extraLifeQtd++;
 			extraLife.text = extraLifeQtd.ToString ();
 			PlayerPrefs.SetInt ("ExtraLife", extraLifeQtd);
-			ExtraLifeConfirmationButton ();
+			CashItemConfirmationButton ();
 			break;
 		case 2:
 			doubleGoldQtd++;
 			doubleGold.text = doubleGoldQtd.ToString ();
 			PlayerPrefs.SetInt ("DoubleGold", doubleGoldQtd);
-			DoubleGoldConfirmationButton ();
+			CashItemConfirmationButton ();
 			break;
 		case 3:
 			doubleExpQtd++;
 			doubleExp.text = doubleExpQtd.ToString ();
 			PlayerPrefs.SetInt ("DoubleExp", doubleExpQtd);
-			DoubleExpConfirmationButton ();
+			CashItemConfirmationButton ();
 			break;
 		}
 		diamondQtd--;
@@ -390,33 +503,71 @@ public class ShopMenu : MonoBehaviour {
 		PlayerPrefs.SetInt ("Diamond", diamondQtd);
 		PlayerPrefs.Save ();
 	}
-	public void ExtraLifeConfirmationButton(){
-		if (!extraLifeConfEnabled) {
-			extraLifeConfMenu.SetActive (true);
-			extraLifeConfMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+
+
+
+	public void CashItemConfirmationButton(){
+		if (!cashItemConfEnabled) {
+			cashItemConfMenu.SetActive (true);
+			cashItemConfMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+			switch (cashItem) {
+			case 101:
+				cashItemConf.text = "Buy 1 Extra Life for 1 Diamond?";
+				break;
+			case 105:
+				cashItemConf.text = "Buy 5 Extra Life for 5 Diamond?";
+				break;
+			case 115:
+				cashItemConf.text = "Buy 15 Extra Life for 13 Diamond?";
+				break;
+			case 130:
+				cashItemConf.text = "Buy 30 Extra Life for 26 Diamond?";
+				break;
+			case 160:
+				cashItemConf.text = "Buy 60 Extra Life for 49 Diamond?";
+				break;
+			case 201:
+				cashItemConf.text = "Buy 1 Double Exp for 5 Diamond?";
+				break;
+			case 205:
+				cashItemConf.text = "Buy 5 Double Exp for 13 Diamond?";
+				break;
+			case 215:
+				cashItemConf.text = "Buy 15 Double Exp for 26 Diamond?";
+				break;
+			case 230:
+				cashItemConf.text = "Buy 30 Double Exp for 49 Diamond?";
+				break;
+			case 260:
+				cashItemConf.text = "Buy 60 Double Exp for 1 Diamond?";
+				break;
+			case 301:
+				cashItemConf.text = "Buy 1 Double Gold for 5 Diamond?";
+				break;
+			case 305:
+				cashItemConf.text = "Buy 5 Double Gold for 13 Diamond?";
+				break;
+			case 315:
+				cashItemConf.text = "Buy 15 Double Gold for 26 Diamond?";
+				break;
+			case 330:
+				cashItemConf.text = "Buy 30 Double Gold for 49 Diamond?";
+				break;
+			case 360:
+				cashItemConf.text = "Buy 60 Double Gold for 1 Diamond?";
+				break;
+			}
 		} else {
-			extraLifeConfMenu.SetActive (false);
+			cashItemConfMenu.SetActive (false);
 		}
-		extraLifeConfEnabled = !extraLifeConfEnabled;
+		cashItemConfEnabled = !cashItemConfEnabled;
 	}
-	public void DoubleGoldConfirmationButton(){
-		if (!doubleGoldConfEnabled) {
-			doubleGoldConfMenu.SetActive (true);
-			doubleGoldConfMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
-		} else {
-			doubleGoldConfMenu.SetActive (false);
-		}
-		doubleGoldConfEnabled = !doubleGoldConfEnabled;
-	}
-	public void DoubleExpConfirmationButton(){
-		if (!doubleExpConfEnabled) {
-			doubleExpConfMenu.SetActive (true);
-			doubleExpConfMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
-		} else {
-			doubleExpConfMenu.SetActive (false);
-		}
-		doubleExpConfEnabled = !doubleExpConfEnabled;
-	}
+
+
+
+
+
+
 	public void CashShopMenuButton(){
 		if (!cashShopEnabled) {
 			cashShopMenu.SetActive (true);
