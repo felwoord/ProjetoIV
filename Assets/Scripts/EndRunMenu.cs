@@ -25,7 +25,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class EndRunMenu : MonoBehaviour {
-	private Text finalScoreText, goldGainedText, expGainedText;
+	private Text finalScoreText, goldGainedText, expGainedText, goldGainedDoubleText, expGainedDoubleText;
 	private float maxDistance;
 	private Camera cam;
 	private GameControl gameCont;
@@ -40,6 +40,8 @@ public class EndRunMenu : MonoBehaviour {
 	private int budgetLevel;
 	private float budgetFormula;
 
+	private GameObject doubleExpImage;
+	private GameObject doubleGoldImage;
 	private int doubleExp, doubleGold;
 
 	void Start () {
@@ -49,6 +51,10 @@ public class EndRunMenu : MonoBehaviour {
 		expGainedText = GameObject.Find ("ExpGainedText").GetComponent<Text> ();
 		goldGainedText = GameObject.Find ("GoldGainedText").GetComponent<Text> ();
 		finalScoreText = GameObject.Find ("FinalScoreText").GetComponent<Text> ();
+		doubleExpImage = GameObject.Find ("2xExpImage");
+		doubleGoldImage = GameObject.Find ("2xGoldImage");
+		expGainedDoubleText = GameObject.Find ("2xExpGainedText").GetComponent<Text> ();
+		goldGainedDoubleText = GameObject.Find ("2xGoldGainedText").GetComponent<Text> ();
 		maxDistance = GameObject.Find ("Player").transform.position.x;
 		finalScoreText.text = maxDistance.ToString ("0");
 		cam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
@@ -66,16 +72,20 @@ public class EndRunMenu : MonoBehaviour {
 
 		if (doubleExp > 0) {
 			currentExp += expGained * 2;
+			expGainedDoubleText.text = (expGained * 2).ToString ();
 			doubleExp--;
 		} else {
 			currentExp += expGained;
+			doubleExpImage.SetActive (false);
 		}
 
 		if (doubleGold > 0) {
 			currentGold += goldGained * budgetFormula * 2;
+			goldGainedDoubleText.text = (goldGained * budgetFormula * 2).ToString ();
 			doubleGold--;
 		} else {
 			currentGold += goldGained * budgetFormula;
+			doubleGoldImage.SetActive (false);
 		}
 
 
@@ -101,7 +111,7 @@ public class EndRunMenu : MonoBehaviour {
 	}
 
 	void Update () {
-		if (transform.position.x > cam.transform.position.x + 3) {
+		if (transform.position.x > cam.transform.position.x + 8) {
 			transform.position = new Vector2 (transform.position.x - 10 * Time.deltaTime, transform.position.y);
 		}
 

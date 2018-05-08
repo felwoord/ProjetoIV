@@ -287,7 +287,6 @@ public class GameControl : MonoBehaviour {
 				ride2CounterCD = 0;
 			}
 		}
-
 	}
 	private void StartGame(){
 		if (directionSelecting) {
@@ -443,7 +442,7 @@ public class GameControl : MonoBehaviour {
 			float a = Random.Range (0f, 10f);
 			if (a > ride2Chance) {
 				GameObject ride2 = Instantiate (Resources.Load ("Ride2") as GameObject);
-				ride2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
+				ride2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (10, 20));
 				ride2Counter++;
 			}
 			ride2SpawnCounter = 0;
@@ -462,35 +461,35 @@ public class GameControl : MonoBehaviour {
 		//chance -> chance to spawn 
 		//chance% = (10 - x) * 10
 
-		buff1Time = 1 - (buff1Level/10);
-		buff1Chance = 5;
-		buff1MaxQtd = 15;
+		buff1Time = 2 - (buff1Level/10);
+		buff1Chance = 3;
+		buff1MaxQtd = 8;
 
-		buff2Time = 1 - (buff2Level/10);
+		buff2Time = 2.5f - (buff2Level/10);
 		buff2Chance = 5;
-		buff2MaxQtd = 15;
+		buff2MaxQtd = 6;
 
 		trapTime = 3 + (trapLevel/10);
 		trapChance = 5;
-		trapMaxQtd = 5;
+		trapMaxQtd = 2;
 
 		manaOrbTime = 2;
 		manaOrbChance = 8;
-		manaOrbMaxQtd = 20;
+		manaOrbMaxQtd = 2;
 
 		diamondTime = 10;
 		diamondChance = 9.9f;
 		diamondMaxQtd = 1;
 
 		ride1Time = 1;
-		ride1Chance = 1;
-		ride1MaxQtd = 5;
-		ride1CDTime = 7;
+		ride1Chance = 5;
+		ride1MaxQtd = 2;
+		ride1CDTime = 6;
 
 		ride2Time = 0.5f;
-		ride2Chance = 5;
-		ride2MaxQtd = 20;
-		ride2CDTime = 7;
+		ride2Chance = 6;
+		ride2MaxQtd = 1;
+		ride2CDTime = 6;
 	}
 	public bool GetStartGame(){
 		return startGame;
