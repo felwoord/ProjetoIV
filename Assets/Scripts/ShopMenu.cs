@@ -478,27 +478,134 @@ public class ShopMenu : MonoBehaviour {
 
 	public void BuyCashItemConfirmation(){
 		switch (cashItem) {
-
-		case 1:
-			extraLifeQtd++;
-			extraLife.text = extraLifeQtd.ToString ();
-			PlayerPrefs.SetInt ("ExtraLife", extraLifeQtd);
-			CashItemConfirmationButton ();
+		case 101:
+			if (diamondQtd >= 1) {
+				extraLifeQtd++;
+				diamondQtd--;
+			} else {
+				//Not enough diamond
+			}
 			break;
-		case 2:
-			doubleGoldQtd++;
-			doubleGold.text = doubleGoldQtd.ToString ();
-			PlayerPrefs.SetInt ("DoubleGold", doubleGoldQtd);
-			CashItemConfirmationButton ();
+		case 105:
+			if (diamondQtd >= 5) {
+				extraLifeQtd += 5;
+				diamondQtd -= 5;
+			} else {
+				//Not enough diamond
+			}
 			break;
-		case 3:
-			doubleExpQtd++;
-			doubleExp.text = doubleExpQtd.ToString ();
-			PlayerPrefs.SetInt ("DoubleExp", doubleExpQtd);
-			CashItemConfirmationButton ();
+		case 115:
+			if (diamondQtd >= 13) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 130:
+			if (diamondQtd >= 26) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 160:
+			if (diamondQtd >= 49) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 201:
+			if (diamondQtd >= 1) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 205:
+			if (diamondQtd >= 5) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 215:
+			if (diamondQtd >= 13) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 230:
+			if (diamondQtd >= 26) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 260:
+			if (diamondQtd >= 49) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 301:
+			if (diamondQtd >= 1) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 305:
+			if (diamondQtd >= 5) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 315:
+			if (diamondQtd >= 13) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 330:
+			if (diamondQtd >= 26) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
+			break;
+		case 360:
+			if (diamondQtd >= 49) {
+				cashItem = item;
+				CashItemConfirmationButton ();
+			} else {
+				//Not enough diamond
+			}
 			break;
 		}
-		diamondQtd--;
+			
+		extraLife.text = extraLifeQtd.ToString ();
+		PlayerPrefs.SetInt ("ExtraLife", extraLifeQtd);
+		doubleExp.text = doubleExpQtd.ToString ();
+		PlayerPrefs.SetInt ("DoubleExp", doubleExpQtd);
+		doubleGold.text = doubleGoldQtd.ToString ();
+		PlayerPrefs.SetInt ("DoubleGold", doubleGoldQtd);
 		diamond.text = diamondQtd.ToString ();
 		PlayerPrefs.SetInt ("Diamond", diamondQtd);
 		PlayerPrefs.Save ();
