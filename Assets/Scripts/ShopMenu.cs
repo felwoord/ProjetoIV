@@ -55,8 +55,8 @@ public class ShopMenu : MonoBehaviour {
 	private Text levelText, strPointsText, magicPointsText, vitPointsText, pointsLeftText;
 	private int level, strPoints, magicPoints, vitPoints, pointsLeft;
 
-	private GameObject optionMenu, deleteSaveConfirm;
-	private bool menuEnabled, deleteMenuEnabled;
+	private GameObject optionMenu, deleteSaveConfirm, notEnoughDDMenu;
+	private bool menuEnabled, deleteMenuEnabled, notEnoughDDEnabled;
 
 	private int diamondQtd, extraLifeQtd, doubleGoldQtd, doubleExpQtd;
 	private Text diamond, extraLife, doubleGold, doubleExp;
@@ -129,6 +129,7 @@ public class ShopMenu : MonoBehaviour {
 		cashItemsBar = GameObject.Find ("CashItemsBar");
 		restorePurchaseButton = GameObject.Find ("RPButton");
 		cashItemConf = GameObject.Find ("ConfirmationText").GetComponent<Text> ();
+		notEnoughDDMenu = GameObject.Find ("NotEnoughDD");
 	}
 	private void HideMenus(){
 		panelStr.SetActive (false);
@@ -145,6 +146,8 @@ public class ShopMenu : MonoBehaviour {
 		cashShopEnabled = false;
 		cashItemConfMenu.SetActive (false);
 		cashItemConfEnabled = false;
+		notEnoughDDMenu.SetActive (false);
+		notEnoughDDEnabled = false;
 	}
 	private void GetPlayerPrefs (){
 		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
@@ -342,13 +345,6 @@ public class ShopMenu : MonoBehaviour {
 			ItemChange (itemDescription.text);
 		}
 	}
-
-
-
-
-
-
-
 	public void BuyCashItem(int item){
 		switch (item) {
 		case 101:
@@ -356,7 +352,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 105:
@@ -364,7 +360,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 115:
@@ -372,7 +368,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 130:
@@ -380,7 +376,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 160:
@@ -388,7 +384,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 201:
@@ -396,7 +392,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 205:
@@ -404,7 +400,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 215:
@@ -412,7 +408,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 230:
@@ -420,7 +416,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 260:
@@ -428,7 +424,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 301:
@@ -436,7 +432,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 305:
@@ -444,7 +440,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 315:
@@ -452,7 +448,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 330:
@@ -460,7 +456,7 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 360:
@@ -468,14 +464,12 @@ public class ShopMenu : MonoBehaviour {
 				cashItem = item;
 				CashItemConfirmationButton ();
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		}
-
+		cashItem = item;
 	}
-
-
 	public void BuyCashItemConfirmation(){
 		switch (cashItem) {
 		case 101:
@@ -483,7 +477,7 @@ public class ShopMenu : MonoBehaviour {
 				extraLifeQtd++;
 				diamondQtd--;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 105:
@@ -491,115 +485,114 @@ public class ShopMenu : MonoBehaviour {
 				extraLifeQtd += 5;
 				diamondQtd -= 5;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 115:
 			if (diamondQtd >= 13) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				extraLifeQtd += 15;
+				diamondQtd -= 13;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 130:
 			if (diamondQtd >= 26) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				extraLifeQtd += 30;
+				diamondQtd -= 26;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 160:
 			if (diamondQtd >= 49) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				extraLifeQtd += 60;
+				diamondQtd -= 49;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 201:
 			if (diamondQtd >= 1) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleExpQtd++;
+				diamondQtd--;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 205:
 			if (diamondQtd >= 5) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleExpQtd += 5;
+				diamondQtd -= 5;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 215:
 			if (diamondQtd >= 13) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleExpQtd += 15;
+				diamondQtd -= 13;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 230:
 			if (diamondQtd >= 26) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleExpQtd += 30;
+				diamondQtd -= 26;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 260:
 			if (diamondQtd >= 49) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleExpQtd += 60;
+				diamondQtd -= 49;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 301:
 			if (diamondQtd >= 1) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleGoldQtd += 1;
+				diamondQtd -= 1;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 305:
 			if (diamondQtd >= 5) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleGoldQtd += 5;
+				diamondQtd -= 5;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 315:
 			if (diamondQtd >= 13) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleGoldQtd += 15;
+				diamondQtd -= 13;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 330:
 			if (diamondQtd >= 26) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleGoldQtd += 30;
+				diamondQtd -= 26;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		case 360:
 			if (diamondQtd >= 49) {
-				cashItem = item;
-				CashItemConfirmationButton ();
+				doubleGoldQtd += 60;
+				diamondQtd -= 49;
 			} else {
-				//Not enough diamond
+				NotEnoughDiamondMenu ();
 			}
 			break;
 		}
-			
 		extraLife.text = extraLifeQtd.ToString ();
 		PlayerPrefs.SetInt ("ExtraLife", extraLifeQtd);
 		doubleExp.text = doubleExpQtd.ToString ();
@@ -610,9 +603,6 @@ public class ShopMenu : MonoBehaviour {
 		PlayerPrefs.SetInt ("Diamond", diamondQtd);
 		PlayerPrefs.Save ();
 	}
-
-
-
 	public void CashItemConfirmationButton(){
 		if (!cashItemConfEnabled) {
 			cashItemConfMenu.SetActive (true);
@@ -634,34 +624,34 @@ public class ShopMenu : MonoBehaviour {
 				cashItemConf.text = "Buy 60 Extra Life for 49 Diamond?";
 				break;
 			case 201:
-				cashItemConf.text = "Buy 1 Double Exp for 5 Diamond?";
+				cashItemConf.text = "Buy 1 Double Exp for 1 Diamond?";
 				break;
 			case 205:
-				cashItemConf.text = "Buy 5 Double Exp for 13 Diamond?";
+				cashItemConf.text = "Buy 5 Double Exp for 5 Diamond?";
 				break;
 			case 215:
-				cashItemConf.text = "Buy 15 Double Exp for 26 Diamond?";
+				cashItemConf.text = "Buy 15 Double Exp for 13 Diamond?";
 				break;
 			case 230:
-				cashItemConf.text = "Buy 30 Double Exp for 49 Diamond?";
+				cashItemConf.text = "Buy 30 Double Exp for 26 Diamond?";
 				break;
 			case 260:
-				cashItemConf.text = "Buy 60 Double Exp for 1 Diamond?";
+				cashItemConf.text = "Buy 60 Double Exp for 49 Diamond?";
 				break;
 			case 301:
-				cashItemConf.text = "Buy 1 Double Gold for 5 Diamond?";
+				cashItemConf.text = "Buy 1 Double Gold for 1 Diamond?";
 				break;
 			case 305:
-				cashItemConf.text = "Buy 5 Double Gold for 13 Diamond?";
+				cashItemConf.text = "Buy 5 Double Gold for 5 Diamond?";
 				break;
 			case 315:
-				cashItemConf.text = "Buy 15 Double Gold for 26 Diamond?";
+				cashItemConf.text = "Buy 15 Double Gold for 13 Diamond?";
 				break;
 			case 330:
-				cashItemConf.text = "Buy 30 Double Gold for 49 Diamond?";
+				cashItemConf.text = "Buy 30 Double Gold for 26 Diamond?";
 				break;
 			case 360:
-				cashItemConf.text = "Buy 60 Double Gold for 1 Diamond?";
+				cashItemConf.text = "Buy 60 Double Gold for 49 Diamond?";
 				break;
 			}
 		} else {
@@ -669,12 +659,15 @@ public class ShopMenu : MonoBehaviour {
 		}
 		cashItemConfEnabled = !cashItemConfEnabled;
 	}
-
-
-
-
-
-
+	public void NotEnoughDiamondMenu(){
+		if (!notEnoughDDEnabled) {
+			notEnoughDDMenu.SetActive (true);
+			notEnoughDDMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+		} else {
+			notEnoughDDMenu.SetActive (false);
+		}
+		notEnoughDDEnabled = !notEnoughDDEnabled;
+	}
 	public void CashShopMenuButton(){
 		if (!cashShopEnabled) {
 			cashShopMenu.SetActive (true);
