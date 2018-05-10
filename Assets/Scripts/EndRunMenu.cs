@@ -27,11 +27,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class EndRunMenu : MonoBehaviour {
-	private Text finalScoreText, goldGainedText, expGainedText, goldGainedDoubleText, expGainedDoubleText;
+	private Text finalScoreText, goldGainedText, expGainedText, goldGainedDoubleText, expGainedDoubleText, budgetGoldGainedText, budgetMultText;
 	private float maxDistance;
 	private Camera cam;
 	private GameControl gameCont;
-	private float expGained, goldGained;
+	private float expGained, goldGained, budgetGoldGained;
 	private float currentExp, currentGold;
 	private float finalExp, finalGold;
 
@@ -56,6 +56,8 @@ public class EndRunMenu : MonoBehaviour {
 		expGainedText = GameObject.Find ("ExpGainedText").GetComponent<Text> ();
 		goldGainedText = GameObject.Find ("GoldGainedText").GetComponent<Text> ();
 		finalScoreText = GameObject.Find ("FinalScoreText").GetComponent<Text> ();
+		budgetGoldGainedText = GameObject.Find ("BudgetGoldGained").GetComponent<Text> ();
+		budgetMultText = GameObject.Find ("BudgetMultiplier").GetComponent<Text> ();
 		doubleExpImage = GameObject.Find ("2xExpImage");
 		doubleGoldImage = GameObject.Find ("2xGoldImage");
 		expGainedDoubleText = GameObject.Find ("2xExpGainedText").GetComponent<Text> ();
@@ -99,6 +101,8 @@ public class EndRunMenu : MonoBehaviour {
 			doubleGoldImage.SetActive (false);
 		}
 
+		budgetMultText.text = "x"+budgetFormula.ToString ("F1");
+		budgetGoldGainedText.text = (goldGained * budgetFormula).ToString ("0");
 
 		newLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
 
