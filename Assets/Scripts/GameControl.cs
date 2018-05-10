@@ -335,6 +335,12 @@ public class GameControl : MonoBehaviour {
 		currentGround = nextGround;
 		nextGround = Instantiate (Resources.Load ("Ground") as GameObject);
 		nextGround.transform.position = new Vector2 (currentGround.transform.position.x + 17.5f, currentGround.transform.position.y);
+
+		if (nextGround.transform.position.x + 10 < player.transform.position.x) {
+			currentGround.transform.position = new Vector3 (player.transform.position.x, currentGround.transform.position.y, currentGround.transform.position.z);
+			lastGround.transform.position = new Vector3 (currentGround.transform.position.x - 17.5f, lastGround.transform.position.y, lastGround.transform.position.z);
+			nextGround.transform.position = new Vector3 (currentGround.transform.position.x + 17.5f, nextGround.transform.position.y, nextGround.transform.position.z);
+		}
 	}
 	private void CreateBackGround(){
 		Destroy (lastBackGround);
