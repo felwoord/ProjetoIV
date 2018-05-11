@@ -436,9 +436,11 @@ public class PlayerController : MonoBehaviour {
 	}
 	public void ShowInterstitial()
 	{
-		if (Advertisement.IsReady("video"))
+		bool ok = GameObject.Find ("AdTimeCounter").GetComponent<AdTimer> ().ShowAd ();
+		if (Advertisement.IsReady("video") && ok)
 		{
 			Advertisement.Show("video");
+			GameObject.Find ("AdTimeCounter").GetComponent<AdTimer> ().AdShown ();
 		}
 		CallEndGameMenu ();
 	}
