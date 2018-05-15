@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4882371481581328}
   - component: {fileID: 212867830457161566}
   m_Layer: 0
-  m_Name: New Sprite
+  m_Name: BodySprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,8 +54,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1798483034842670}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.285, y: 5.834, z: 0}
-  m_LocalScale: {x: 0.14364262, y: 0.14364262, z: 0.14364262}
+  m_LocalPosition: {x: 2601.069, y: 22.8976, z: 0}
+  m_LocalScale: {x: 0.21076989, y: 0.21076989, z: 0.21076989}
   m_Children:
   - {fileID: 4882371481581328}
   m_Father: {fileID: 0}
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1656519394567342}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.08, y: -4.6, z: 0}
+  m_LocalPosition: {x: -4, y: -4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4862542192527848}
@@ -93,7 +93,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &58901449575465558
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -106,7 +106,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.2425798, y: -2.2939916}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 6.2722564
 --- !u!114 &114157589016722422
@@ -134,6 +134,9 @@ MonoBehaviour:
   defaultSprite: {fileID: 0}
   ride1Sprite: {fileID: 21300000, guid: 5ad315bd47ce5f2428ced31152dd16f2, type: 3}
   delay: 0
+  bodySprite:
+  - {fileID: 21300000, guid: 3d82abd4c97ae334a934ee5d8949558a, type: 3}
+  - {fileID: 21300000, guid: 139671e461fab0741b7f299a8e050524, type: 3}
 --- !u!212 &212237568386408322
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -173,7 +176,7 @@ SpriteRenderer:
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 20, y: 20}
+  m_Size: {x: 9.18, y: 7.63}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

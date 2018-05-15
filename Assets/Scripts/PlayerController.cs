@@ -325,7 +325,7 @@ public class PlayerController : MonoBehaviour {
 			ride1Timer = 0;
 			ride1 = false;
 			playerRB.drag = saveDrag;
-			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;
+			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.velocity = new Vector2 (playerRB.velocity.x, 20);
 		}
 	}
@@ -347,7 +347,7 @@ public class PlayerController : MonoBehaviour {
 			ride2Timer = 0;
 			ride2 = false;
 			playerRB.drag = saveDrag;
-			playerRB.constraints = ~RigidbodyConstraints2D.FreezeAll;
+			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs(saveVelocity.y));
 		}
 	}
@@ -453,7 +453,7 @@ public class PlayerController : MonoBehaviour {
 			Advertisement.Show("rewardedVideo", options);
 		}
 	}
-	void HandleShowResult(ShowResult result)
+	public void HandleShowResult(ShowResult result)
 	{
 		if (result == ShowResult.Finished)
 		{

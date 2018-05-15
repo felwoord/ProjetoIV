@@ -225,6 +225,12 @@ public class GameControl : MonoBehaviour {
 				} else {
 					playerRB.drag = 0;
 				}
+
+				if (characterID == 1) {
+					player.GetComponent<CharacterOne> ().SetAboveMaxSpeedBodySprite ();	
+					Debug.Log ("sprite max");
+				}
+				Debug.Log ("velo max");
 			} else {
 				if (player.transform.position.y < 36) {
 					playerRB.drag = 0.05f;
@@ -233,6 +239,12 @@ public class GameControl : MonoBehaviour {
 				} else {
 					playerRB.drag = 0;
 				}
+
+				if (characterID == 1) {
+					player.GetComponent<CharacterOne> ().SetBelowMaxSpeedBodySprite ();
+					Debug.Log ("sprite min");
+				}
+				Debug.Log ("velo min");
 			}
 		}
 
