@@ -36,14 +36,17 @@ public class CharacterOne : MonoBehaviour {
 	private float counter;
 
 	public Sprite[] bodySprite;
-	private SpriteRenderer body;
+	private SpriteRenderer bodySR;
+	private GameObject body;
 
 	void Start(){
 		magic = PlayerPrefs.GetInt ("Magic_1", 1);
 		playerControl = GameObject.Find ("Player").GetComponent<PlayerController> ();
 		game = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
 		playerRB = GetComponent<Rigidbody2D> ();
-		body = GameObject.Find ("BodySprite").GetComponent<SpriteRenderer> ();
+
+		body = GameObject.Find ("BodySprt");
+		bodySR = body.GetComponent<SpriteRenderer> ();
 	}
 	void Update(){
 		if (Input.GetMouseButtonDown (0) && !delay) {
@@ -84,10 +87,12 @@ public class CharacterOne : MonoBehaviour {
 
 	}
 	public void SetBelowMaxSpeedBodySprite(){
-		body.sprite = bodySprite [0];
+		bodySR.sprite = bodySprite [0];
+		body.transform.localPosition = new Vector2 (-4.0f, -4.5f);
 	}
 	public void SetAboveMaxSpeedBodySprite(){
-		body.sprite = bodySprite [1];	
+		bodySR.sprite = bodySprite [1];
+		body.transform.localPosition = new Vector2 (-3.0f, -3.4f);
 	}
 
 }

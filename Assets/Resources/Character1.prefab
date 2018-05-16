@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4882371481581328}
   - component: {fileID: 212867830457161566}
   m_Layer: 0
-  m_Name: BodySprite
+  m_Name: BodySprt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1798483034842670}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2601.069, y: 22.8976, z: 0}
+  m_LocalPosition: {x: 13.340461, y: -5.047842, z: 0}
   m_LocalScale: {x: 0.21076989, y: 0.21076989, z: 0.21076989}
   m_Children:
   - {fileID: 4882371481581328}
