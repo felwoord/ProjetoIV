@@ -24,6 +24,7 @@ using UnityEngine;
 
 public class Ride1 : MonoBehaviour {
 	private GameObject player;
+
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");

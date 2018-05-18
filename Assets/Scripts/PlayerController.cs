@@ -306,6 +306,8 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	private void Ride1Time(){
+		gameCont.ride1ScreenAnimation = true;
+		gameCont.screenAniRide1.enabled = true;
 		ride1Timer += Time.deltaTime;
 		if (ride1Timer < 5) {
 			if (Input.GetMouseButtonDown(0)) {

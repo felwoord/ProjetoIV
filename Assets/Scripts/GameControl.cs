@@ -24,6 +24,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class GameControl : MonoBehaviour {
 	private bool directionSelecting, powerSelecting;
 	private GameObject launcher;
@@ -80,6 +81,14 @@ public class GameControl : MonoBehaviour {
 
 	private Text extraLifeLeft;
 	private int extraLife;
+
+	public bool ride1ScreenAnimation;
+	public Image screenAniRide1;
+	private float counterScreenAnimation;
+	private float r;
+	private float g;
+	private float b;
+	private Color screenColor;
 
 	void Start () {
 		GetPlayerPrefs ();
@@ -138,11 +147,8 @@ public class GameControl : MonoBehaviour {
 			GamePlay ();	//Flying time!
 		}
 
-		if (Input.GetKeyDown (KeyCode.A)) {
-			ManaUI ();
-		}
-		if (Input.GetKeyDown (KeyCode.S)) {
-			RemovePowerBar ();
+		if (ride1ScreenAnimation) {
+			ScreenAnimationRide1 ();
 		}
 	}
 	private void GetPlayerPrefs(){
@@ -174,6 +180,8 @@ public class GameControl : MonoBehaviour {
 		useExtraLifeMenu = GameObject.Find ("UseExtraLifeMenu");
 		gotDiamondMenu = GameObject.Find ("GotDiamondMenu");
 		extraLifeLeft = GameObject.Find ("ExtraLifeLeft").GetComponent<Text> ();
+
+		screenAniRide1 = GameObject.Find ("ScreenAnimationR1").GetComponent<Image> ();
 	}
 	private void ZeroAll(){
 		healthText.enabled = false;
@@ -200,6 +208,10 @@ public class GameControl : MonoBehaviour {
 		ride1CD = false;
 		ride2CounterCD = 0;
 		ride2CD = false;
+
+		ride1ScreenAnimation = false;
+		counterScreenAnimation = 0;
+		screenAniRide1.enabled = false;
 
 		playerRB.gravityScale = 0;
 
@@ -463,6 +475,42 @@ public class GameControl : MonoBehaviour {
 			}
 			ride2SpawnCounter = 0;
 		}
+	}
+	private void ScreenAnimationRide1(){
+		//51 cada "ponto" do RGBA (0, 51, 102, 153, 204, 255)
+		counterScreenAnimation += Time.deltaTime;
+
+		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
+			r = 0f;
+			g = 0f;
+			b = 0f;
+		}
+		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
+			r = 51f;
+			g = 51f;
+			b = 51f;
+		}
+		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
+			r = 102f;
+			g = 102f;
+			b = 102f;
+		}
+		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
+			r = 153f;
+			g = 153f;
+			b = 153f;
+		}
+		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
+			r = 204f;
+			g = 204f;
+			b = 204f;
+		}
+		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
+			r = 255;
+			g = 255;
+			b = 255;
+		}
+		screenColor = new Vector4 (r, g, b, 85);
 	}
 	public void ManaUI(){
 		if (powerBar.Count < mana) {
