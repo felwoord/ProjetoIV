@@ -194,6 +194,9 @@ public class PlayerController : MonoBehaviour {
 				gameCont.AddGold (goldRide1 * goldMultMaxHeight);
 			} else {
 				if (!ride1 && !ride2) {
+					gameCont.ride1ScreenAnimation = true;
+					gameCont.screenAniRide1.enabled = true;
+
 					GameObject tap = Instantiate (Resources.Load ("Tap") as GameObject);
 					tap.transform.position = new Vector3 (cam.transform.position.x - 6, cam.transform.position.y + 1, 0);
 					tap.transform.parent = cam.transform;
@@ -306,8 +309,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	private void Ride1Time(){
-		gameCont.ride1ScreenAnimation = true;
-		gameCont.screenAniRide1.enabled = true;
 		ride1Timer += Time.deltaTime;
 		if (ride1Timer < 5) {
 			if (Input.GetMouseButtonDown(0)) {

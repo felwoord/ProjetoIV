@@ -82,13 +82,14 @@ public class GameControl : MonoBehaviour {
 	private Text extraLifeLeft;
 	private int extraLife;
 
-	public bool ride1ScreenAnimation;
+	public bool ride1ScreenAnimation, up;
 	public Image screenAniRide1;
 	private float counterScreenAnimation;
-	private float r;
-	private float g;
-	private float b;
-	private Color screenColor;
+	private byte rColor;
+	private byte gColor;
+	private byte bColor;
+	private Color32 screenColor;
+	private int t;
 
 	void Start () {
 		GetPlayerPrefs ();
@@ -477,40 +478,58 @@ public class GameControl : MonoBehaviour {
 		}
 	}
 	private void ScreenAnimationRide1(){
-		//51 cada "ponto" do RGBA (0, 51, 102, 153, 204, 255)
-		counterScreenAnimation += Time.deltaTime;
+		if (up) {
+			counterScreenAnimation += Time.deltaTime;
+		} else {
+			counterScreenAnimation -= Time.deltaTime;
+		}
+		if (counterScreenAnimation < 0f) {
+			up = true;
+			t++;
+			counterScreenAnimation = 0;
+		}
+		if (counterScreenAnimation >= 0f && counterScreenAnimation < 0.05f) {
+			rColor = 0;
+			gColor = 0;
+			bColor = 0;
+		}
+		if (counterScreenAnimation >= 0.1f && counterScreenAnimation < 0.15f) {
+			rColor = 51;
+			gColor = 51;
+			bColor = 51;
+		}
+		if (counterScreenAnimation >= 0.2f && counterScreenAnimation < 0.25f) {
+			rColor = 102;
+			gColor = 102;
+			bColor = 102;
+		}
+		if (counterScreenAnimation >= 0.3f && counterScreenAnimation < 0.35f) {
+			rColor = 153;
+			gColor = 153;
+			bColor = 153;
+		}
+		if (counterScreenAnimation >= 0.35f && counterScreenAnimation < 0.4f) {
+			rColor = 204;
+			gColor = 204;
+			bColor = 204;
+		}
+		if (counterScreenAnimation >= 0.4f && counterScreenAnimation < 0.45f) {
+			rColor = 255;
+			gColor = 255;
+			bColor = 255;
+		}
+		if (counterScreenAnimation >= 0.45f) {
+			up = false;
+		}
 
-		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
-			r = 0f;
-			g = 0f;
-			b = 0f;
+		if (t > 4) {
+			counterScreenAnimation = 0;
+			screenAniRide1.enabled = false;
+			ride1ScreenAnimation = false;
 		}
-		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
-			r = 51f;
-			g = 51f;
-			b = 51f;
-		}
-		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
-			r = 102f;
-			g = 102f;
-			b = 102f;
-		}
-		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
-			r = 153f;
-			g = 153f;
-			b = 153f;
-		}
-		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
-			r = 204f;
-			g = 204f;
-			b = 204f;
-		}
-		if (counterScreenAnimation >= 0.25f && counterScreenAnimation < 0.5f) {
-			r = 255;
-			g = 255;
-			b = 255;
-		}
-		screenColor = new Vector4 (r, g, b, 85);
+			
+		screenAniRide1.color = new Color32 (rColor, gColor, bColor, 85);
+		Debug.Log (screenAniRide1.color);
 	}
 	public void ManaUI(){
 		if (powerBar.Count < mana) {
