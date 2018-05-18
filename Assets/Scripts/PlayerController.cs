@@ -64,7 +64,11 @@ public class PlayerController : MonoBehaviour {
 
 	private Text heightTxt;
 	private Image heightImg;
+
+	private BanzaiScript banzais;
 	void Start () {
+		banzais = GameObject.Find ("Banzai").GetComponent<BanzaiScript> ();
+
 		heightTxt = GameObject.Find ("Height").GetComponent<Text> ();
 		heightImg = GameObject.Find ("ShowHeight").GetComponent<Image> ();
 
@@ -156,6 +160,7 @@ public class PlayerController : MonoBehaviour {
 				Destroy (col.gameObject);
 			} else {
 				if (!ride1 && !ride2) {
+					banzais.ShowBanzai ();
 					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.08F + 10, Mathf.Abs (playerRB.velocity.y) * 1.02f);
 					gameCont.AddExp (expBuff2);
 					gameCont.AddGold (goldBuff2);

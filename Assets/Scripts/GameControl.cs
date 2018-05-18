@@ -91,6 +91,8 @@ public class GameControl : MonoBehaviour {
 	private Color32 screenColor;
 	private int t;
 
+	private Image banzai;
+
 	void Start () {
 		GetPlayerPrefs ();
 
@@ -183,6 +185,8 @@ public class GameControl : MonoBehaviour {
 		extraLifeLeft = GameObject.Find ("ExtraLifeLeft").GetComponent<Text> ();
 
 		screenAniRide1 = GameObject.Find ("ScreenAnimationR1").GetComponent<Image> ();
+	
+		banzai = GameObject.Find ("Banzai").GetComponent<Image> ();
 	}
 	private void ZeroAll(){
 		healthText.enabled = false;
@@ -215,6 +219,8 @@ public class GameControl : MonoBehaviour {
 		screenAniRide1.enabled = false;
 
 		playerRB.gravityScale = 0;
+
+		banzai.enabled = false;
 
 		expGained = 0;
 		goldGained = 0;
@@ -529,7 +535,6 @@ public class GameControl : MonoBehaviour {
 		}
 			
 		screenAniRide1.color = new Color32 (rColor, gColor, bColor, 85);
-		Debug.Log (screenAniRide1.color);
 	}
 	public void ManaUI(){
 		if (powerBar.Count < mana) {
@@ -548,9 +553,9 @@ public class GameControl : MonoBehaviour {
 		buff1Chance = 3;
 		buff1MaxQtd = 8;
 
-		buff2Time = 2.5f - (buff2Level/10);
-		buff2Chance = 5;
-		buff2MaxQtd = 6;
+		buff2Time = 1;//2.5f - (buff2Level/10);
+		buff2Chance = 1;
+		buff2MaxQtd = 10;
 
 		trapTime = 3 + (trapLevel/10);
 		trapChance = 5;
