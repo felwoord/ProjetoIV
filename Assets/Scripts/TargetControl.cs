@@ -36,12 +36,32 @@ public class TargetControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y + 50 * Time.deltaTime, transform.localPosition.z);
+
+		if (transform.localPosition.y >= 230) {
+			transform.localPosition = new Vector3 (Random.Range (-440, 440), Random.Range (-230, 0), transform.localPosition.z);
+		}
 	}
 
 	public void Hit(){
 		hitCount++;
 		playerRB.velocity = new Vector2 (playerRB.velocity.x + 5 + (ride2Level / 2) + (hitCount * (1 + (ride2Level / 10))), playerRB.velocity.y);
-		transform.localPosition = new Vector3 (Random.Range (-440, 440), Random.Range (-230, 230), 0);
+		transform.localPosition = new Vector3 (Random.Range (-440, 440), Random.Range (-230, 0), transform.localPosition.z);
+
+		int a = Random.Range (0, 4);
+		switch (a) {
+		case 0:
+			transform.Rotate (0, 0, 90);
+			break;
+		case 1:
+			transform.Rotate (0, 0, 180);
+			break;
+		case 2:
+			transform.Rotate (0, 0, 270);
+			break;
+		case 3:
+			transform.Rotate (0, 0, 0);
+			break;
+		}
 	}
 }
