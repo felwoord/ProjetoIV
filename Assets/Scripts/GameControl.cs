@@ -466,7 +466,7 @@ public class GameControl : MonoBehaviour {
 			float a = Random.Range (0f, 10f);
 			if (a > ride1Chance) {
 				GameObject ride1 = Instantiate (Resources.Load ("Ride1") as GameObject);
-				ride1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
+				ride1.transform.position = new Vector2 (player.transform.position.x + 50, 3.8f);
 				ride1Counter++;
 			}
 			ride1SpawnCounter = 0;

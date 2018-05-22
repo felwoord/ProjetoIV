@@ -12,6 +12,9 @@ TagManager:
   - Ride2
   - Mana
   - Diamond
+  - LeftNote
+  - MiddleNote
+  - RightNote
   layers:
   - Default
   - TransparentFX
