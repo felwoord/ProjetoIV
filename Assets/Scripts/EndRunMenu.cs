@@ -126,8 +126,8 @@ public class EndRunMenu : MonoBehaviour {
 	}
 
 	void Update () {
-		if (transform.position.x > cam.transform.position.x + 8) {
-			transform.position = new Vector2 (transform.position.x - 10 * Time.deltaTime, transform.position.y);
+		if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > 0) {
+			transform.position = new Vector2 (transform.position.x - Screen.width/2 * Time.deltaTime, transform.position.y);
 		}
 
 	}
