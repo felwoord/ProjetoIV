@@ -141,6 +141,7 @@ public class PlayerController : MonoBehaviour {
 				Destroy (col.gameObject);
 			} else {
 				if (!ride1 && !ride2) {
+					gameCont.PlaySoundEffect (2);
 					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, Mathf.Abs (playerRB.velocity.y) * 1.08f + 3f);
 					gameCont.AddExp (expBuff1);
 					gameCont.AddGold (goldBuff1);
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour {
 				Destroy (col.gameObject);
 			} else {
 				if (!ride1 && !ride2) {
+					gameCont.PlaySoundEffect (3);
 					banzais.ShowBanzai ();
 					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.08F + 10, Mathf.Abs (playerRB.velocity.y) * 1.02f);
 					gameCont.AddExp (expBuff2);
@@ -185,6 +187,7 @@ public class PlayerController : MonoBehaviour {
 					} else {
 						EndRun ();
 					}
+					gameCont.PlaySoundEffect (4);
 				} else {
 					gameCont.AddExp (expTrap1 * expMultRide);
 					gameCont.AddGold (goldTrap1 * goldMultRide);
@@ -199,6 +202,7 @@ public class PlayerController : MonoBehaviour {
 				gameCont.AddGold (goldRide1 * goldMultMaxHeight);
 			} else {
 				if (!ride1 && !ride2) {
+					gameCont.PlaySoundEffect (5);
 					gameCont.ride1ScreenAnimation = true;
 					gameCont.screenAniRide1.enabled = true;
 
@@ -237,6 +241,7 @@ public class PlayerController : MonoBehaviour {
 				gameCont.AddGold (goldRide2 * goldMultMaxHeight);
 			} else {
 				if (!ride1 && !ride2) {
+					gameCont.PlaySoundEffect (8);
 					GameObject ride2Canv = Instantiate (Resources.Load ("Ride2Canvas") as GameObject);
 					ride2Canv.transform.position = new Vector3 (cam.transform.position.x, cam.transform.position.y, 0);
 					ride2Canv.name = "Ride2Canvas";
@@ -286,6 +291,7 @@ public class PlayerController : MonoBehaviour {
 		if (characterID == 3) {
 		} 
 
+		gameCont.PlaySoundEffect (6);
 		playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.2f, -25);
 		heightCheck = true;
 	}
@@ -308,9 +314,11 @@ public class PlayerController : MonoBehaviour {
 				if (characterID == 2) {
 				}
 				if (characterID == 3) {
-				} 
+				}
+				gameCont.StopSoundEffect (false);
 			}
 			heightCheck = false;
+
 		}
 	}
 	private void Ride1Time(){
@@ -335,6 +343,7 @@ public class PlayerController : MonoBehaviour {
 			playerRB.drag = saveDrag;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.velocity = new Vector2 (playerRB.velocity.x, 20);
+			gameCont.StopSoundEffect (true);
 		}
 	}
 	private void Ride2Time(){
@@ -357,9 +366,11 @@ public class PlayerController : MonoBehaviour {
 			playerRB.drag = saveDrag;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs(saveVelocity.y));
+			gameCont.StopSoundEffect (true);
 		}
 	}
 	private void EndRun(){
+		gameCont.PlaySoundEffect (7);
 		playerRB.velocity = Vector2.zero;
 		playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 		int mana = gameCont.GetMana ();

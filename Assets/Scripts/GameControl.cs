@@ -93,6 +93,10 @@ public class GameControl : MonoBehaviour {
 
 	private Image banzai;
 
+	private AudioSource soundFX;
+	public AudioClip rollChargeSound, starSound, carSound, bananaSlipSound, pokeBattleSound, saiyanAuraSound, dogLaughSound, danceMusic1, danceMusic2, danceMusic3;
+	private AudioSource gameSound;
+
 	void Start () {
 		GetPlayerPrefs ();
 
@@ -142,6 +146,8 @@ public class GameControl : MonoBehaviour {
 		FirstBuffs ();
 
 		SetTimes ();
+
+		gameSound.Play ();
 	}
 	void Update () {
 		if (startGame) {
@@ -187,6 +193,10 @@ public class GameControl : MonoBehaviour {
 		screenAniRide1 = GameObject.Find ("ScreenAnimationR1").GetComponent<Image> ();
 	
 		banzai = GameObject.Find ("Banzai").GetComponent<Image> ();
+
+		soundFX = GameObject.Find ("AudioEffects").GetComponent<AudioSource> ();
+
+		gameSound = GameObject.Find ("GameMusic").GetComponent<AudioSource> ();
 	}
 	private void ZeroAll(){
 		healthText.enabled = false;
@@ -347,6 +357,7 @@ public class GameControl : MonoBehaviour {
 				distText.enabled = true;
 				distText2.enabled = true;
 				startGame = false;
+				PlaySoundEffect (1);
 			}
 			if (directionSelecting) {
 				directionSelecting = false;
@@ -659,5 +670,53 @@ public class GameControl : MonoBehaviour {
 	public void DontShowRV(){
 		gotDiamondMenu.SetActive(false);
 		playerCont.CallEndGameMenu ();
+	}
+	public void PlaySoundEffect(int sound){
+		switch (sound) {
+		case 1:
+			soundFX.clip = rollChargeSound;
+			break;
+		case 2:
+			soundFX.clip = starSound;
+			break;
+		case 3:
+			soundFX.clip = carSound;
+			break;
+		case 4:
+			soundFX.clip = bananaSlipSound;
+			break;
+		case 5:
+			soundFX.clip = pokeBattleSound;
+			gameSound.volume = gameSound.volume * 0.2f;
+			break;
+		case 6:
+			soundFX.clip = saiyanAuraSound;
+			break;
+		case 7:
+			soundFX.clip = dogLaughSound;
+			break;
+		case 8:
+			int a = Random.Range (1, 4);
+			if (a == 1)
+				soundFX.clip = danceMusic1;
+			if (a == 2)
+				soundFX.clip = danceMusic2;
+			if (a == 3)
+				soundFX.clip = danceMusic3;
+
+			gameSound.volume = gameSound.volume * 0.2f;
+			break;
+		default: 
+			break;
+		}
+
+		soundFX.Play ();
+	}
+	public void StopSoundEffect(bool volumeUp){
+		soundFX.Stop ();
+
+		if (volumeUp) {
+			gameSound.volume = gameSound.volume / 0.2f;
+		}
 	}
 }
