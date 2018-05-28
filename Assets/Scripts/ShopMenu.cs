@@ -65,6 +65,7 @@ public class ShopMenu : MonoBehaviour {
 	private bool cashShopEnabled, cashItemConfEnabled;
 	private Text cashItemConf;
 	private int cashItem;
+	private GameObject diamondShop, extraLifeShop, doubleExpShop, doubleGoldShop, extrasShop;
 
 	private GameObject removeAds;
 	private int ads;
@@ -124,6 +125,11 @@ public class ShopMenu : MonoBehaviour {
 		doubleGold = GameObject.Find ("DoubleGoldText").GetComponent<Text> ();
 		doubleExp = GameObject.Find ("DoubleExpText").GetComponent<Text> ();
 		cashShopMenu = GameObject.Find ("CashShopMenu");
+		diamondShop = GameObject.Find ("DiamondShop"); 
+		extraLifeShop = GameObject.Find ("ExtraLifeShop");
+		doubleExpShop = GameObject.Find ("DoubleExpShop");
+		doubleGoldShop = GameObject.Find ("DoubleGoldShop");
+		extrasShop = GameObject.Find ("ExtrasShop");
 		cashItemConfMenu = GameObject.Find ("CashItemConfirmation");
 		removeAds = GameObject.Find ("RemoveAds");
 		cashItemsBar = GameObject.Find ("CashItemsBar");
@@ -668,14 +674,51 @@ public class ShopMenu : MonoBehaviour {
 		}
 		notEnoughDDEnabled = !notEnoughDDEnabled;
 	}
-	public void CashShopMenuButton(){
+	public void CashShopMenuButton(int aux){
 		if (!cashShopEnabled) {
 			cashShopMenu.SetActive (true);
 			cashShopMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+			switch (aux) {
+			case 1:
+				diamondShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+				break;
+			case 2:
+				extraLifeShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+				break;
+			case 3:
+				doubleGoldShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+				break;
+			case 4:
+				doubleExpShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+				break;
+			default:
+				break;
+			}
 		} else {
 			cashShopMenu.SetActive (false);
 		}
 		cashShopEnabled = !cashShopEnabled;
+	}
+	public void ShowCashItens(int aux){
+		switch (aux) {
+		case 1:
+			diamondShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+			break;
+		case 2:
+			extraLifeShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+			break;
+		case 3:
+			extrasShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+			break;
+		case 4:
+			doubleGoldShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+			break;
+		case 5:
+			doubleExpShop.GetComponent<RectTransform> ().SetAsLastSibling ();
+			break;
+		default:
+			break;
+		}
 	}
 	public void OptionMenuButton(){
 		if (!menuEnabled) {
