@@ -99,6 +99,11 @@ public class GameControl : MonoBehaviour {
 	private AudioSource soundFX;
 	public AudioClip rollChargeSound, starSound, carSound, bananaSlipSound, pokeBattleSound, saiyanAuraSound, dogLaughSound, danceMusic1, danceMusic2, danceMusic3;
 	private AudioSource gameSound;
+	private float effectVolume, musicVolume;
+	private Slider effectsController, musicController;
+
+	private GameObject optionMenu;
+	private bool menuEnabled;
 
 	void Start () {
 		GetPlayerPrefs ();
@@ -124,7 +129,7 @@ public class GameControl : MonoBehaviour {
 		GameObjectFind ();
 
 
-		extraLifeLeft.text = extraLife.ToString ();
+		extraLifeLeft.text = extraLife.ToString () + " left!";
 
 		startGame = true;
 		directionSelecting = true;
@@ -150,7 +155,9 @@ public class GameControl : MonoBehaviour {
 
 		SetTimes ();
 
-		gameSound.Play ();
+
+		VolumeSetting ();
+
 	}
 	void Update () {
 		if (startGame) {
@@ -174,6 +181,8 @@ public class GameControl : MonoBehaviour {
 		buff2Level = PlayerPrefs.GetInt ("ItemLevel_5", 0);
 		trapLevel = PlayerPrefs.GetInt ("ItemLevel_6", 0);
 		extraLife = PlayerPrefs.GetInt ("ExtraLife", 0);
+		effectVolume = PlayerPrefs.GetFloat ("EffectVolume", 1);
+		musicVolume = PlayerPrefs.GetFloat ("MusicVolume", 1);
 	}
 	private void GameObjectFind(){
 		lastGround = GameObject.Find ("Ground");
@@ -198,8 +207,11 @@ public class GameControl : MonoBehaviour {
 		banzai = GameObject.Find ("Banzai").GetComponent<Image> ();
 
 		soundFX = GameObject.Find ("AudioEffects").GetComponent<AudioSource> ();
-
 		gameSound = GameObject.Find ("GameMusic").GetComponent<AudioSource> ();
+		musicController = GameObject.Find ("MusicVolume").GetComponent<Slider> ();
+		effectsController = GameObject.Find ("EffectVolume").GetComponent<Slider> ();
+
+		optionMenu = GameObject.Find ("OptionMenu");
 	}
 	private void ZeroAll(){
 		healthText.enabled = false;
@@ -242,6 +254,16 @@ public class GameControl : MonoBehaviour {
 
 		useExtraLifeMenu.SetActive (false);
 		gotDiamondMenu.SetActive (false);
+
+		optionMenu.SetActive (false);
+		menuEnabled = false;
+	}
+	private void VolumeSetting(){
+		soundFX.volume = effectVolume;
+		effectsController.value = effectVolume;
+		gameSound.volume = musicVolume;
+		musicController.value = musicVolume;
+		gameSound.Play ();
 	}
 	private void GamePlay(){
 		healthText.text = playerRB.velocity.x.ToString("0");
@@ -697,6 +719,7 @@ public class GameControl : MonoBehaviour {
 			break;
 		case 7:
 			soundFX.clip = dogLaughSound;
+			soundFX.loop = true;
 			break;
 		case 8:
 			int a = Random.Range (1, 4);
@@ -720,6 +743,31 @@ public class GameControl : MonoBehaviour {
 
 		if (volumeUp) {
 			gameSound.volume = gameSound.volume / 0.2f;
+		}
+	}
+	public void OptionMenuButton(){
+		if (!menuEnabled) {
+			optionMenu.SetActive (true);
+			optionMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+			Time.timeScale = 0;
+			soundFX.Pause ();
+		} else {
+			optionMenu.SetActive (false);
+			Time.timeScale = 1;
+			soundFX.UnPause ();
+		}
+		menuEnabled = !menuEnabled;
+	}
+	public void VolumeControl(int aux){
+		if (aux == 1) {
+			effectVolume = effectsController.value;
+			soundFX.volume = effectVolume;
+			PlayerPrefs.SetFloat ("EffectVolume", effectVolume);
+		}
+		if (aux == 2) {
+			musicVolume = musicController.value;
+			gameSound.volume = musicVolume;
+			PlayerPrefs.SetFloat ("MusicVolume", musicVolume);
 		}
 	}
 }

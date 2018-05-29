@@ -75,8 +75,11 @@ public class ShopMenu : MonoBehaviour {
 
 	private GameObject cashItemsBar, restorePurchaseButton;
 
-	private Slider effectsController, musicController;
+	private AudioSource soundFX;
+	//public AudioClip rollChargeSound, starSound, carSound, bananaSlipSound, pokeBattleSound, saiyanAuraSound, dogLaughSound, danceMusic1, danceMusic2, danceMusic3;
+	private AudioSource gameSound;
 	private float effectVolume, musicVolume;
+	private Slider effectsController, musicController;
 
 	void Start () {
 		GameObjectFind ();
@@ -142,6 +145,8 @@ public class ShopMenu : MonoBehaviour {
 		restorePurchaseButton = GameObject.Find ("RPButton");
 		cashItemConf = GameObject.Find ("ConfirmationText").GetComponent<Text> ();
 		notEnoughDDMenu = GameObject.Find ("NotEnoughDD");
+		soundFX = GameObject.Find ("AudioEffects").GetComponent<AudioSource> ();
+		gameSound = GameObject.Find ("GameMusic").GetComponent<AudioSource> ();
 		musicController = GameObject.Find ("MusicVolume").GetComponent<Slider> ();
 		effectsController = GameObject.Find ("EffectVolume").GetComponent<Slider> ();
 	}
@@ -189,6 +194,13 @@ public class ShopMenu : MonoBehaviour {
 		trapDescription = "Upgrade to make it appear less often";
 		ride1Description = "Upgrade to gain more speed";
 		ride2Description = "Upgrade to  gain more speed";
+	}
+	private void VolumeSetting(){
+		soundFX.volume = effectVolume;
+		effectsController.value = effectVolume;
+		gameSound.volume = musicVolume;
+		musicController.value = musicVolume;
+		gameSound.Play ();
 	}
 	public void CharacterOne(){
 		characterDisplay.sprite = characterSprite [0];
@@ -618,6 +630,7 @@ public class ShopMenu : MonoBehaviour {
 		diamond.text = diamondQtd.ToString ();
 		PlayerPrefs.SetInt ("Diamond", diamondQtd);
 		PlayerPrefs.Save ();
+		CashItemConfirmationButton ();
 	}
 	public void CashItemConfirmationButton(){
 		if (!cashItemConfEnabled) {
@@ -628,46 +641,46 @@ public class ShopMenu : MonoBehaviour {
 				cashItemConf.text = "Buy 1 Extra Life for 1 Diamond?";
 				break;
 			case 105:
-				cashItemConf.text = "Buy 5 Extra Life for 5 Diamond?";
+				cashItemConf.text = "Buy 5 Extra Life for 5 Diamonds?";
 				break;
 			case 115:
-				cashItemConf.text = "Buy 15 Extra Life for 13 Diamond?";
+				cashItemConf.text = "Buy 15 Extra Life for 13 Diamonds?";
 				break;
 			case 130:
-				cashItemConf.text = "Buy 30 Extra Life for 26 Diamond?";
+				cashItemConf.text = "Buy 30 Extra Life for 26 Diamonds?";
 				break;
 			case 160:
-				cashItemConf.text = "Buy 60 Extra Life for 49 Diamond?";
+				cashItemConf.text = "Buy 60 Extra Life for 49 Diamonds?";
 				break;
 			case 201:
 				cashItemConf.text = "Buy 1 Double Exp for 1 Diamond?";
 				break;
 			case 205:
-				cashItemConf.text = "Buy 5 Double Exp for 5 Diamond?";
+				cashItemConf.text = "Buy 5 Double Exp for 5 Diamonds?";
 				break;
 			case 215:
-				cashItemConf.text = "Buy 15 Double Exp for 13 Diamond?";
+				cashItemConf.text = "Buy 15 Double Exp for 13 Diamonds?";
 				break;
 			case 230:
-				cashItemConf.text = "Buy 30 Double Exp for 26 Diamond?";
+				cashItemConf.text = "Buy 30 Double Exp for 26 Diamonds?";
 				break;
 			case 260:
-				cashItemConf.text = "Buy 60 Double Exp for 49 Diamond?";
+				cashItemConf.text = "Buy 60 Double Exp for 49 Diamonds?";
 				break;
 			case 301:
 				cashItemConf.text = "Buy 1 Double Gold for 1 Diamond?";
 				break;
 			case 305:
-				cashItemConf.text = "Buy 5 Double Gold for 5 Diamond?";
+				cashItemConf.text = "Buy 5 Double Gold for 5 Diamonds?";
 				break;
 			case 315:
-				cashItemConf.text = "Buy 15 Double Gold for 13 Diamond?";
+				cashItemConf.text = "Buy 15 Double Gold for 13 Diamonds?";
 				break;
 			case 330:
-				cashItemConf.text = "Buy 30 Double Gold for 26 Diamond?";
+				cashItemConf.text = "Buy 30 Double Gold for 26 Diamonds?";
 				break;
 			case 360:
-				cashItemConf.text = "Buy 60 Double Gold for 49 Diamond?";
+				cashItemConf.text = "Buy 60 Double Gold for 49 Diamonds?";
 				break;
 			}
 		} else {
@@ -824,10 +837,12 @@ public class ShopMenu : MonoBehaviour {
 	public void VolumeControl(int aux){
 		if (aux == 1) {
 			effectVolume = effectsController.value;
+			soundFX.volume = effectVolume;
 			PlayerPrefs.SetFloat ("EffectVolume", effectVolume);
 		}
 		if (aux == 2) {
 			musicVolume = musicController.value;
+			gameSound.volume = musicVolume;
 			PlayerPrefs.SetFloat ("MusicVolume", musicVolume);
 		}
 	}

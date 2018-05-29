@@ -373,7 +373,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	private void EndRun(){
-		gameCont.PlaySoundEffect (7);
 		playerRB.velocity = Vector2.zero;
 		playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 		int mana = gameCont.GetMana ();
@@ -453,6 +452,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 	public void CallEndGameMenu(){
+		GameObject duckHunt = Instantiate (Resources.Load ("DuckHuntRef") as GameObject);
 		GameObject endRunMenu = GameObject.Find ("EndRunMenu");
 		endRunMenu.GetComponent<EndRunMenu> ().enabled = true;
 	}

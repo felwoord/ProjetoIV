@@ -26,17 +26,18 @@ public class TargetControl : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private int hitCount;
 	private int ride2Level;
-
+	private float speed;
 	// Use this for initialization
 	void Start () {
 		playerRB = GameObject.Find ("Player").GetComponent<Rigidbody2D> ();
 		ride2Level = PlayerPrefs.GetInt ("ItemLevel_9", 0);
 		hitCount = 0;
+		speed = 50;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y + 50 * Time.deltaTime, transform.localPosition.z);
+		transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y + speed * Time.deltaTime, transform.localPosition.z);
 
 		if (transform.localPosition.y >= 230) {
 			transform.localPosition = new Vector3 (Random.Range (-440, 440), Random.Range (-230, 0), transform.localPosition.z);
@@ -47,6 +48,8 @@ public class TargetControl : MonoBehaviour {
 		hitCount++;
 		playerRB.velocity = new Vector2 (playerRB.velocity.x + 5 + (ride2Level / 2) + (hitCount * (1 + (ride2Level / 10))), playerRB.velocity.y);
 		transform.localPosition = new Vector3 (Random.Range (-440, 440), Random.Range (-230, 0), transform.localPosition.z);
+
+		speed = Random.Range (50, 200);
 
 		int a = Random.Range (0, 4);
 		switch (a) {
