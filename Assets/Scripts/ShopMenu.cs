@@ -19,6 +19,9 @@
 //"Ads"
 //
 //"TopDistance"
+//
+//"EffectVolume"
+//"MusicVolume"
 
 using System.Collections;
 using System.Collections.Generic;
@@ -71,6 +74,9 @@ public class ShopMenu : MonoBehaviour {
 	private int ads;
 
 	private GameObject cashItemsBar, restorePurchaseButton;
+
+	private Slider effectsController, musicController;
+	private float effectVolume, musicVolume;
 
 	void Start () {
 		GameObjectFind ();
@@ -136,6 +142,8 @@ public class ShopMenu : MonoBehaviour {
 		restorePurchaseButton = GameObject.Find ("RPButton");
 		cashItemConf = GameObject.Find ("ConfirmationText").GetComponent<Text> ();
 		notEnoughDDMenu = GameObject.Find ("NotEnoughDD");
+		musicController = GameObject.Find ("MusicVolume").GetComponent<Slider> ();
+		effectsController = GameObject.Find ("EffectVolume").GetComponent<Slider> ();
 	}
 	private void HideMenus(){
 		panelStr.SetActive (false);
@@ -168,6 +176,8 @@ public class ShopMenu : MonoBehaviour {
 		doubleExpQtd = PlayerPrefs.GetInt ("DoubleExp", 0);
 		doubleExp.text = doubleExpQtd.ToString ();
 		ads = PlayerPrefs.GetInt ("Ads", 1);
+		effectsController.value = PlayerPrefs.GetFloat ("EffectVolume", 1);
+		musicController.value = PlayerPrefs.GetFloat ("MusicVolume", 1);
 	}
 	private void Descriptions(){
 		pillowDescription = "Lose less life when you hit the ground";
@@ -675,9 +685,15 @@ public class ShopMenu : MonoBehaviour {
 		notEnoughDDEnabled = !notEnoughDDEnabled;
 	}
 	public void CashShopMenuButton(int aux){
-		if (!cashShopEnabled) {
-			cashShopMenu.SetActive (true);
-			cashShopMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+		if (aux == 0) {
+			cashShopMenu.SetActive (false);
+			cashShopEnabled = false;
+		} else {
+			if (!cashShopEnabled) {
+				cashShopMenu.SetActive (true);
+				cashShopMenu.GetComponent<RectTransform> ().SetAsLastSibling ();
+				cashShopEnabled = true;
+			}
 			switch (aux) {
 			case 1:
 				diamondShop.GetComponent<RectTransform> ().SetAsLastSibling ();
@@ -694,10 +710,7 @@ public class ShopMenu : MonoBehaviour {
 			default:
 				break;
 			}
-		} else {
-			cashShopMenu.SetActive (false);
 		}
-		cashShopEnabled = !cashShopEnabled;
 	}
 	public void ShowCashItens(int aux){
 		switch (aux) {
@@ -788,7 +801,7 @@ public class ShopMenu : MonoBehaviour {
 			Advertisement.Show("rewardedVideo", options);
 		}
 	}
-	void HandleShowResult(ShowResult result)
+	public void HandleShowResult(ShowResult result)
 	{
 		if (result == ShowResult.Finished)
 		{
@@ -806,6 +819,16 @@ public class ShopMenu : MonoBehaviour {
 		else if (result == ShowResult.Failed)
 		{
 			Debug.LogError("Falha ao carregar o video.");
+		}
+	}
+	public void VolumeControl(int aux){
+		if (aux == 1) {
+			effectVolume = effectsController.value;
+			PlayerPrefs.SetFloat ("EffectVolume", effectVolume);
+		}
+		if (aux == 2) {
+			musicVolume = musicController.value;
+			PlayerPrefs.SetFloat ("MusicVolume", musicVolume);
 		}
 	}
 }

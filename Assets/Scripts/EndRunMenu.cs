@@ -19,6 +19,9 @@
 //"Ads"
 //
 //"TopDistance"
+//
+//"EffectVolume"
+//"MusicVolume"
 
 using System.Collections;
 using System.Collections.Generic;
