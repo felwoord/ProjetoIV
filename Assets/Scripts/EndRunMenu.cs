@@ -84,7 +84,7 @@ public class EndRunMenu : MonoBehaviour {
 		doubleExp = PlayerPrefs.GetInt ("DoubleExp", 0);
 		doubleGold = PlayerPrefs.GetInt ("DoubleGold", 0);
 
-		currentLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
+		currentLevel = LevelFormula(currentExp);
 
 		if (doubleExp > 0) {
 			currentExp += expGained * 2;
@@ -107,12 +107,12 @@ public class EndRunMenu : MonoBehaviour {
 		budgetMultText.text = "x"+budgetFormula.ToString ("F1");
 		budgetGoldGainedText.text = (goldGained * budgetFormula).ToString ("0");
 
-		newLevel = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
+		newLevel = LevelFormula(currentExp);
 
 		if (newLevel > currentLevel) {
 			int levelup = newLevel - currentLevel;
 			int pointsLeft = PlayerPrefs.GetInt ("PointsLeft_" + characterID, 0);
-			pointsLeft = pointsLeft + (levelup * 3);
+			pointsLeft = pointsLeft + (levelup * 1);
 			PlayerPrefs.SetInt ("PointsLeft_" + characterID, pointsLeft);
 			GameObject.Find ("LevelUp").GetComponent<LevelUpText> ().enabled = true;
 		}
@@ -133,6 +133,10 @@ public class EndRunMenu : MonoBehaviour {
 			transform.position = new Vector2 (transform.position.x - Screen.width/2 * Time.deltaTime, transform.position.y);
 		}
 
+	}
+
+	private int LevelFormula (float exp){
+		return (Mathf.FloorToInt (Mathf.Pow (exp, 1/3)));
 	}
 
 	public void PlayAgain(){
