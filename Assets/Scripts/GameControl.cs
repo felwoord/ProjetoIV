@@ -27,6 +27,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameControl : MonoBehaviour {
 	private bool directionSelecting, powerSelecting;
@@ -374,35 +375,37 @@ public class GameControl : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
-			if (powerSelecting) {
-				powerSelecting = false;
-				powerLaunch = arrow.fillAmount * powerMultiplier;
-				playerRB.gravityScale = 1;
-				player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);
-				player.GetComponent<PlayerController> ().enabled = true;
-				if (characterID == 1)
-					player.GetComponent<CharacterOne> ().enabled = true;
-				if (characterID == 2) 
-					player.GetComponent<CharacterTwo> ().enabled = true;
-				if (characterID == 3) 
-					player.GetComponent<CharacterOne> ().enabled = true;				
-				Destroy (launcher);
-				foreach (GameObject pwb in powerBar) {
-					pwb.GetComponent<Image> ().enabled = true;
+			if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId) && !EventSystem.current.IsPointerOverGameObject ()) {
+				if (powerSelecting) {
+					powerSelecting = false;
+					powerLaunch = arrow.fillAmount * powerMultiplier;
+					playerRB.gravityScale = 1;
+					player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);
+					player.GetComponent<PlayerController> ().enabled = true;
+					if (characterID == 1)
+						player.GetComponent<CharacterOne> ().enabled = true;
+					if (characterID == 2)
+						player.GetComponent<CharacterTwo> ().enabled = true;
+					if (characterID == 3)
+						player.GetComponent<CharacterOne> ().enabled = true;				
+					Destroy (launcher);
+					foreach (GameObject pwb in powerBar) {
+						pwb.GetComponent<Image> ().enabled = true;
+					}
+					healthBar.enabled = true;
+					healthText.enabled = true;
+					distText.enabled = true;
+					distText2.enabled = true;
+					startGame = false;
+					PlaySoundEffect (1);
 				}
-				healthBar.enabled = true;
-				healthText.enabled = true;
-				distText.enabled = true;
-				distText2.enabled = true;
-				startGame = false;
-				PlaySoundEffect (1);
-			}
-			if (directionSelecting) {
-				directionSelecting = false;
-				powerSelecting = true;
-				float angle = launcher.transform.rotation.eulerAngles.z;
-				angleLaunch = new Vector2 (Mathf.Cos (Mathf.Deg2Rad * angle), Mathf.Sin (Mathf.Deg2Rad * angle));
-			}
+			
+				if (directionSelecting) {
+					directionSelecting = false;
+					powerSelecting = true;
+					float angle = launcher.transform.rotation.eulerAngles.z;
+					angleLaunch = new Vector2 (Mathf.Cos (Mathf.Deg2Rad * angle), Mathf.Sin (Mathf.Deg2Rad * angle));
+				}}
 		}
 	}
 	private void CreateGround(){

@@ -26,6 +26,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CharacterOne : MonoBehaviour {
 	private GameControl game;
@@ -57,10 +58,12 @@ public class CharacterOne : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && !delay) {
 			if (!playerControl.GetRide1 () && !playerControl.GetRide2 ()) {
 				if (!playerControl.GetHeightCheck ()) {
-					int powerBarsCount = game.GetMana ();
-					if (powerBarsCount > 0) {
-						playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);
-						game.RemovePowerBar ();
+					if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId) && !EventSystem.current.IsPointerOverGameObject ()) {
+						int powerBarsCount = game.GetMana ();
+						if (powerBarsCount > 0) {
+							playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);
+							game.RemovePowerBar ();
+						}
 					}
 				}
 			}
