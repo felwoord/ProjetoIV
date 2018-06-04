@@ -105,6 +105,11 @@ public class GameControl : MonoBehaviour {
 	private GameObject optionMenu;
 	private bool menuEnabled;
 
+	private Camera mainCam;
+
+	private bool slowmoEffect;
+	private bool iniciateEffect;
+
 	void Start () {
 		GetPlayerPrefs ();
 
@@ -165,10 +170,6 @@ public class GameControl : MonoBehaviour {
 		} else {
 			GamePlay ();	//Flying time!
 		}
-
-		if (ride1ScreenAnimation) {
-			ScreenAnimationRide1 ();
-		}
 	}
 	private void GetPlayerPrefs(){
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
@@ -212,6 +213,8 @@ public class GameControl : MonoBehaviour {
 		effectsController = GameObject.Find ("EffectVolume").GetComponent<Slider> ();
 
 		optionMenu = GameObject.Find ("OptionMenu");
+
+		mainCam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 	}
 	private void ZeroAll(){
 		healthText.enabled = false;
@@ -257,6 +260,9 @@ public class GameControl : MonoBehaviour {
 
 		optionMenu.SetActive (false);
 		menuEnabled = false;
+
+		slowmoEffect = false;
+		iniciateEffect = false;
 	}
 	private void VolumeSetting(){
 		soundFX.volume = effectVolume;
@@ -350,6 +356,13 @@ public class GameControl : MonoBehaviour {
 				ride2CD = true;
 				ride2CounterCD = 0;
 			}
+		}
+
+		if (ride1ScreenAnimation) {
+			ScreenAnimationRide1 ();
+		}
+		if (slowmoEffect) {
+			SlowMotionZoomEffect ();
 		}
 	}
 	private void StartGame(){
@@ -769,5 +782,25 @@ public class GameControl : MonoBehaviour {
 			gameSound.volume = musicVolume;
 			PlayerPrefs.SetFloat ("MusicVolume", musicVolume);
 		}
+	}
+	private void SlowMotionZoomEffect(){
+		if (iniciateEffect) {
+			mainCam.orthographicSize = 3.5f;
+			Time.timeScale = 0.1f;
+			iniciateEffect = false;
+		} else {
+			mainCam.orthographicSize = Mathf.Lerp (mainCam.orthographicSize, 5, 0.2f);
+			Time.timeScale = Mathf.Lerp (Time.timeScale, 1, 0.2f);
+		}
+
+		if (Time.timeScale >= 0.95) {
+			mainCam.orthographicSize = 5;
+			Time.timeScale = 1;
+			slowmoEffect = false;
+		}
+	}
+	public void SlowMoZoomEffect(){
+		slowmoEffect = true;
+		iniciateEffect = true;
 	}
 }

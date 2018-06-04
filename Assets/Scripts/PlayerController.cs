@@ -341,6 +341,7 @@ public class PlayerController : MonoBehaviour {
 			} 
 
 
+			gameCont.SlowMoZoomEffect ();
 			ride1Timer = 0;
 			ride1 = false;
 			playerRB.drag = saveDrag;
@@ -363,6 +364,7 @@ public class PlayerController : MonoBehaviour {
 			if (characterID == 3) {
 			} 
 
+			gameCont.SlowMoZoomEffect ();
 			Destroy (GameObject.Find ("Ride2Canvas"));
 			ride2Timer = 0;
 			ride2 = false;
