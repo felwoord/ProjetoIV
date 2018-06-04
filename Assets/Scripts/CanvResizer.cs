@@ -17,7 +17,7 @@ public class CanvResizer : MonoBehaviour {
 			#if UNITY_STANDALONE
 			canvScaler.referenceResolution = new Vector2 (1920, 1080);
 			#else
-			canvScaler.referenceResolution = new Vector2 (1920, 1080) * 0.5f;
+			canvScaler.referenceResolution = new Vector2 (1920, 1080) * 0.80f;
 			#endif
 			}
 			if (SceneManager.GetActiveScene ().name == "GameScene"){
