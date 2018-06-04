@@ -58,7 +58,11 @@ public class CharacterOne : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && !delay) {
 			if (!playerControl.GetRide1 () && !playerControl.GetRide2 ()) {
 				if (!playerControl.GetHeightCheck ()) {
-					if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId) && !EventSystem.current.IsPointerOverGameObject ()) {
+					#if UNITY_STANDALONE
+					if (!EventSystem.current.IsPointerOverGameObject ()) {
+					#else
+					if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
+					#endif
 						int powerBarsCount = game.GetMana ();
 						if (powerBarsCount > 0) {
 							playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);

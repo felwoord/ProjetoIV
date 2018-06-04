@@ -375,7 +375,11 @@ public class GameControl : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
-			if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId) && !EventSystem.current.IsPointerOverGameObject ()) {
+			#if UNITY_STANDALONE
+			if (!EventSystem.current.IsPointerOverGameObject ()) {
+			#else
+			if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
+			#endif
 				if (powerSelecting) {
 					powerSelecting = false;
 					powerLaunch = arrow.fillAmount * powerMultiplier;

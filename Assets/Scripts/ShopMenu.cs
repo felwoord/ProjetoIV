@@ -252,7 +252,15 @@ public class ShopMenu : MonoBehaviour {
 	public void Play(){
 		PlayerPrefs.SetInt ("Character_ID", currentCharacter);
 		PlayerPrefs.Save ();
-		SceneManager.LoadScene ("GameScene");
+		StartCoroutine (LoadGameScene ());
+	}
+	IEnumerator LoadGameScene(){
+		AsyncOperation asyncLoad = SceneManager.LoadSceneAsync ("GameScene");
+	
+		while (!asyncLoad.isDone) {
+			Debug.Log (asyncLoad.progress);
+			yield return null;
+		}
 	}
 	public void ItensButton(){
 		itens.GetComponent<RectTransform> ().SetAsLastSibling ();
