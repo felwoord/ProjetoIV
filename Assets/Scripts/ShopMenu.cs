@@ -81,6 +81,11 @@ public class ShopMenu : MonoBehaviour {
 	private float effectVolume, musicVolume;
 	private Slider effectsController, musicController;
 
+	private GameObject loadingScreen;
+	private Image progressBar;
+	private Text hints;
+	private string hint1, hint2, hint3;
+
 	void Start () {
 		GameObjectFind ();
 		Descriptions ();
@@ -149,6 +154,9 @@ public class ShopMenu : MonoBehaviour {
 		gameSound = GameObject.Find ("GameMusic").GetComponent<AudioSource> ();
 		musicController = GameObject.Find ("MusicVolume").GetComponent<Slider> ();
 		effectsController = GameObject.Find ("EffectVolume").GetComponent<Slider> ();
+		loadingScreen = GameObject.Find ("LoadingScreen");
+		progressBar = GameObject.Find ("LoadingImage").GetComponent<Image> ();
+		hints = GameObject.Find ("Hints").GetComponent<Text> ();
 	}
 	private void HideMenus(){
 		panelStr.SetActive (false);
@@ -167,6 +175,8 @@ public class ShopMenu : MonoBehaviour {
 		cashItemConfEnabled = false;
 		notEnoughDDMenu.SetActive (false);
 		notEnoughDDEnabled = false;
+
+		loadingScreen.SetActive (false);
 	}
 	private void GetPlayerPrefs (){
 		currentCharacter = PlayerPrefs.GetInt ("Character_ID", 1);
@@ -194,6 +204,10 @@ public class ShopMenu : MonoBehaviour {
 		trapDescription = "Upgrade to make it appear less often";
 		ride1Description = "Upgrade to gain more speed";
 		ride2Description = "Upgrade to  gain more speed";
+
+		hint1 = "While above your max health, you will lose health quickly";
+		hint2 = "To go futher you only need to get better";
+		hint3 = "Hey! Listen!";
 	}
 	private void VolumeSetting(){
 		soundFX.volume = effectVolume;
@@ -252,13 +266,29 @@ public class ShopMenu : MonoBehaviour {
 	public void Play(){
 		PlayerPrefs.SetInt ("Character_ID", currentCharacter);
 		PlayerPrefs.Save ();
+
+		int a = Random.Range (1, 4);
+		switch (a) {
+		case 1:
+			hints.text = hint1;
+			break;
+		case 2:
+			hints.text = hint2;
+			break;
+		case 3:
+			hints.text = hint3;
+			break;
+		default:
+			break;
+		}
+		loadingScreen.SetActive (true);
 		StartCoroutine (LoadGameScene ());
 	}
 	IEnumerator LoadGameScene(){
 		AsyncOperation asyncLoad = SceneManager.LoadSceneAsync ("GameScene");
 	
 		while (!asyncLoad.isDone) {
-			Debug.Log (asyncLoad.progress);
+			progressBar.fillAmount = asyncLoad.progress;
 			yield return null;
 		}
 	}
