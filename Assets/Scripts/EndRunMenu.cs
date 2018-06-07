@@ -112,9 +112,11 @@ public class EndRunMenu : MonoBehaviour {
 		if (newLevel > currentLevel) {
 			int levelup = newLevel - currentLevel;
 			int pointsLeft = PlayerPrefs.GetInt ("PointsLeft_" + characterID, 0);
-			pointsLeft = pointsLeft + (levelup * 2);
+			pointsLeft = pointsLeft + (levelup);
 			PlayerPrefs.SetInt ("PointsLeft_" + characterID, pointsLeft);
 			GameObject.Find ("LevelUp").GetComponent<LevelUpText> ().enabled = true;
+		} else {
+			GameObject.Find ("LevelUp").SetActive (false);
 		}
 
 		expGainedText.text = expGained.ToString("0");

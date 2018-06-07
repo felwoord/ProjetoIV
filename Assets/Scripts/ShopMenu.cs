@@ -84,7 +84,7 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject loadingScreen;
 	private Image progressBar;
 	private Text hints;
-	private string hint1, hint2, hint3;
+	private string hint1, hint2, hint3, hint4;
 
 	void Start () {
 		GameObjectFind ();
@@ -208,6 +208,7 @@ public class ShopMenu : MonoBehaviour {
 		hint1 = "While above your max health, you will lose health quickly";
 		hint2 = "To go further you only need to get better";
 		hint3 = "Hey! Listen!";
+		hint4 = "Every 10 points on Magic, you gain 1 extra Mana bar";
 	}
 	private void VolumeSetting(){
 		soundFX.volume = effectVolume;
@@ -244,7 +245,7 @@ public class ShopMenu : MonoBehaviour {
 	}
 	public void CheckCurrentCharacter(){
 		float currentExp = PlayerPrefs.GetFloat ("CurrentExp_" + currentCharacter, 0);
-		level = Mathf.FloorToInt(Mathf.Sqrt (currentExp));
+		level = Mathf.FloorToInt (Mathf.Pow (currentExp, 0.33f));
 		strPoints = PlayerPrefs.GetInt ("Str_" + currentCharacter, 1);
 		magicPoints = PlayerPrefs.GetInt ("Magic_" + currentCharacter, 1);
 		vitPoints = PlayerPrefs.GetInt ("Vit_" + currentCharacter, 1);
@@ -267,7 +268,7 @@ public class ShopMenu : MonoBehaviour {
 		PlayerPrefs.SetInt ("Character_ID", currentCharacter);
 		PlayerPrefs.Save ();
 
-		int a = Random.Range (1, 4);
+		int a = Random.Range (1, 5);
 		switch (a) {
 		case 1:
 			hints.text = hint1;
@@ -278,10 +279,14 @@ public class ShopMenu : MonoBehaviour {
 		case 3:
 			hints.text = hint3;
 			break;
+		case 4:
+			hints.text = hint4;
+			break;
 		default:
 			break;
 		}
 		loadingScreen.SetActive (true);
+		loadingScreen.GetComponent<RectTransform> ().SetAsLastSibling ();
 		StartCoroutine (LoadGameScene ());
 	}
 	IEnumerator LoadGameScene(){
