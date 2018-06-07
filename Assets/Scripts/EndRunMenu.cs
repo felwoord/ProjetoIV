@@ -75,7 +75,7 @@ public class EndRunMenu : MonoBehaviour {
 		topDistTxt.text = topDistance.ToString ("0");
 		cam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 		gameCont = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
-		expGained = gameCont.GetExp () + maxDistance / 10;
+		expGained = gameCont.GetExp () + maxDistance / 50;
 		goldGained = gameCont.GetGold () + maxDistance / 20;
 
 		characterID = PlayerPrefs.GetInt ("Character_ID", 1);
@@ -112,7 +112,7 @@ public class EndRunMenu : MonoBehaviour {
 		if (newLevel > currentLevel) {
 			int levelup = newLevel - currentLevel;
 			int pointsLeft = PlayerPrefs.GetInt ("PointsLeft_" + characterID, 0);
-			pointsLeft = pointsLeft + (levelup * 1);
+			pointsLeft = pointsLeft + (levelup * 2);
 			PlayerPrefs.SetInt ("PointsLeft_" + characterID, pointsLeft);
 			GameObject.Find ("LevelUp").GetComponent<LevelUpText> ().enabled = true;
 		}
@@ -136,7 +136,7 @@ public class EndRunMenu : MonoBehaviour {
 	}
 
 	private int LevelFormula (float exp){
-		return (Mathf.FloorToInt (Mathf.Pow (exp, 1/3)));
+		return (Mathf.FloorToInt (Mathf.Pow (exp, 0.33f)));
 	}
 
 	public void PlayAgain(){

@@ -206,7 +206,7 @@ public class ShopMenu : MonoBehaviour {
 		ride2Description = "Upgrade to  gain more speed";
 
 		hint1 = "While above your max health, you will lose health quickly";
-		hint2 = "To go futher you only need to get better";
+		hint2 = "To go further you only need to get better";
 		hint3 = "Hey! Listen!";
 	}
 	private void VolumeSetting(){
