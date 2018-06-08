@@ -143,7 +143,7 @@ public class GameControl : MonoBehaviour {
 
 		ZeroAll ();
 
-		launcherRotSpeed = 5 / (0.01f + sightLevel * 0.005f);
+		launcherRotSpeed = 4.5f / (0.01f + sightLevel * 0.005f);
 
 		arrowFillSpeed = 5 / (0.75f + (steadyHandsLevel * 0.1f));
 			
