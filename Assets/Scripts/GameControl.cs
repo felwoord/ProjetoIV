@@ -147,7 +147,7 @@ public class GameControl : MonoBehaviour {
 
 		arrowFillSpeed = 5 / (0.75f + (steadyHandsLevel * 0.1f));
 			
-		powerMultiplier = (10 * str / 2) + 8;
+		powerMultiplier = (4 * str) + 8;
 		maxSpeed = (vit * 10) + 5;
 
 		FirstBuffs ();
