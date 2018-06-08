@@ -84,7 +84,7 @@ public class ShopMenu : MonoBehaviour {
 	private GameObject loadingScreen;
 	private Image progressBar;
 	private Text hints;
-	private string hint1, hint2, hint3, hint4;
+	private string hint1, hint2, hint3, hint4, hint5, hint6, hint7;
 
 	void Start () {
 		GameObjectFind ();
@@ -94,18 +94,18 @@ public class ShopMenu : MonoBehaviour {
 		CheckCurrentCharacter ();
 		HideMenus ();
 
-//		#if UNITY_STANDALONE
-//		ads = 0;
-//		PlayerPrefs.SetInt("Ads", ads);
-//		cashItemsBar.SetActive(false);
-//		#else
-//		#if UNITY_IOS
-//		restorePurchaseButton.SetActive(true);
-//		#else
-//		//RestorePurchase();
-//		restorePurchaseButton.SetActive(false);
-//		#endif
-//		#endif
+		#if UNITY_STANDALONE
+		ads = 0;
+		PlayerPrefs.SetInt("Ads", ads);
+		cashItemsBar.SetActive(false);
+		#else
+		#if UNITY_IOS
+		restorePurchaseButton.SetActive(true);
+		#else
+		//RestorePurchase();
+		restorePurchaseButton.SetActive(false);
+		#endif
+		#endif
 
 		if (ads == 0) {
 			removeAds.SetActive (false);
@@ -205,10 +205,13 @@ public class ShopMenu : MonoBehaviour {
 		ride1Description = "Upgrade to gain more speed";
 		ride2Description = "Upgrade to  gain more speed";
 
-		hint1 = "While above your max health, you will lose health quickly";
+		hint1 = "While above your max health, you will lose health faster";
 		hint2 = "To go further you only need to get better";
-		hint3 = "Hey! Listen!";
+		hint3 = "Hey, Listen!";
 		hint4 = "Every 10 points on Magic, you gain 1 extra Mana bar";
+		hint5 = "Hellooo my friend. Stay a while and listen!";
+		hint6 = "To Dance you only need to tap";
+		hint7 = "Do a barrel roll!";
 	}
 	private void VolumeSetting(){
 		soundFX.volume = effectVolume;
@@ -268,7 +271,7 @@ public class ShopMenu : MonoBehaviour {
 		PlayerPrefs.SetInt ("Character_ID", currentCharacter);
 		PlayerPrefs.Save ();
 
-		int a = Random.Range (1, 5);
+		int a = Random.Range (1, 8);
 		switch (a) {
 		case 1:
 			hints.text = hint1;
@@ -281,6 +284,15 @@ public class ShopMenu : MonoBehaviour {
 			break;
 		case 4:
 			hints.text = hint4;
+			break;
+		case 5:
+			hints.text = hint5;
+			break;
+		case 6:
+			hints.text = hint6;
+			break;
+		case 7:
+			hints.text = hint7;
 			break;
 		default:
 			break;
