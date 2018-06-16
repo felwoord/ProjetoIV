@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cbe20514155d1409d377966256b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.marvelik.projetoIV.diamonds5
+  productId: com.marvelik.rvglauncher.diamonds5
   buttonType: 0
   consumePurchase: 1
   onPurchaseComplete:
@@ -6398,7 +6398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cbe20514155d1409d377966256b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.marvelik.projetoIV.diamonds15
+  productId: com.marvelik.rvglauncher.diamonds15
   buttonType: 0
   consumePurchase: 1
   onPurchaseComplete:
@@ -7743,7 +7743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cbe20514155d1409d377966256b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.marvelik.projetoIV.diamonds1
+  productId: com.marvelik.rvglauncher.diamonds1
   buttonType: 0
   consumePurchase: 1
   onPurchaseComplete:
@@ -9621,7 +9621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cbe20514155d1409d377966256b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.marvelik.projetoIV.permabuffs
+  productId: com.marvelik.rvglauncher.permabuffs
   buttonType: 0
   consumePurchase: 1
   onPurchaseComplete:
@@ -9771,7 +9771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cbe20514155d1409d377966256b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.marvelik.projetoIV.diamonds60
+  productId: com.marvelik.rvglauncher.diamonds60
   buttonType: 0
   consumePurchase: 1
   onPurchaseComplete:
@@ -11617,7 +11617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cbe20514155d1409d377966256b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.marvelik.projetoIV.removeads
+  productId: com.marvelik.rvglauncher.removeads
   buttonType: 0
   consumePurchase: 1
   onPurchaseComplete:
@@ -18633,7 +18633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54cbe20514155d1409d377966256b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productId: com.marvelik.projetoIV.diamonds30
+  productId: com.marvelik.rvglauncher.diamonds30
   buttonType: 0
   consumePurchase: 1
   onPurchaseComplete:
