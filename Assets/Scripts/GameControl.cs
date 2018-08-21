@@ -368,7 +368,7 @@ public class GameControl : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
-			#if UNITY_STANDALONE
+			#if !UNITY_STANDALONE                                                           //tirar o ! quando for lançar
 			if (!EventSystem.current.IsPointerOverGameObject ()) {
 			#else
 			if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {

@@ -851,7 +851,7 @@ public class ShopMenu : MonoBehaviour {
 	public void LoadScene(){
 		SceneManager.LoadScene("ShopScene");
 	}
-	public void RestorePurchase(){
+	/*public void RestorePurchase(){
 		ProductCollection productCatalog = IAPButton.IAPButtonStoreManager.Instance.controller.products;
 		if (productCatalog.WithID ("com.marvelik.projetoIV.removeads").hasReceipt) {
 			BuyRemoveAds ();
@@ -859,7 +859,7 @@ public class ShopMenu : MonoBehaviour {
 		if (productCatalog.WithID ("com.marvelik.projetoIV.permabuffs").hasReceipt) {
 			InfinityBuffs ();
 		}
-	}
+	}*/
 	public void ShowRewarded()
 	{
 		ShowOptions options = new ShowOptions();

@@ -58,7 +58,7 @@ public class CharacterOne : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && !delay) {
 			if (!playerControl.GetRide1 () && !playerControl.GetRide2 ()) {
 				if (!playerControl.GetHeightCheck ()) {
-					#if UNITY_STANDALONE
+					#if !UNITY_STANDALONE                                               //tirar o !
 					if (!EventSystem.current.IsPointerOverGameObject ()) {
 					#else
 					if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
