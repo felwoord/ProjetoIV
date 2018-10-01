@@ -8,9 +8,10 @@
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
 //
-//"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
-//"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
-//"ItemLevel_8 -> Ride 1,	ItemLevel_9 -> Ride 2
+//"ItemLevel_0 -> Pillow,	ItemLevel_1 -> Sight,	ItemLevel_2 -> SteadyHands, 	ItemLevel_3 -> Budget
+//"ItemLevel_4 -> Buff 1,	ItemLevel_5 -> Buff 2,	ItemLevel_6 -> Trap		
+//"ItemLevel_7 -> Ride 1,	ItemLevel_8 -> Ride 2
+//"ItemLevel_9 -> Aerodynamic
 //
 //"Diamond"
 //"ExtraLife"
@@ -87,8 +88,8 @@ public class PlayerController : MonoBehaviour {
 		ride2 = false;
 		playerRB = GetComponent<Rigidbody2D> ();
 
-		pillowLevel = PlayerPrefs.GetInt ("ItemLeve_1", 0);
-		ride1Level = PlayerPrefs.GetInt ("ItemLevel_8", 0);
+		pillowLevel = PlayerPrefs.GetInt ("ItemLeve_0", 0);
+		ride1Level = PlayerPrefs.GetInt ("ItemLevel_7", 0);
 
 		playerRB.sharedMaterial.bounciness += pillowLevel / 100;
 

@@ -8,9 +8,10 @@
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
 //
-//"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
-//"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
-//"ItemLevel_8 -> Ride 1,	ItemLevel_9 -> Ride 2
+//"ItemLevel_0 -> Pillow,	ItemLevel_1 -> Sight,	ItemLevel_2 -> SteadyHands, 	ItemLevel_3 -> Budget
+//"ItemLevel_4 -> Buff 1,	ItemLevel_5 -> Buff 2,	ItemLevel_6 -> Trap		
+//"ItemLevel_7 -> Ride 1,	ItemLevel_8 -> Ride 2
+//"ItemLevel_9 -> Aerodynamic
 //
 //"Diamond"
 //"ExtraLife"
@@ -43,7 +44,7 @@ public class ShopMenu : MonoBehaviour {
 	private bool activeStr, activeMagic, activeVit;
 	private GameObject panelStr, panelMagic, panelVit;
 
-	private string pillowDescription, sightDescription, steadyHandsDescription, budgetDescription;
+	private string pillowDescription, sightDescription, steadyHandsDescription, budgetDescription, aerodynamicsDescription;
 	private string buff1Description, buff2Description, trapDescription;
 	private string ride1Description, ride2Description;
 	private Text itemDescription, itemPriceText, itemLevelText;
@@ -199,11 +200,13 @@ public class ShopMenu : MonoBehaviour {
 		sightDescription = "Make it easier to aim";
 		steadyHandsDescription = "Make it easier to select power";
 		budgetDescription = "Earn more money at the end of the run";
-		buff1Description = "Upgrade to make it appear more often";
+        aerodynamicsDescription = "Lose less life from air friction";
+        buff1Description = "Upgrade to make it appear more often";
 		buff2Description = "Upgrade to make it appear more often";
 		trapDescription = "Upgrade to make it appear less often";
 		ride1Description = "Upgrade to gain more speed";
 		ride2Description = "Upgrade to  gain more speed";
+    
 
 		hint1 = "While above your max health, you will lose health faster";
 		hint2 = "To go further you only need to get better";
@@ -384,7 +387,7 @@ public class ShopMenu : MonoBehaviour {
 		currentItem = 3;
 		ItemChange (budgetDescription);
 	}
-	public void ShowBuff1(){
+    public void ShowBuff1(){
 		currentItem = 4;
 		ItemChange (buff1Description);
 	}
@@ -404,7 +407,12 @@ public class ShopMenu : MonoBehaviour {
 		currentItem = 8;
 		ItemChange (ride2Description);
 	}
-	private void ItemChange(string description){
+    public void ShowAerodyn()
+    {
+        currentItem = 9;
+        ItemChange(aerodynamicsDescription);
+    }
+    private void ItemChange(string description){
 		itemDisplay.sprite = itemSprite [currentItem];
 		itemDescription.text = description;
 		itemLevel = PlayerPrefs.GetInt ("ItemLevel_" + currentItem, 0);

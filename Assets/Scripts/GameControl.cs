@@ -8,9 +8,10 @@
 //"Vit_1", 			"Vit_2", 		"Vit_3"
 //"PointsLeft_1", 	"PointsLeft_2", "PointsLeft_3"
 //
-//"ItemLevel_1 -> Pillow,	ItemLevel_2 -> Sight,	ItemLevel_3 -> SteadyHands, 	ItemLevel_4 -> Budget
-//"ItemLevel_5 -> Buff 1,	ItemLevel_6 -> Buff 2,	ItemLevel_7 -> Trap		
-//"ItemLevel_8 -> Ride 1,	ItemLevel_9 -> Ride 2
+//"ItemLevel_0 -> Pillow,	ItemLevel_1 -> Sight,	ItemLevel_2 -> SteadyHands, 	ItemLevel_3 -> Budget
+//"ItemLevel_4 -> Buff 1,	ItemLevel_5 -> Buff 2,	ItemLevel_6 -> Trap		
+//"ItemLevel_7 -> Ride 1,	ItemLevel_8 -> Ride 2
+//"ItemLevel_9 -> Aerodynamic
 //
 //"Diamond"
 //"ExtraLife"
@@ -40,12 +41,13 @@ public class GameControl : MonoBehaviour {
 	private Vector2 angleLaunch;
 	private float powerLaunch;
 	private float powerMultiplier;
-	private int sightLevel, steadyHandsLevel, buff1Level, buff2Level, trapLevel;
+	private int sightLevel, steadyHandsLevel, buff1Level, buff2Level, trapLevel, aerodynLevel;
 
 	private bool startGame;
 
 	private Rigidbody2D playerRB;
 	private GameObject player;
+    private float playerDragBelow, playerDragAbove;
 	private GameObject lastGround, currentGround, nextGround;
 	private GameObject lastBackGround, currentBackGround, nextBackGround;
 	private PlayerController playerCont;
@@ -132,7 +134,11 @@ public class GameControl : MonoBehaviour {
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
 
 
-		GameObjectFind ();
+        playerDragBelow = 0.05f - (aerodynLevel * 0.0025f);
+        playerDragAbove = 0.5f - (aerodynLevel * 0.0025f);
+
+
+        GameObjectFind ();
 
 
 		extraLifeLeft.text = extraLife.ToString () + " left!";
@@ -175,6 +181,7 @@ public class GameControl : MonoBehaviour {
 		buff1Level = PlayerPrefs.GetInt ("ItemLevel_4", 0);
 		buff2Level = PlayerPrefs.GetInt ("ItemLevel_5", 0);
 		trapLevel = PlayerPrefs.GetInt ("ItemLevel_6", 0);
+        aerodynLevel = PlayerPrefs.GetInt("ItemLevel_9", 0);
 		extraLife = PlayerPrefs.GetInt ("ExtraLife", 0);
 		effectVolume = PlayerPrefs.GetFloat ("EffectVolume", 1);
 		musicVolume = PlayerPrefs.GetFloat ("MusicVolume", 1);
@@ -273,9 +280,9 @@ public class GameControl : MonoBehaviour {
 		if (!playerCont.GetRide1 () && !playerCont.GetRide2 ()) {
 			if (playerRB.velocity.x > maxSpeed) {
 				if (player.transform.position.y < 36) {
-					playerRB.drag = 0.5f;
+                    playerRB.drag = playerDragAbove;
 				} else if (player.transform.position.y >= 36 && player.transform.position.y < 65) {
-					playerRB.drag = 0.25f;
+                    playerRB.drag = playerDragAbove / 2;
 				} else {
 					playerRB.drag = 0;
 				}
@@ -285,9 +292,10 @@ public class GameControl : MonoBehaviour {
 				}
 			} else {
 				if (player.transform.position.y < 36) {
-					playerRB.drag = 0.05f;
-				} else if (player.transform.position.y >= 36 && player.transform.position.y < 65) {
-					playerRB.drag = 0.025f;
+                    playerRB.drag = playerDragBelow;
+
+                } else if (player.transform.position.y >= 36 && player.transform.position.y < 65) {
+                    playerRB.drag = playerDragBelow / 2;
 				} else {
 					playerRB.drag = 0;
 				}
