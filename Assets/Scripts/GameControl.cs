@@ -276,7 +276,7 @@ public class GameControl : MonoBehaviour {
 
         bossBattle = false;
         doOnceEnterBossBattle = false;
-        gravity = playerRB.gravityScale;
+        gravity = 1;
 	}
 	private void VolumeSetting(){
 		soundFX.volume = effectVolume;
@@ -288,39 +288,49 @@ public class GameControl : MonoBehaviour {
 	private void GamePlay(){
         if (bossBattle)
         {
-            healthTxtBB.text = lifeBB.ToString("0");
+            if(lifeBB <= 0)
+            {
+                mainCanvas.SetActive(true);
+                bossBattleCanvas.SetActive(false);
+                bossBattle = false;
+                playerRB.gravityScale = gravity;
+                player.transform.position = new Vector3(posXBB, player.transform.position.y, player.transform.position.z);
+                currentBackGround.transform.position = new Vector3(player.transform.position.x, 18, currentBackGround.transform.position.z);
+                nextBackGround.transform.position = new Vector3(currentBackGround.transform.position.x + 64.5f, 18, nextBackGround.transform.position.z);
+                currentGround.transform.position = new Vector3(player.transform.position.x + 4, 1, currentGround.transform.position.z);
+                nextGround.transform.position = new Vector3(currentGround.transform.position.x + 17.5f, 1, nextBackGround.transform.position.z);
+                Destroy(bossOne);
+                
+            }
         }
         else
         {
             healthText.text = playerRB.velocity.x.ToString("0");
             distText.text = player.transform.position.x.ToString("0");
             healthBar.fillAmount = playerRB.velocity.x / maxSpeed;
-            if(player.transform.position.x > 500 && !playerCont.GetRide1() && !playerCont.GetRide2() && !playerCont.GetHeightCheck() && !slowmoEffect)
-            {
-                if (!doOnceEnterBossBattle)
-                {
-                    posXBB = player.transform.position.x;
-                    bossBattle = true;
-                    doOnceEnterBossBattle = true;
-                    mainCanvas.SetActive(false);
-                    bossBattleCanvas.SetActive(true);
-                    playerRB.gravityScale = 0;
-                    player.transform.position = new Vector3(player.transform.position.x, 10f, player.transform.position.z);
-                    if (playerRB.velocity.x > maxSpeed)
-                    {
-                        lifeBB = maxSpeed;
-                    }
-                    else
-                    {
-                        lifeBB = playerRB.velocity.x;
-                    }
-                    playerRB.velocity = new Vector3(20, 0, 0);
-                    healthBarBB.fillAmount = lifeBB / maxSpeed;
-                    bossOne = Instantiate(Resources.Load("BossOne") as GameObject);
-                    healthTxtBB = GameObject.Find("HealthTextBB").GetComponent<Text>();
-                    healthTxtBB.text = lifeBB.ToString("0");
 
+            if (player.transform.position.x > 500 && !playerCont.GetRide1() && !playerCont.GetRide2() && !playerCont.GetHeightCheck() && !slowmoEffect && !doOnceEnterBossBattle)
+            {
+                posXBB = player.transform.position.x;
+                bossBattle = true;
+                doOnceEnterBossBattle = true;
+                mainCanvas.SetActive(false);
+                bossBattleCanvas.SetActive(true);
+                playerRB.gravityScale = 0;
+                player.transform.position = new Vector3(player.transform.position.x, 10f, player.transform.position.z);
+                if (playerRB.velocity.x > maxSpeed)
+                {
+                    lifeBB = maxSpeed;
                 }
+                else
+                {
+                    lifeBB = playerRB.velocity.x;
+                }
+                playerRB.velocity = new Vector3(20, 0, 0);
+                healthBarBB.fillAmount = lifeBB / maxSpeed;
+                bossOne = Instantiate(Resources.Load("BossOne") as GameObject);
+                healthTxtBB = GameObject.Find("HealthTextBB").GetComponent<Text>();
+                healthTxtBB.text = lifeBB.ToString("0");
             }
 
             if (!playerCont.GetRide1() && !playerCont.GetRide2())
@@ -927,5 +937,40 @@ public class GameControl : MonoBehaviour {
     public bool GetBossBattle()
     {
         return bossBattle;
+    }
+    public void RemoveLifeBB(float qtd)
+    {
+        lifeBB -= qtd;
+        if (lifeBB < 0)
+        {
+            lifeBB = 0;
+        }
+        healthTxtBB.text = lifeBB.ToString("0");
+        healthBarBB.fillAmount = lifeBB / maxSpeed;
+
+    }
+    public void WonBBOne()
+    {
+        playerRB.gravityScale = gravity;
+        playerRB.velocity = new Vector2(lifeBB * 1.2f, 20);
+        player.transform.position = new Vector3(posXBB, player.transform.position.y, player.transform.position.z);
+
+        mainCanvas.SetActive(true);
+        bossBattleCanvas.SetActive(false);
+        bossBattle = false;
+
+        currentBackGround.transform.position = new Vector3(player.transform.position.x, 18, currentBackGround.transform.position.z);
+        nextBackGround.transform.position = new Vector3(currentBackGround.transform.position.x + 64.5f, 18, nextBackGround.transform.position.z);
+        lastBackGround.transform.position = new Vector3(currentBackGround.transform.position.x - 64.5f, 18, lastBackGround.transform.position.z);
+
+        currentGround.transform.position = new Vector3(player.transform.position.x + 4, 1, currentGround.transform.position.z);
+        nextGround.transform.position = new Vector3(currentGround.transform.position.x + 17.5f, 1, nextGround.transform.position.z);
+        lastGround.transform.position = new Vector3(currentGround.transform.position.x - 17.5f, 1, lastGround.transform.position.z);
+
+        AddExp(200);
+        AddGold(500);
+
+        Destroy(bossOne);
+
     }
 }

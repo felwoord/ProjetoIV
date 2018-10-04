@@ -143,157 +143,208 @@ public class PlayerController : MonoBehaviour {
 			heightTxt.enabled = false;
 		}
 	}
-	public void OnTriggerEnter2D(Collider2D col){
-		if (col.gameObject.tag == "Buff1") {
-			if (heightCheck) {
-				gameCont.AddExp (expBuff1 * expMultMaxHeight);
-				gameCont.AddGold (goldBuff1 * goldMultMaxHeight);
-				gameCont.Buff1Remove ();
-				Destroy (col.gameObject);
-			} else {
-				if (!ride1 && !ride2) {
-					gameCont.PlaySoundEffect (2);
-					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.02F, Mathf.Abs (playerRB.velocity.y) * 1.08f + 3f);
-					gameCont.AddExp (expBuff1);
-					gameCont.AddGold (goldBuff1);
-				} else {
-					gameCont.AddExp (expBuff1 * expMultRide);
-					gameCont.AddGold (goldBuff1 * goldMultRide);
-				}
-				gameCont.Buff1Remove ();
-				Destroy (col.gameObject);
-			}
-		}
-		if (col.gameObject.tag == "Buff2") {
-			if (heightCheck) {
-				gameCont.AddExp (expBuff2 * expMultMaxHeight);
-				gameCont.AddGold (goldBuff2 * goldMultMaxHeight);
-				gameCont.Buff1Remove ();
-				Destroy (col.gameObject);
-			} else {
-				if (!ride1 && !ride2) {
-					gameCont.PlaySoundEffect (3);
-					banzais.ShowBanzai ();
-					playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.08F + 10, Mathf.Abs (playerRB.velocity.y) * 1.02f);
-					gameCont.AddExp (expBuff2);
-					gameCont.AddGold (goldBuff2);
-				} else {
-					gameCont.AddExp (expBuff2 * expMultRide);
-					gameCont.AddGold (goldBuff2 * goldMultRide);
-				}
-				gameCont.Buff1Remove ();
-				Destroy (col.gameObject);
-			}
-		}
-		if (col.gameObject.tag == "Trap1") {
-			if (heightCheck) {
-				gameCont.AddExp (expTrap1 * expMultMaxHeight);
-				gameCont.AddGold (goldTrap1 * goldMultMaxHeight);
-				gameCont.Buff1Remove ();
-				Destroy (col.gameObject);
-			} else {
-				if (!ride1 && !ride2) {
-					if (playerRB.velocity.x > 5) {
-						playerRB.velocity = new Vector2 (playerRB.velocity.x * 0.5f, playerRB.velocity.y * 0.5f);
-					} else {
-						EndRun ();
-					}
-					gameCont.PlaySoundEffect (4);
-				} else {
-					gameCont.AddExp (expTrap1 * expMultRide);
-					gameCont.AddGold (goldTrap1 * goldMultRide);
-				}
-				gameCont.TrapRemove ();
-				Destroy (col.gameObject);
-			}
-		}
-		if (col.gameObject.tag == "Ride1") {
-			if (heightCheck) {
-				gameCont.AddExp (expRide1 * expMultMaxHeight);
-				gameCont.AddGold (goldRide1 * goldMultMaxHeight);
-			} else {
-				if (!ride1 && !ride2) {
-					gameCont.PlaySoundEffect (5);
-					gameCont.ride1ScreenAnimation = true;
-					gameCont.screenAniRide1.enabled = true;
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Buff1")
+        {
+            if (heightCheck)
+            {
+                gameCont.AddExp(expBuff1 * expMultMaxHeight);
+                gameCont.AddGold(goldBuff1 * goldMultMaxHeight);
+                gameCont.Buff1Remove();
+                Destroy(col.gameObject);
+            }
+            else
+            {
+                if (!ride1 && !ride2)
+                {
+                    gameCont.PlaySoundEffect(2);
+                    playerRB.velocity = new Vector2(playerRB.velocity.x * 1.02F, Mathf.Abs(playerRB.velocity.y) * 1.08f + 3f);
+                    gameCont.AddExp(expBuff1);
+                    gameCont.AddGold(goldBuff1);
+                }
+                else
+                {
+                    gameCont.AddExp(expBuff1 * expMultRide);
+                    gameCont.AddGold(goldBuff1 * goldMultRide);
+                }
+                gameCont.Buff1Remove();
+                Destroy(col.gameObject);
+            }
+        }
+        if (col.gameObject.tag == "Buff2")
+        {
+            if (heightCheck)
+            {
+                gameCont.AddExp(expBuff2 * expMultMaxHeight);
+                gameCont.AddGold(goldBuff2 * goldMultMaxHeight);
+                gameCont.Buff1Remove();
+                Destroy(col.gameObject);
+            }
+            else
+            {
+                if (!ride1 && !ride2)
+                {
+                    gameCont.PlaySoundEffect(3);
+                    banzais.ShowBanzai();
+                    playerRB.velocity = new Vector2(playerRB.velocity.x * 1.08F + 10, Mathf.Abs(playerRB.velocity.y) * 1.02f);
+                    gameCont.AddExp(expBuff2);
+                    gameCont.AddGold(goldBuff2);
+                }
+                else
+                {
+                    gameCont.AddExp(expBuff2 * expMultRide);
+                    gameCont.AddGold(goldBuff2 * goldMultRide);
+                }
+                gameCont.Buff1Remove();
+                Destroy(col.gameObject);
+            }
+        }
+        if (col.gameObject.tag == "Trap1")
+        {
+            if (heightCheck)
+            {
+                gameCont.AddExp(expTrap1 * expMultMaxHeight);
+                gameCont.AddGold(goldTrap1 * goldMultMaxHeight);
+                gameCont.Buff1Remove();
+                Destroy(col.gameObject);
+            }
+            else
+            {
+                if (!ride1 && !ride2)
+                {
+                    if (playerRB.velocity.x > 5)
+                    {
+                        playerRB.velocity = new Vector2(playerRB.velocity.x * 0.5f, playerRB.velocity.y * 0.5f);
+                    }
+                    else
+                    {
+                        EndRun();
+                    }
+                    gameCont.PlaySoundEffect(4);
+                }
+                else
+                {
+                    gameCont.AddExp(expTrap1 * expMultRide);
+                    gameCont.AddGold(goldTrap1 * goldMultRide);
+                }
+                gameCont.TrapRemove();
+                Destroy(col.gameObject);
+            }
+        }
+        if (col.gameObject.tag == "Ride1")
+        {
+            if (heightCheck)
+            {
+                gameCont.AddExp(expRide1 * expMultMaxHeight);
+                gameCont.AddGold(goldRide1 * goldMultMaxHeight);
+            }
+            else
+            {
+                if (!ride1 && !ride2)
+                {
+                    gameCont.PlaySoundEffect(5);
+                    gameCont.ride1ScreenAnimation = true;
+                    gameCont.screenAniRide1.enabled = true;
 
-					GameObject tap = Instantiate (Resources.Load ("Tap") as GameObject);
-					tap.transform.position = new Vector3 (cam.transform.position.x - 6, cam.transform.position.y + 1, 0);
-					tap.transform.parent = cam.transform;
-					cam.GetComponent<GameControl> ().ride1CD = true;
-					ride1 = true;
-					saveVelocity = playerRB.velocity;
-					saveDrag = playerRB.drag;
-					playerRB.drag = 0.0f;
-					playerRB.velocity = new Vector2 (saveVelocity.x, 0);
-					playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
-				
-					if (characterID == 1)
-						GetComponent<CharacterOne> ().SetRide1Sprite();
-					if (characterID == 2) {
-					}
-					if (characterID == 3) {
-					} 
+                    GameObject tap = Instantiate(Resources.Load("Tap") as GameObject);
+                    tap.transform.position = new Vector3(cam.transform.position.x - 6, cam.transform.position.y + 1, 0);
+                    tap.transform.parent = cam.transform;
+                    cam.GetComponent<GameControl>().ride1CD = true;
+                    ride1 = true;
+                    saveVelocity = playerRB.velocity;
+                    saveDrag = playerRB.drag;
+                    playerRB.drag = 0.0f;
+                    playerRB.velocity = new Vector2(saveVelocity.x, 0);
+                    playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
 
-					gameCont.AddExp (expRide1);
-					gameCont.AddGold (goldRide1);
+                    if (characterID == 1)
+                        GetComponent<CharacterOne>().SetRide1Sprite();
+                    if (characterID == 2)
+                    {
+                    }
+                    if (characterID == 3)
+                    {
+                    }
 
-				} else {
-					gameCont.AddExp (expRide1 * expMultRide);
-					gameCont.AddGold (goldRide1 * goldMultRide);
-				}
-			}
-			gameCont.Ride1Remove ();
-			Destroy (col.gameObject);
-		}
-		if (col.gameObject.tag == "Ride2") {
-			if (heightCheck) {
-				gameCont.AddExp (expRide2 * expMultMaxHeight);
-				gameCont.AddGold (goldRide2 * goldMultMaxHeight);
-			} else {
-				if (!ride1 && !ride2) {
-					gameCont.PlaySoundEffect (8);
-					GameObject ride2Canv = Instantiate (Resources.Load ("Ride2Canvas") as GameObject);
-					ride2Canv.transform.position = new Vector3 (cam.transform.position.x, cam.transform.position.y, 0);
-					ride2Canv.name = "Ride2Canvas";
-					ride2Canv.GetComponent<RectTransform> ().SetAsLastSibling();
-					cam.GetComponent<GameControl> ().ride2CD = true;
-					ride2 = true;
-					saveVelocity = playerRB.velocity;
-					saveDrag = playerRB.drag;
-					playerRB.drag = 0.0f;
-					playerRB.velocity = new Vector2 (saveVelocity.x, 0);
-					playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
+                    gameCont.AddExp(expRide1);
+                    gameCont.AddGold(goldRide1);
 
-					if (characterID == 1)
-						GetComponent<CharacterOne> ().SetRide2Sprite();
-					if (characterID == 2) {
-					}
-					if (characterID == 3) {
-					} 
+                }
+                else
+                {
+                    gameCont.AddExp(expRide1 * expMultRide);
+                    gameCont.AddGold(goldRide1 * goldMultRide);
+                }
+            }
+            gameCont.Ride1Remove();
+            Destroy(col.gameObject);
+        }
+        if (col.gameObject.tag == "Ride2")
+        {
+            if (heightCheck)
+            {
+                gameCont.AddExp(expRide2 * expMultMaxHeight);
+                gameCont.AddGold(goldRide2 * goldMultMaxHeight);
+            }
+            else
+            {
+                if (!ride1 && !ride2)
+                {
+                    gameCont.PlaySoundEffect(8);
+                    GameObject ride2Canv = Instantiate(Resources.Load("Ride2Canvas") as GameObject);
+                    ride2Canv.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, 0);
+                    ride2Canv.name = "Ride2Canvas";
+                    ride2Canv.GetComponent<RectTransform>().SetAsLastSibling();
+                    cam.GetComponent<GameControl>().ride2CD = true;
+                    ride2 = true;
+                    saveVelocity = playerRB.velocity;
+                    saveDrag = playerRB.drag;
+                    playerRB.drag = 0.0f;
+                    playerRB.velocity = new Vector2(saveVelocity.x, 0);
+                    playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
 
-					gameCont.AddExp (expRide2);
-					gameCont.AddGold (goldRide2);
+                    if (characterID == 1)
+                        GetComponent<CharacterOne>().SetRide2Sprite();
+                    if (characterID == 2)
+                    {
+                    }
+                    if (characterID == 3)
+                    {
+                    }
 
-				} else {
-					gameCont.AddExp (expRide2 * expMultRide);
-					gameCont.AddGold (goldRide2 * goldMultRide);
-				}
-			}
-			gameCont.Ride2Remove ();
-			Destroy (col.gameObject);
-		}
-		if (col.gameObject.tag == "Mana") {
-			gameCont.ManaUI ();
-			Destroy (col.gameObject);
-		}
-		if (col.gameObject.tag == "Diamond") {
-			gotDiamond = true;
-			gameCont.SetDiamond ();
-		}
-		manaCounter++;
-			
-	}
+                    gameCont.AddExp(expRide2);
+                    gameCont.AddGold(goldRide2);
+
+                }
+                else
+                {
+                    gameCont.AddExp(expRide2 * expMultRide);
+                    gameCont.AddGold(goldRide2 * goldMultRide);
+                }
+            }
+            gameCont.Ride2Remove();
+            Destroy(col.gameObject);
+        }
+        if (col.gameObject.tag == "Mana")
+        {
+            gameCont.ManaUI();
+            Destroy(col.gameObject);
+        }
+        if (col.gameObject.tag == "Diamond")
+        {
+            gotDiamond = true;
+            gameCont.SetDiamond();
+        }
+        manaCounter++;
+
+        if (col.gameObject.tag == "BossOne")
+        {
+            gameCont.RemoveLifeBB(10);
+            Destroy(col.gameObject);
+            manaCounter--;
+        }
+    }
 	public void AboveMaxHeight(){
 		if (characterID == 1)
 			GetComponent<CharacterOne> ().SetAboveMaxHeightSprite();
