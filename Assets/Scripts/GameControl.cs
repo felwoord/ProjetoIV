@@ -44,6 +44,15 @@ public class GameControl : MonoBehaviour {
 	private int sightLevel, steadyHandsLevel, buff1Level, buff2Level, trapLevel, aerodynLevel;
 
 	private bool startGame;
+    private bool bossBattle, doOnceEnterBossBattle;
+    public GameObject mainCanvas, bossBattleCanvas;
+    private float posXBB;
+    private float gravity;
+    private float movSpeedBB;
+    private float lifeBB;
+    private Text healthTxtBB;
+    public Image healthBarBB;
+    private GameObject bossOne;
 
 	private Rigidbody2D playerRB;
 	private GameObject player;
@@ -264,6 +273,10 @@ public class GameControl : MonoBehaviour {
 
 		slowmoEffect = false;
 		iniciateEffect = false;
+
+        bossBattle = false;
+        doOnceEnterBossBattle = false;
+        gravity = playerRB.gravityScale;
 	}
 	private void VolumeSetting(){
 		soundFX.volume = effectVolume;
@@ -273,38 +286,157 @@ public class GameControl : MonoBehaviour {
 		gameSound.Play ();
 	}
 	private void GamePlay(){
-		healthText.text = playerRB.velocity.x.ToString("0");
-		distText.text = player.transform.position.x.ToString ("0");
-		healthBar.fillAmount = playerRB.velocity.x / maxSpeed;
+        if (bossBattle)
+        {
+            healthTxtBB.text = lifeBB.ToString("0");
+        }
+        else
+        {
+            healthText.text = playerRB.velocity.x.ToString("0");
+            distText.text = player.transform.position.x.ToString("0");
+            healthBar.fillAmount = playerRB.velocity.x / maxSpeed;
+            if(player.transform.position.x > 500 && !playerCont.GetRide1() && !playerCont.GetRide2() && !playerCont.GetHeightCheck() && !slowmoEffect)
+            {
+                if (!doOnceEnterBossBattle)
+                {
+                    posXBB = player.transform.position.x;
+                    bossBattle = true;
+                    doOnceEnterBossBattle = true;
+                    mainCanvas.SetActive(false);
+                    bossBattleCanvas.SetActive(true);
+                    playerRB.gravityScale = 0;
+                    player.transform.position = new Vector3(player.transform.position.x, 10f, player.transform.position.z);
+                    if (playerRB.velocity.x > maxSpeed)
+                    {
+                        lifeBB = maxSpeed;
+                    }
+                    else
+                    {
+                        lifeBB = playerRB.velocity.x;
+                    }
+                    playerRB.velocity = new Vector3(20, 0, 0);
+                    healthBarBB.fillAmount = lifeBB / maxSpeed;
+                    bossOne = Instantiate(Resources.Load("BossOne") as GameObject);
+                    healthTxtBB = GameObject.Find("HealthTextBB").GetComponent<Text>();
+                    healthTxtBB.text = lifeBB.ToString("0");
 
-		if (!playerCont.GetRide1 () && !playerCont.GetRide2 ()) {
-			if (playerRB.velocity.x > maxSpeed) {
-				if (player.transform.position.y < 36) {
-                    playerRB.drag = playerDragAbove;
-				} else if (player.transform.position.y >= 36 && player.transform.position.y < 65) {
-                    playerRB.drag = playerDragAbove / 2;
-				} else {
-					playerRB.drag = 0;
-				}
+                }
+            }
 
-				if (characterID == 1) {
-					player.GetComponent<CharacterOne> ().SetAboveMaxSpeedBodySprite ();	
-				}
-			} else {
-				if (player.transform.position.y < 36) {
-                    playerRB.drag = playerDragBelow;
+            if (!playerCont.GetRide1() && !playerCont.GetRide2())
+            {
+                if (playerRB.velocity.x > maxSpeed)
+                {
+                    if (player.transform.position.y < 36)
+                    {
+                        playerRB.drag = playerDragAbove;
+                    }
+                    else if (player.transform.position.y >= 36 && player.transform.position.y < 65)
+                    {
+                        playerRB.drag = playerDragAbove / 2;
+                    }
+                    else
+                    {
+                        playerRB.drag = 0;
+                    }
 
-                } else if (player.transform.position.y >= 36 && player.transform.position.y < 65) {
-                    playerRB.drag = playerDragBelow / 2;
-				} else {
-					playerRB.drag = 0;
-				}
+                    if (characterID == 1)
+                    {
+                        player.GetComponent<CharacterOne>().SetAboveMaxSpeedBodySprite();
+                    }
+                }
+                else
+                {
+                    if (player.transform.position.y < 36)
+                    {
+                        playerRB.drag = playerDragBelow;
 
-				if (characterID == 1) {
-					player.GetComponent<CharacterOne> ().SetBelowMaxSpeedBodySprite ();
-				}
-			}
-		}
+                    }
+                    else if (player.transform.position.y >= 36 && player.transform.position.y < 65)
+                    {
+                        playerRB.drag = playerDragBelow / 2;
+                    }
+                    else
+                    {
+                        playerRB.drag = 0;
+                    }
+
+                    if (characterID == 1)
+                    {
+                        player.GetComponent<CharacterOne>().SetBelowMaxSpeedBodySprite();
+                    }
+                }
+            }
+
+
+            buff1SpawnCounter += Time.deltaTime;
+            if (buff1Counter < buff1MaxQtd)
+            {
+                SpawnBuff1();
+            }
+            buff2SpawnCounter += Time.deltaTime;
+            if (buff2Counter < buff2MaxQtd)
+            {
+                SpawnBuff2();
+            }
+            trapSpawnCounter += Time.deltaTime;
+            if (trapCounter < trapMaxQtd)
+            {
+                SpawnTrap1();
+            }
+            manaOrbSpawnCounter += Time.deltaTime;
+            if (manaOrbCounter < manaOrbMaxQtd)
+            {
+                SpawnManaOrb();
+            }
+            if (!gotDiamond)
+            {
+                diamondSpawnCounter += Time.deltaTime;
+                if (diamondCounter < diamondMaxQtd)
+                {
+                    SpawnDiamond();
+                }
+            }
+
+            if (!ride1CD && !ride2CD)
+            {
+                ride1SpawnCounter += Time.deltaTime;
+                if (ride1Counter < ride1MaxQtd)
+                {
+                    SpawnRide1();
+                }
+
+                ride2SpawnCounter += Time.deltaTime;
+                if (ride2Counter < ride2MaxQtd)
+                {
+                    SpawnRide2();
+                }
+            }
+            else
+            {
+                ride1CounterCD = +Time.deltaTime;
+                if (ride1CounterCD > ride1CDTime)
+                {
+                    ride1CD = true;
+                    ride1CounterCD = 0;
+                }
+                ride2CounterCD = +Time.deltaTime;
+                if (ride2CounterCD > ride2CDTime)
+                {
+                    ride2CD = true;
+                    ride2CounterCD = 0;
+                }
+            }
+
+            if (ride1ScreenAnimation)
+            {
+                ScreenAnimationRide1();
+            }
+            if (slowmoEffect)
+            {
+                SlowMotionZoomEffect();
+            }
+        }
 
 		if (player.transform.position.x >= currentGround.transform.position.x) {
 			CreateGround ();
@@ -314,58 +446,7 @@ public class GameControl : MonoBehaviour {
 			CreateBackGround ();
 		}
 
-		buff1SpawnCounter += Time.deltaTime;
-		if (buff1Counter < buff1MaxQtd) {
-			SpawnBuff1 ();
-		}
-		buff2SpawnCounter += Time.deltaTime;
-		if (buff2Counter < buff2MaxQtd) {
-			SpawnBuff2 ();
-		}
-		trapSpawnCounter += Time.deltaTime;
-		if (trapCounter < trapMaxQtd) {
-			SpawnTrap1 ();
-		}
-		manaOrbSpawnCounter += Time.deltaTime;
-		if (manaOrbCounter < manaOrbMaxQtd) {
-			SpawnManaOrb ();
-		}
-		if (!gotDiamond) {
-			diamondSpawnCounter += Time.deltaTime;
-			if (diamondCounter < diamondMaxQtd) {
-				SpawnDiamond ();
-			}
-		}
 
-		if (!ride1CD && !ride2CD) {
-			ride1SpawnCounter += Time.deltaTime;
-			if (ride1Counter < ride1MaxQtd) {
-				SpawnRide1 ();
-			}
-
-			ride2SpawnCounter += Time.deltaTime;
-			if (ride2Counter < ride2MaxQtd) {
-				SpawnRide2 ();
-			}
-		} else {
-			ride1CounterCD = +Time.deltaTime;
-			if (ride1CounterCD > ride1CDTime) {
-				ride1CD = true;
-				ride1CounterCD = 0;
-			}
-			ride2CounterCD = +Time.deltaTime;
-			if (ride2CounterCD > ride2CDTime) {
-				ride2CD = true;
-				ride2CounterCD = 0;
-			}
-		}
-
-		if (ride1ScreenAnimation) {
-			ScreenAnimationRide1 ();
-		}
-		if (slowmoEffect) {
-			SlowMotionZoomEffect ();
-		}
 	}
 	private void StartGame(){
 		if (directionSelecting) {
@@ -811,4 +892,40 @@ public class GameControl : MonoBehaviour {
 		slowmoEffect = true;
 		iniciateEffect = true;
 	}
+    public void MovPlayerBB(int aux)
+    {
+        if (aux == 0)
+        {
+            if (player.transform.position.y > 12)
+            {
+                movSpeedBB = 0;
+            }
+            else
+            {
+                movSpeedBB = 1.5f;
+            }
+        }
+        else
+        {
+            if (player.transform.position.y < 8)
+            {
+                movSpeedBB = 0;
+            }
+            else
+            {
+                movSpeedBB = -1.5f;
+            }
+        }
+        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + movSpeedBB, player.transform.position.z);
+    }
+    public void FireballAttack()
+    {
+        GameObject fireball = Instantiate(Resources.Load("Fireball") as GameObject);
+        fireball.transform.position = new Vector3(player.transform.position.x + 1, player.transform.position.y, 0);
+        fireball.GetComponent<Rigidbody2D>().velocity = new Vector2(playerRB.velocity.x + 30, 0);
+    }
+    public bool GetBossBattle()
+    {
+        return bossBattle;
+    }
 }

@@ -69,6 +69,8 @@ public class PlayerController : MonoBehaviour {
 	private Text heightTxt;
 	private Image heightImg;
 
+    private bool bossBattle;
+
 	private BanzaiScript banzais;
 	void Start () {
 		banzais = GameObject.Find ("Banzai").GetComponent<BanzaiScript> ();
@@ -112,10 +114,15 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			if (playerRB.velocity.y <= 2 && playerRB.velocity.y >= 0) {
-				counter += Time.deltaTime;
-				if (counter >= 1) {
-					EndRun ();
-				}
+                bossBattle = gameCont.GetBossBattle();
+                if (!bossBattle)
+                {
+                    counter += Time.deltaTime;
+                    if (counter >= 1)
+                    {
+                        EndRun();
+                    }
+                }
 			} else {
 				counter = 0;
 			}
@@ -344,12 +351,12 @@ public class PlayerController : MonoBehaviour {
 
 			gameCont.SlowMoZoomEffect ();
 			ride1Timer = 0;
-			ride1 = false;
 			playerRB.drag = saveDrag;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.velocity = new Vector2 (playerRB.velocity.x, 20);
 			gameCont.StopSoundEffect (true);
-		}
+            ride1 = false;
+        }
 	}
 	private void Ride2Time(){
 		ride2Timer += Time.deltaTime;
@@ -461,12 +468,13 @@ public class PlayerController : MonoBehaviour {
 	}
 	public void ShowInterstitial()
 	{
-		bool ok = GameObject.Find ("AdTimeCounter").GetComponent<AdTimer> ().ShowAd ();
+        bool ok = GameObject.Find ("AdTimeCounter").GetComponent<AdTimer> ().ShowAd ();
 		if (Advertisement.IsReady("video") && ok)
 		{
 			Advertisement.Show("video");
 			GameObject.Find ("AdTimeCounter").GetComponent<AdTimer> ().AdShown ();
 		}
+
 		CallEndGameMenu ();
 	}
 	public void ShowRewarded()

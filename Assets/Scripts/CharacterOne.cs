@@ -30,7 +30,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class CharacterOne : MonoBehaviour {
-	private GameControl game;
+	private GameControl gameCont;
 	private Rigidbody2D playerRB;
 	private PlayerController playerControl;
 
@@ -45,11 +45,12 @@ public class CharacterOne : MonoBehaviour {
 	public Sprite[] bodySprite;
 	private SpriteRenderer bodySR;
 	private GameObject body;
+    private bool bossBattle;
 
 	void Start(){
 		magic = PlayerPrefs.GetInt ("Magic_1", 1);
 		playerControl = GameObject.Find ("Player").GetComponent<PlayerController> ();
-		game = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
+		gameCont = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
 		playerRB = GetComponent<Rigidbody2D> ();
 
 		body = GameObject.Find ("BodySprt");
@@ -57,17 +58,18 @@ public class CharacterOne : MonoBehaviour {
 	}
 	void Update(){
 		if (Input.GetMouseButtonDown (0) && !delay) {
-			if (!playerControl.GetRide1 () && !playerControl.GetRide2 ()) {
+            bossBattle = gameCont.GetBossBattle();
+			if (!playerControl.GetRide1 () && !playerControl.GetRide2 () && !bossBattle) {
 				if (!playerControl.GetHeightCheck ()) {
 					#if !UNITY_STANDALONE                                               //tirar o !
 					if (!EventSystem.current.IsPointerOverGameObject ()) {
 					#else
 					if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
 					#endif
-						int powerBarsCount = game.GetMana ();
+						int powerBarsCount = gameCont.GetMana ();
 						if (powerBarsCount > 0) {
 							playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);
-							game.RemovePowerBar ();
+                            gameCont.RemovePowerBar ();
 						}
 					}
 				}
