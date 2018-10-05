@@ -61,7 +61,7 @@ public class CharacterOne : MonoBehaviour {
             bossBattle = gameCont.GetBossBattle();
 			if (!playerControl.GetRide1 () && !playerControl.GetRide2 () && !bossBattle) {
 				if (!playerControl.GetHeightCheck ()) {
-					#if !UNITY_STANDALONE                                               //tirar o !
+					#if UNITY_STANDALONE                                              
 					if (!EventSystem.current.IsPointerOverGameObject ()) {
 					#else
 					if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
