@@ -22,27 +22,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TargetControl : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private int hitCount;
 	private int ride2Level;
 	private float speed;
-	// Use this for initialization
-	void Start () {
+
+    private float counter;
+    public Image sourceImg;
+    public Sprite[] arrowSprt;
+
+    void Start () {
 		playerRB = GameObject.Find ("Player").GetComponent<Rigidbody2D> ();
 		ride2Level = PlayerPrefs.GetInt ("ItemLevel_8", 0);
 		hitCount = 0;
 		speed = 50;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y + speed * Time.deltaTime, transform.localPosition.z);
 
 		if (transform.localPosition.y >= 230) {
 			transform.localPosition = new Vector3 (Random.Range (-440, 440), Random.Range (-230, 0), transform.localPosition.z);
 		}
+
+        ColorSpriteChange();
 	}
 
 	public void Hit(){
@@ -68,4 +74,34 @@ public class TargetControl : MonoBehaviour {
 			break;
 		}
 	}
+
+    private void ColorSpriteChange()
+    {
+        counter += Time.deltaTime * 1.5f;
+
+        if (counter >= 0f && counter < 0.05f)
+        {
+            sourceImg.sprite = arrowSprt[0];
+        }
+        if (counter >= 0.1f && counter < 0.15f)
+        {
+            sourceImg.sprite = arrowSprt[1];
+        }
+        if (counter >= 0.2f && counter < 0.25f)
+        {
+            sourceImg.sprite = arrowSprt[2];
+        }
+        if (counter >= 0.3f && counter < 0.35f)
+        {
+            sourceImg.sprite = arrowSprt[3];
+        }
+        if (counter >= 0.4f && counter < 0.45f)
+        {
+            sourceImg.sprite = arrowSprt[4];
+        }
+        if (counter >= 0.5f)
+        {
+            counter = 0;
+        }
+    }
 }

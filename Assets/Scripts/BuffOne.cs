@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BuffOne : MonoBehaviour {
-	GameObject player;
+    GameObject player;
 	private float playerSpeedX;
 	private float velX;
 
-	private float counter, counter2;
+	private float counter, counter2, counter3;
 	private SpriteRenderer sprtRend;
     public Sprite[] spritesStar;
     public SpriteRenderer glassesSprtRend;
@@ -16,24 +16,48 @@ public class BuffOne : MonoBehaviour {
 
 	void Start () {
 		sprtRend = GetComponent<SpriteRenderer> ();
-		//player = GameObject.Find ("Player");
-		//playerSpeedX = player.GetComponent<Rigidbody2D> ().velocity.x;
-		//velX = Random.Range (0, playerSpeedX / 7.5f);
+		player = GameObject.Find ("Player");
+		playerSpeedX = player.GetComponent<Rigidbody2D> ().velocity.x;
+		velX = Random.Range (0, playerSpeedX / 7.5f);
 	}
 
 	void Update () {
-		/*if (transform.position.x < player.transform.position.x - 10) {
+		if (transform.position.x < player.transform.position.x - 10) {
 			GameObject.Find ("Main Camera").GetComponent<GameControl> ().Buff1Remove ();
 			Destroy (gameObject);
-		}*/
+		}
 
 		transform.position = new Vector3 (transform.position.x + velX * Time.deltaTime, transform.position.y, transform.position.z);
 
 		ColorSpriteChange ();
         GlassesSpriteChange();
+        RotateSprite();
+        
 	}
 
+    private void RotateSprite()
+    {
+        counter3 += Time.deltaTime;
 
+        if (counter3 > 0 && counter3 < 0.5f)
+        {
+            transform.Rotate(-Vector3.forward * Time.deltaTime * 50);
+        }
+        if (counter3 > 0.5f && counter3 < 1.5f)
+        {
+            transform.Rotate(Vector3.forward * Time.deltaTime * 50);
+        }
+        if (counter3 > 1.5f && counter3 < 2)
+        {
+            transform.Rotate(-Vector3.forward * Time.deltaTime * 50);
+
+        }
+        if(counter3 > 2)
+        {
+            counter3 = 0;
+        }
+
+    }
 	private void ColorSpriteChange(){
 		counter += Time.deltaTime * 1.15f;
 
