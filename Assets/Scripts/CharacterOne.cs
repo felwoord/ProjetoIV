@@ -34,7 +34,9 @@ public class CharacterOne : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private PlayerController playerControl;
 
+    private SpriteRenderer sprtRend;
 	public Sprite defaultSprite;
+    public Sprite aboveMaxSpeedSprt;
 	public Sprite ride1Sprite;
 
 	private int magic;
@@ -42,9 +44,6 @@ public class CharacterOne : MonoBehaviour {
 	public bool delay;
 	private float counter;
 
-	public Sprite[] bodySprite;
-	private SpriteRenderer bodySR;
-	private GameObject body;
     private bool bossBattle;
 
 	void Start(){
@@ -52,9 +51,8 @@ public class CharacterOne : MonoBehaviour {
 		playerControl = GameObject.Find ("Player").GetComponent<PlayerController> ();
 		gameCont = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
 		playerRB = GetComponent<Rigidbody2D> ();
+        sprtRend = GetComponent<SpriteRenderer>();
 
-		body = GameObject.Find ("BodySprt");
-		bodySR = body.GetComponent<SpriteRenderer> ();
 	}
 	void Update(){
 		if (Input.GetMouseButtonDown (0) && !delay) {
@@ -85,29 +83,25 @@ public class CharacterOne : MonoBehaviour {
 	}
 
 	public void SetDefaultSprite(){
-		//GetComponent<SpriteRenderer> ().sprite = defaultSprite;
-		GetComponent<SpriteRenderer> ().color = Color.white;
+        sprtRend.sprite = defaultSprite;
+
 	}
 	public void SetRide1Sprite(){
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
-		GetComponent<SpriteRenderer> ().color = Color.red;
+		//GetComponent<SpriteRenderer> ().color = Color.red;
 	}
 	public void SetRide2Sprite(){
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
-		GetComponent<SpriteRenderer> ().color = Color.blue;
+		//GetComponent<SpriteRenderer> ().color = Color.blue;
 	}
 	public void SetAboveMaxHeightSprite(){
-		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
-		GetComponent<SpriteRenderer> ().color = Color.yellow;
-
-	}
+        sprtRend.sprite = aboveMaxSpeedSprt;
+    }
 	public void SetBelowMaxSpeedBodySprite(){
-		bodySR.sprite = bodySprite [0];
-		body.transform.localPosition = new Vector2 (-4.0f, -4.5f);
-	}
+        sprtRend.sprite = defaultSprite;
+    }
 	public void SetAboveMaxSpeedBodySprite(){
-		bodySR.sprite = bodySprite [1];
-		body.transform.localPosition = new Vector2 (-3.0f, -3.4f);
-	}
+        sprtRend.sprite = aboveMaxSpeedSprt;
+    }
 
 }

@@ -108,15 +108,15 @@ public class BuffOne : MonoBehaviour {
         {
             glassesSprtRend.sprite = spritesGlasses[3];
         }
-        if (counter2 >= 0.35f && counter2 < 0.4f)
+        if (counter2 >= 0.4f && counter2 < 0.45f)
         { 
             glassesSprtRend.sprite = spritesGlasses[0];
         }
-        if (counter2 >= 0.45f && counter2 < 0.45f)
+        if (counter2 >= 0.5f && counter2 < 0.55f)
         {
             glassesSprtRend.sprite = spritesGlasses[0];
         }
-        if (counter2 >= 0.5f && counter2 < 1.25f)
+        if (counter2 >= 0.6f && counter2 < 1.25f)
         {
             glassesSprtRend.sprite = spritesGlasses[0];
         }

@@ -64,6 +64,9 @@ public class GameControl : MonoBehaviour {
 	private Text healthText;
 	private Text distText, distText2;
 	private Image healthBar;
+    private Image healthBarBase;
+    private Image avatar;
+    public Sprite[] avatarSprts;
 
 	private float buff1SpawnCounter, buff2SpawnCounter, trapSpawnCounter, ride1SpawnCounter, ride2SpawnCounter, manaOrbSpawnCounter, diamondSpawnCounter;
 	private int buff1Counter, buff2Counter, trapCounter, ride1Counter, ride2Counter, manaOrbCounter, diamondCounter;
@@ -208,6 +211,9 @@ public class GameControl : MonoBehaviour {
 		distText = GameObject.Find ("DistanceText").GetComponent <Text> ();
 		distText2 = GameObject.Find ("DistanceText2").GetComponent <Text> ();
 		healthBar = GameObject.Find ("HealthBar").GetComponent<Image> ();
+        healthBarBase = GameObject.Find("Health").GetComponent<Image>();
+        avatar = GameObject.Find("Avatar").GetComponent<Image>();
+
 
 		useExtraLifeMenu = GameObject.Find ("UseExtraLifeMenu");
 		gotDiamondMenu = GameObject.Find ("GotDiamondMenu");
@@ -231,8 +237,11 @@ public class GameControl : MonoBehaviour {
 		distText.enabled = false;
 		distText2.enabled = false;
 		healthBar.enabled = false;
+        healthBarBase.enabled = false;
+        avatar.enabled = false;
 
-		buff1SpawnCounter = 0;
+
+        buff1SpawnCounter = 0;
 		buff1Counter = 0;
 		buff2SpawnCounter = 0;
 		buff2Counter = 0;
@@ -353,7 +362,11 @@ public class GameControl : MonoBehaviour {
                     if (characterID == 1)
                     {
                         player.GetComponent<CharacterOne>().SetAboveMaxSpeedBodySprite();
+                        avatar.sprite = avatarSprts[1];
                     }
+
+                    
+
                 }
                 else
                 {
@@ -374,6 +387,7 @@ public class GameControl : MonoBehaviour {
                     if (characterID == 1)
                     {
                         player.GetComponent<CharacterOne>().SetBelowMaxSpeedBodySprite();
+                        avatar.sprite = avatarSprts[0];
                     }
                 }
             }
@@ -467,11 +481,11 @@ public class GameControl : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
-			#if !UNITY_STANDALONE                                                           //tirar o ! quando for lançar
-			if (!EventSystem.current.IsPointerOverGameObject ()) {
-			#else
-			if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
-			#endif
+			//#if !UNITY_STANDALONE                                                           //tirar o ! quando for lançar
+			//if (!EventSystem.current.IsPointerOverGameObject () {
+			//#else
+			//if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
+			//#endif
 				if (powerSelecting) {
 					powerSelecting = false;
 					powerLaunch = arrow.fillAmount * powerMultiplier;
@@ -489,7 +503,10 @@ public class GameControl : MonoBehaviour {
 						pwb.GetComponent<Image> ().enabled = true;
 					}
 					healthBar.enabled = true;
-					healthText.enabled = true;
+                    healthBarBase.enabled = true;
+                    avatar.enabled = true;
+
+                    healthText.enabled = true;
 					distText.enabled = true;
 					distText2.enabled = true;
 					startGame = false;
@@ -501,7 +518,7 @@ public class GameControl : MonoBehaviour {
 					powerSelecting = true;
 					float angle = launcher.transform.rotation.eulerAngles.z;
 					angleLaunch = new Vector2 (Mathf.Cos (Mathf.Deg2Rad * angle), Mathf.Sin (Mathf.Deg2Rad * angle));
-				}}
+				}//}
 		}
 	}
 	private void CreateGround(){

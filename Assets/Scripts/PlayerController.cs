@@ -104,6 +104,11 @@ public class PlayerController : MonoBehaviour {
 		ads = PlayerPrefs.GetInt ("Ads", 1);
 	}
 	void Update () {
+        if(playerRB.velocity != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(playerRB.velocity.y, playerRB.velocity.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
 		if (ride1) {
 			Ride1Time ();
 		} else if (ride2){
