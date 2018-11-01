@@ -104,6 +104,16 @@ MonoBehaviour:
   defaultSprite: {fileID: 21300000, guid: d0fa1b95c9a6a6b489f9d34a3af9e09a, type: 3}
   aboveMaxSpeedSprt: {fileID: 21300000, guid: 64d46579708426d4f9dfe2fb5c8fbd8d, type: 3}
   ride1Sprite: {fileID: 21300000, guid: 5ad315bd47ce5f2428ced31152dd16f2, type: 3}
+  powerSelectSprite:
+  - {fileID: 21300000, guid: ecf656aebe1bd984c862b95ca57d6cfa, type: 3}
+  - {fileID: 21300000, guid: d91403aca048aca47a7b686131319463, type: 3}
+  - {fileID: 21300000, guid: cd8e09b1ce7381a4094fd5cd53b2ecab, type: 3}
+  - {fileID: 21300000, guid: 98e970da35727a84282fe7c7cb654239, type: 3}
+  angleSelectSprite:
+  - {fileID: 21300000, guid: 5194cac424ee78240bafa2545450719d, type: 3}
+  - {fileID: 21300000, guid: 948688e9bbf029a41956f17a8ec44557, type: 3}
+  - {fileID: 21300000, guid: 9fcb30637bc9f5a46b692b25ca4e2db8, type: 3}
+  - {fileID: 21300000, guid: 940be818dd3c2cd44b4a1c7c25ad76a6, type: 3}
   delay: 0
 --- !u!212 &212237568386408322
 SpriteRenderer:

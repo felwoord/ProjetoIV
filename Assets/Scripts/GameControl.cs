@@ -145,6 +145,12 @@ public class GameControl : MonoBehaviour {
 		launcher = GameObject.Find ("Launcher");
 		arrow = GameObject.Find ("Arrow").GetComponent<Image> ();
 
+        if (characterID == 1)
+            player.GetComponent<CharacterOne>().enabled = true;
+        if (characterID == 2)
+            player.GetComponent<CharacterTwo>().enabled = true;
+        if (characterID == 3)
+            player.GetComponent<CharacterOne>().enabled = true;
 
         playerDragBelow = 0.05f - (aerodynLevel * 0.0025f);
         playerDragAbove = 0.5f - (aerodynLevel * 0.0025f);
@@ -492,12 +498,7 @@ public class GameControl : MonoBehaviour {
 					playerRB.gravityScale = 1;
 					player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);
 					player.GetComponent<PlayerController> ().enabled = true;
-					if (characterID == 1)
-						player.GetComponent<CharacterOne> ().enabled = true;
-					if (characterID == 2)
-						player.GetComponent<CharacterTwo> ().enabled = true;
-					if (characterID == 3)
-						player.GetComponent<CharacterOne> ().enabled = true;				
+                    player.GetComponent<CharacterOne>().SetStartedGame(true);
 					Destroy (launcher);
 					foreach (GameObject pwb in powerBar) {
 						pwb.GetComponent<Image> ().enabled = true;
@@ -541,36 +542,85 @@ public class GameControl : MonoBehaviour {
 		nextBackGround = Instantiate (Resources.Load ("Background") as GameObject);
 		nextBackGround.transform.position = new Vector3 (currentBackGround.transform.position.x + 64.5f, currentBackGround.transform.position.y, 1);
 	}
-	private void DireciontSelect(){
-		if (launcher.transform.rotation.eulerAngles.z > 300f) {
-			launcher.transform.eulerAngles = new Vector3 (launcher.transform.eulerAngles.x, launcher.transform.eulerAngles.y, 0.05f);
-		}
-		if (launcher.transform.rotation.eulerAngles.z >= 89.99f) {
-			directionUp = false;
-		}
-		if (launcher.transform.rotation.eulerAngles.z <= 1f) {
-			directionUp = true;
-		}
-		if (directionUp) {
-			launcher.transform.Rotate (Vector3.forward * launcherRotSpeed * Time.deltaTime);
-		} else {
-			launcher.transform.Rotate (Vector3.forward * -launcherRotSpeed * Time.deltaTime);
-		}
-	}
-	private void PowerSelect(){
-		if (arrow.fillAmount >= 1f) {
-			fillUp = false;
-		}
-		if (arrow.fillAmount <= 0.01f) {
-			fillUp = true;
-		}
+    private void DireciontSelect()
+    {
+        if (launcher.transform.rotation.eulerAngles.z > 300f)
+        {
+            launcher.transform.eulerAngles = new Vector3(launcher.transform.eulerAngles.x, launcher.transform.eulerAngles.y, 0.05f);
+        }
+        if (launcher.transform.rotation.eulerAngles.z >= 89.99f)
+        {
+            directionUp = false;
+        }
+        if (launcher.transform.rotation.eulerAngles.z <= 1f)
+        {
+            directionUp = true;
+        }
+        if (directionUp)
+        {
+            launcher.transform.Rotate(Vector3.forward * launcherRotSpeed * Time.deltaTime);
+        }
+        else
+        {
+            launcher.transform.Rotate(Vector3.forward * -launcherRotSpeed * Time.deltaTime);
+        }
 
-		if (fillUp) {
-			arrow.fillAmount += arrowFillSpeed * Time.deltaTime;
-		} else {
-			arrow.fillAmount -= arrowFillSpeed * Time.deltaTime;
-		}
-	}
+
+        if (launcher.transform.rotation.eulerAngles.z < 25f)
+        {
+            player.GetComponent<CharacterOne>().SetAngleSelectSprite(0);
+        }
+        if (launcher.transform.rotation.eulerAngles.z > 25f && launcher.transform.rotation.eulerAngles.z < 50f)
+        {
+            player.GetComponent<CharacterOne>().SetAngleSelectSprite(1);
+        }
+        if (launcher.transform.rotation.eulerAngles.z > 50f && launcher.transform.rotation.eulerAngles.z < 75f)
+        {
+            player.GetComponent<CharacterOne>().SetAngleSelectSprite(2);
+        }
+        if (launcher.transform.rotation.eulerAngles.z > 75f && launcher.transform.rotation.eulerAngles.z < 100f)
+        {
+            player.GetComponent<CharacterOne>().SetAngleSelectSprite(3);
+        }
+
+    }
+    private void PowerSelect()
+    {
+        if (arrow.fillAmount >= 1f)
+        {
+            fillUp = false;
+        }
+        if (arrow.fillAmount <= 0.01f)
+        {
+            fillUp = true;
+        }
+
+        if (fillUp)
+        {
+            arrow.fillAmount += arrowFillSpeed * Time.deltaTime;
+        }
+        else
+        {
+            arrow.fillAmount -= arrowFillSpeed * Time.deltaTime;
+        }
+
+        if (arrow.fillAmount < 0.25f)
+        {
+            player.GetComponent<CharacterOne>().SetPowerSelectSprite(0);
+        }
+        if (arrow.fillAmount > 0.25f && arrow.fillAmount < 0.5f)
+        {
+            player.GetComponent<CharacterOne>().SetPowerSelectSprite(1);
+        }
+        if (arrow.fillAmount > 0.5f && arrow.fillAmount < 0.75f)
+        {
+            player.GetComponent<CharacterOne>().SetPowerSelectSprite(2);
+        }
+        if (arrow.fillAmount > 0.75f && arrow.fillAmount < 1.0f)
+        {
+            player.GetComponent<CharacterOne>().SetPowerSelectSprite(3);
+        }
+    }
 	private void SpawnBuff1(){
 		if (buff1SpawnCounter > buff1Time) {
 			float a = Random.Range (0f, 10f);

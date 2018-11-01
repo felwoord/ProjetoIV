@@ -38,6 +38,8 @@ public class CharacterOne : MonoBehaviour {
 	public Sprite defaultSprite;
     public Sprite aboveMaxSpeedSprt;
 	public Sprite ride1Sprite;
+    public Sprite[] powerSelectSprite;
+    public Sprite[] angleSelectSprite;
 
 	private int magic;
 
@@ -45,6 +47,8 @@ public class CharacterOne : MonoBehaviour {
 	private float counter;
 
     private bool bossBattle;
+
+    private bool gameStarted = false;
 
 	void Start(){
 		magic = PlayerPrefs.GetInt ("Magic_1", 1);
@@ -54,33 +58,45 @@ public class CharacterOne : MonoBehaviour {
         sprtRend = GetComponent<SpriteRenderer>();
 
 	}
-	void Update(){
-		if (Input.GetMouseButtonDown (0) && !delay) {
-            bossBattle = gameCont.GetBossBattle();
-			if (!playerControl.GetRide1 () && !playerControl.GetRide2 () && !bossBattle) {
-				if (!playerControl.GetHeightCheck ()) {
-					#if UNITY_STANDALONE                                              
-					if (!EventSystem.current.IsPointerOverGameObject ()) {
-					#else
+    void Update()
+    {
+        if (gameStarted)
+        {
+            if (Input.GetMouseButtonDown(0) && !delay)
+            {
+                bossBattle = gameCont.GetBossBattle();
+                if (!playerControl.GetRide1() && !playerControl.GetRide2() && !bossBattle)
+                {
+                    if (!playerControl.GetHeightCheck())
+                    {
+#if UNITY_STANDALONE
+                        if (!EventSystem.current.IsPointerOverGameObject())
+                        {
+#else
 					if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
-					#endif
-						int powerBarsCount = gameCont.GetMana ();
-						if (powerBarsCount > 0) {
-							playerRB.velocity = new Vector2 (playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs (playerRB.velocity.y) * 1.2f + 2);
-                            gameCont.RemovePowerBar ();
-						}
-					}
-				}
-			}
-		}
-		if (delay) {
-			counter += Time.deltaTime;
-			if (counter > 1) {
-				delay = false;
-				counter = 0;
-			}
-		}
-	}
+#endif
+                            int powerBarsCount = gameCont.GetMana();
+                            if (powerBarsCount > 0)
+                            {
+                                playerRB.velocity = new Vector2(playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs(playerRB.velocity.y) * 1.2f + 2);
+                                gameCont.RemovePowerBar();
+                            }
+                        }
+                    }
+                }
+            }
+            if (delay)
+            {
+                counter += Time.deltaTime;
+                if (counter > 1)
+                {
+                    delay = false;
+                    counter = 0;
+                }
+            }
+        }
+    }
+	
 
 	public void SetDefaultSprite(){
         sprtRend.sprite = defaultSprite;
@@ -102,6 +118,18 @@ public class CharacterOne : MonoBehaviour {
     }
 	public void SetAboveMaxSpeedBodySprite(){
         sprtRend.sprite = aboveMaxSpeedSprt;
+    }
+    public void SetAngleSelectSprite(int aux)
+    {
+        sprtRend.sprite = angleSelectSprite[aux];
+    }
+    public void SetPowerSelectSprite(int aux)
+    {
+        sprtRend.sprite = powerSelectSprite[aux];
+    }
+    public void SetStartedGame(bool aux)
+    {
+        gameStarted = aux;
     }
 
 }
