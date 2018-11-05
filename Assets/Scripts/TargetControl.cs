@@ -34,11 +34,15 @@ public class TargetControl : MonoBehaviour {
     public Image sourceImg;
     public Sprite[] arrowSprt;
 
+    private CharacterOne charOne;
+
     void Start () {
 		playerRB = GameObject.Find ("Player").GetComponent<Rigidbody2D> ();
 		ride2Level = PlayerPrefs.GetInt ("ItemLevel_8", 0);
 		hitCount = 0;
 		speed = 50;
+
+        charOne = GameObject.Find("Player").GetComponent<CharacterOne>();
 	}
 	
 	void Update () {
@@ -52,6 +56,8 @@ public class TargetControl : MonoBehaviour {
 	}
 
 	public void Hit(){
+        charOne.SetRide2Sprite();
+
 		hitCount++;
 		playerRB.velocity = new Vector2 (playerRB.velocity.x + 5 + (ride2Level / 2) + (hitCount * (1 + (ride2Level / 10))), playerRB.velocity.y);
 		transform.localPosition = new Vector3 (Random.Range (-440, 440), Random.Range (-230, 0), transform.localPosition.z);

@@ -133,12 +133,14 @@ public class GameControl : MonoBehaviour {
 		player.name = "Player";
 
 		mana = 1 + Mathf.FloorToInt (magic / 10);
-		for (int i = 0; i < mana; i++) {
-			ManaUI ();
-		}
-		foreach (GameObject pwb in powerBar) {
-			pwb.GetComponent<Image> ().enabled = false;
-		}
+        for (int i = 1; i <= mana; i++)
+        {
+            ManaUI();
+        }
+        foreach (GameObject pwb in powerBar)
+        {
+            pwb.GetComponent<Image>().enabled = false;
+        }
 
 		playerRB = player.GetComponent<Rigidbody2D> ();
 		playerCont = player.GetComponent<PlayerController> ();
@@ -324,7 +326,7 @@ public class GameControl : MonoBehaviour {
             distText.text = player.transform.position.x.ToString("0");
             healthBar.fillAmount = playerRB.velocity.x / maxSpeed;
 
-            if (player.transform.position.x > 500 && !playerCont.GetRide1() && !playerCont.GetRide2() && !playerCont.GetHeightCheck() && !slowmoEffect && !doOnceEnterBossBattle)
+            if (player.transform.position.x > 10000 && !playerCont.GetRide1() && !playerCont.GetRide2() && !playerCont.GetHeightCheck() && !slowmoEffect && !doOnceEnterBossBattle)
             {
                 posXBB = player.transform.position.x;
                 bossBattle = true;
@@ -757,6 +759,16 @@ public class GameControl : MonoBehaviour {
 			powerBar.Peek ().transform.SetParent (GameObject.Find ("PowerBarParent").transform, false);
 			powerBar.Peek ().name = "PowerBar";
 			powerBar.Peek ().transform.localScale = new Vector3 (100, 30, 0);
+
+            if(powerBar.Count == mana)
+            {
+                Debug.Log("entrou manaui");
+               
+                foreach(GameObject go in powerBar)
+                {
+                    go.GetComponent<ManaBarAnimation>().enabled = true;
+                }
+            }
 		}
 	}
 	private void SetTimes(){
@@ -819,7 +831,15 @@ public class GameControl : MonoBehaviour {
 		return powerBar.Count;
 	}
 	public void RemovePowerBar(){
-		Destroy (powerBar.Pop ());
+        if (powerBar.Count == mana)
+        {
+            Debug.Log("entrou remove powerbar");
+            foreach (GameObject go in powerBar)
+            {
+                go.GetComponent<ManaBarAnimation>().enabled = false;
+            }
+        }
+        Destroy (powerBar.Pop ());
 	}
 	public void AddExp(float expAmount){
 		expGained += expAmount;

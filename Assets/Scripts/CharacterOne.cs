@@ -51,7 +51,7 @@ public class CharacterOne : MonoBehaviour {
     private bool gameStarted = false;
 
     private bool ride2 = false;
-    public Sprite[] spritesDDR;
+    public Sprite[] ride2Sprites;
 
 	void Start(){
 		magic = PlayerPrefs.GetInt ("Magic_1", 1);
@@ -76,7 +76,7 @@ public class CharacterOne : MonoBehaviour {
                         if (!EventSystem.current.IsPointerOverGameObject())
                         {
 #else
-					if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
+					if (true/*!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)*/) {
 #endif
                             int powerBarsCount = gameCont.GetMana();
                             if (powerBarsCount > 0)
@@ -109,9 +109,11 @@ public class CharacterOne : MonoBehaviour {
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
 		//GetComponent<SpriteRenderer> ().color = Color.red;
 	}
-	private void SetRide2Sprite(){
-		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
-		//GetComponent<SpriteRenderer> ().color = Color.blue;
+	public void SetRide2Sprite(){
+        int aux = Random.Range(0, 5);
+        Debug.Log(aux);
+        sprtRend.sprite = ride2Sprites[aux];	
+		
 	}
 	public void SetAboveMaxHeightSprite(){
         sprtRend.sprite = aboveMaxSpeedSprt;
@@ -138,6 +140,14 @@ public class CharacterOne : MonoBehaviour {
     public void SetRide2(bool aux)
     {
         ride2 = aux;
+        if (aux)
+        {
+            SetRide2Sprite();
+        }
+        else
+        {
+            SetDefaultSprite();
+        }
     }
 
 }

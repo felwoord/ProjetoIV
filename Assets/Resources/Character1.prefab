@@ -115,6 +115,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9fcb30637bc9f5a46b692b25ca4e2db8, type: 3}
   - {fileID: 21300000, guid: 940be818dd3c2cd44b4a1c7c25ad76a6, type: 3}
   delay: 0
+  ride2Sprites:
+  - {fileID: 21300000, guid: a6a03f6c0e5e2bf42b65f2d42af8dc96, type: 3}
+  - {fileID: 21300000, guid: 4f6a7190998735844a77b0df115e5efe, type: 3}
+  - {fileID: 21300000, guid: 2072e419f7d09df4fa1361b27e3751b4, type: 3}
+  - {fileID: 21300000, guid: f392c9bfff9abf04b8eb26622e22ff0f, type: 3}
+  - {fileID: 21300000, guid: 5498c33845b93cb4a936d764fa7926f1, type: 3}
 --- !u!212 &212237568386408322
 SpriteRenderer:
   m_ObjectHideFlags: 1

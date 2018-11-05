@@ -417,7 +417,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	private void Ride2Time(){
 		ride2Timer += Time.deltaTime;
-		if (ride2Timer < 5) {
+		if (ride2Timer < 7) {
 
 		} else {
 			if (characterID == 1) {
