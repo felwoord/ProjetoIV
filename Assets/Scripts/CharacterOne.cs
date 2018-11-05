@@ -50,6 +50,9 @@ public class CharacterOne : MonoBehaviour {
 
     private bool gameStarted = false;
 
+    private bool ride2 = false;
+    public Sprite[] spritesDDR;
+
 	void Start(){
 		magic = PlayerPrefs.GetInt ("Magic_1", 1);
 		playerControl = GameObject.Find ("Player").GetComponent<PlayerController> ();
@@ -65,7 +68,7 @@ public class CharacterOne : MonoBehaviour {
             if (Input.GetMouseButtonDown(0) && !delay)
             {
                 bossBattle = gameCont.GetBossBattle();
-                if (!playerControl.GetRide1() && !playerControl.GetRide2() && !bossBattle)
+                if (!playerControl.GetRide1() && !ride2 && !bossBattle)
                 {
                     if (!playerControl.GetHeightCheck())
                     {
@@ -106,7 +109,7 @@ public class CharacterOne : MonoBehaviour {
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
 		//GetComponent<SpriteRenderer> ().color = Color.red;
 	}
-	public void SetRide2Sprite(){
+	private void SetRide2Sprite(){
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
 		//GetComponent<SpriteRenderer> ().color = Color.blue;
 	}
@@ -130,6 +133,11 @@ public class CharacterOne : MonoBehaviour {
     public void SetStartedGame(bool aux)
     {
         gameStarted = aux;
+    }
+
+    public void SetRide2(bool aux)
+    {
+        ride2 = aux;
     }
 
 }

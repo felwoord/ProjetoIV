@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour {
 
     private bool bossBattle;
 
+
 	private BanzaiScript banzais;
 	void Start () {
 		banzais = GameObject.Find ("Banzai").GetComponent<BanzaiScript> ();
@@ -101,7 +102,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 
-		ads = PlayerPrefs.GetInt ("Ads", 1);
+        ads = PlayerPrefs.GetInt ("Ads", 1);
 	}
 	void Update () {
         if(playerRB.velocity != Vector2.zero)
@@ -310,7 +311,7 @@ public class PlayerController : MonoBehaviour {
                     playerRB.constraints = RigidbodyConstraints2D.FreezePositionY;
 
                     if (characterID == 1)
-                        GetComponent<CharacterOne>().SetRide2Sprite();
+                        GetComponent<CharacterOne>().SetRide2(ride2);
                     if (characterID == 2)
                     {
                     }
@@ -432,6 +433,7 @@ public class PlayerController : MonoBehaviour {
 			Destroy (GameObject.Find ("Ride2Canvas"));
 			ride2Timer = 0;
 			ride2 = false;
+            GetComponent<CharacterOne>().SetRide2(ride2);
 			playerRB.drag = saveDrag;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.velocity = new Vector2 (playerRB.velocity.x, Mathf.Abs(saveVelocity.y));
