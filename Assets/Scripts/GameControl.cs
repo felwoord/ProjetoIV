@@ -125,6 +125,8 @@ public class GameControl : MonoBehaviour {
 	private bool slowmoEffect;
 	private bool iniciateEffect;
 
+    public GameObject lightingFX;
+
 	void Start () {
 		GetPlayerPrefs ();
 
@@ -293,7 +295,8 @@ public class GameControl : MonoBehaviour {
         bossBattle = false;
         doOnceEnterBossBattle = false;
         gravity = 1;
-	}
+        lightingFX.SetActive(false);
+    }
 	private void VolumeSetting(){
 		soundFX.volume = effectVolume;
 		effectsController.value = effectVolume;
@@ -369,10 +372,11 @@ public class GameControl : MonoBehaviour {
                     if (characterID == 1)
                     {
                         player.GetComponent<CharacterOne>().SetAboveMaxSpeedBodySprite();
-                        avatar.sprite = avatarSprts[1];
+                        avatar.sprite = avatarSprts[1];  
                     }
+                    lightingFX.SetActive(true);
 
-                    
+
 
                 }
                 else
@@ -396,6 +400,7 @@ public class GameControl : MonoBehaviour {
                         player.GetComponent<CharacterOne>().SetBelowMaxSpeedBodySprite();
                         avatar.sprite = avatarSprts[0];
                     }
+                    lightingFX.SetActive(false);
                 }
             }
 
@@ -760,9 +765,7 @@ public class GameControl : MonoBehaviour {
 			powerBar.Peek ().transform.localScale = new Vector3 (100, 30, 0);
 
             if(powerBar.Count == mana)
-            {
-                Debug.Log("entrou manaui");
-               
+            {  
                 foreach(GameObject go in powerBar)
                 {
                     go.GetComponent<ManaBarAnimation>().SetAnimation(true);
@@ -832,7 +835,6 @@ public class GameControl : MonoBehaviour {
 	public void RemovePowerBar(){
         if (powerBar.Count == mana)
         {
-            Debug.Log("entrou remove powerbar");
             foreach (GameObject go in powerBar)
             {
                 go.GetComponent<ManaBarAnimation>().SetAnimation(false);

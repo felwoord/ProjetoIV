@@ -85,7 +85,6 @@ public class CharacterOne : MonoBehaviour {
                             {
                                 playerRB.velocity = new Vector2(playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs(playerRB.velocity.y) * 1.2f + 2);
                                 gameCont.RemovePowerBar();
-                                Debug.Log("ssss");
                             }
                         }
                     }

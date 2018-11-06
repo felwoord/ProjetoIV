@@ -90,6 +90,15 @@ public class ShopMenu : MonoBehaviour
     private Text hints;
     private string hint1, hint2, hint3, hint4, hint5, hint6, hint7;
 
+    public Sprite[] buffOneSprites;
+    public Sprite[] glassesBuffOneSprites;
+    public Sprite[] bananaSprites;
+    public Sprite pillowSprite, sightSprite, steadyHandsSprite, budgetSprite, aerodynamicsSprite, speedBoostSprite, ride1Sprite, ride2Sprite;
+    private bool[] animations = new bool [10];
+    // /\ 0 cushion, 1 sight, 2 steadyHands, 3 budget, 4 buffOne, 5 speedBoost, 6 debuffOne, 7 ride1, 8 ride2, 9 aerody
+    private bool glassesAni;
+    private float counterBuffOne, counterGlassesBuffOne, counterDebuffOne;
+    public Image itemDisplayAux;
 
     void Start()
     {
@@ -120,6 +129,7 @@ public class ShopMenu : MonoBehaviour
     }
     void Update()
     {
+        SpritesDisplayAnimation();
     }
     private void GameObjectFind()
     {
@@ -470,8 +480,60 @@ public class ShopMenu : MonoBehaviour
     }
     private void ItemChange(string description)
     {
-        itemDisplay.sprite = itemSprite[currentItem];
-
+        for (int i = 0; i < 10; i++)
+        {
+            if (i == currentItem)
+            {
+                animations[i] = true;
+            }
+            else
+            {
+                animations[i] = false;
+            }
+        }
+        if(currentItem == 4)
+        {
+            glassesAni = true;
+            itemDisplayAux.enabled = true;
+        }
+        else
+        {
+            glassesAni = false;
+            itemDisplayAux.enabled = false;
+        }
+        switch (currentItem)
+        {
+            case 0:
+                itemDisplay.sprite = pillowSprite;
+                break;
+            case 1:
+                itemDisplay.sprite = sightSprite;
+                break;
+            case 2:
+                itemDisplay.sprite = steadyHandsSprite;
+                break;
+            case 3:
+                itemDisplay.sprite = budgetSprite;
+                break;
+            case 4:
+                //
+                break;
+            case 5:
+                itemDisplay.sprite = speedBoostSprite;
+                break;
+            case 6:
+                //bbanana
+                break;
+            case 7:
+                itemDisplay.sprite = ride1Sprite;
+                break;
+            case 8:
+                itemDisplay.sprite = ride2Sprite;
+                break;
+            case 9:
+                itemDisplay.sprite = aerodynamicsSprite;
+                break;
+        }
 
         itemDescription.text = description;
 
@@ -489,6 +551,119 @@ public class ShopMenu : MonoBehaviour
             itemPrice = (itemLevel * 20);
         }
         itemPriceText.text = itemPrice.ToString("0");
+    }
+    private void SpritesDisplayAnimation()
+    {
+        if (animations[4]) // Buff One Animation
+        {
+            counterBuffOne += Time.deltaTime * 1.15f;
+
+            if (counterBuffOne >= 0f && counterBuffOne < 0.05f)
+            {
+                itemDisplay.sprite = buffOneSprites[0];
+            }
+            if (counterBuffOne >= 0.1f && counterBuffOne < 0.15f)
+            {
+                itemDisplay.sprite = buffOneSprites[1];
+            }
+            if (counterBuffOne >= 0.2f && counterBuffOne < 0.25f)
+            {
+                itemDisplay.sprite = buffOneSprites[2];
+            }
+            if (counterBuffOne >= 0.3f && counterBuffOne < 0.35f)
+            {
+                itemDisplay.sprite = buffOneSprites[3];
+            }
+            if (counterBuffOne >= 0.4f && counterBuffOne < 0.45f)
+            {
+                itemDisplay.sprite = buffOneSprites[4];
+            }
+            if (counterBuffOne >= 0.5f && counterBuffOne < 0.55f)
+            {
+                itemDisplay.sprite = buffOneSprites[5];
+            }
+            if (counterBuffOne >= 0.6f && counterBuffOne < 0.7f)
+            {
+                itemDisplay.sprite = buffOneSprites[6];
+            }
+            if (counterBuffOne >= 0.75f)
+            {
+                counterBuffOne = 0;
+            }
+
+            counterGlassesBuffOne += Time.deltaTime * 1.75f;
+
+            if (counterGlassesBuffOne >= 0f && counterGlassesBuffOne < 0.05f)
+            {
+                itemDisplayAux.sprite = glassesBuffOneSprites[0];
+            }
+            if (counterGlassesBuffOne >= 0.1f && counterGlassesBuffOne < 0.15f)
+            {
+                itemDisplayAux.sprite = glassesBuffOneSprites[1];
+            }
+            if (counterGlassesBuffOne >= 0.2f && counterGlassesBuffOne < 0.25f)
+            {
+                itemDisplayAux.sprite = glassesBuffOneSprites[2];
+            }
+            if (counterGlassesBuffOne >= 0.3f && counterGlassesBuffOne < 0.35f)
+            {
+                itemDisplayAux.sprite = glassesBuffOneSprites[3];
+            }
+            if (counterGlassesBuffOne >= 0.4f && counterGlassesBuffOne < 0.45f)
+            {
+                itemDisplayAux.sprite = glassesBuffOneSprites[0];
+            }
+            if (counterGlassesBuffOne >= 0.5f && counterGlassesBuffOne < 0.55f)
+            {
+                itemDisplayAux.sprite = glassesBuffOneSprites[0];
+            }
+            if (counterGlassesBuffOne >= 0.6f && counterGlassesBuffOne < 1.25f)
+            {
+                itemDisplayAux.sprite = glassesBuffOneSprites[0];
+            }
+            if (counterGlassesBuffOne >= 1.3f)
+            {
+                counterGlassesBuffOne = 0;
+            }
+        }
+
+        if (animations[6])
+        {
+            counterDebuffOne += Time.deltaTime * 1.75f;
+
+            if (counterDebuffOne >= 0f && counterDebuffOne < 0.05f)
+            {
+                itemDisplay.sprite = bananaSprites[0];
+            }
+            if (counterDebuffOne >= 0.1f && counterDebuffOne < 0.15f)
+            {
+                itemDisplay.sprite = bananaSprites[1];
+            }
+            if (counterDebuffOne >= 0.2f && counterDebuffOne < 0.25f)
+            {
+                itemDisplay.sprite = bananaSprites[2];
+            }
+            if (counterDebuffOne >= 0.3f && counterDebuffOne < 0.35f)
+            {
+                itemDisplay.sprite = bananaSprites[3];
+            }
+            if (counterDebuffOne >= 0.35f && counterDebuffOne < 0.4f)
+            {
+                itemDisplay.sprite = bananaSprites[0];
+            }
+            if (counterDebuffOne >= 0.45f && counterDebuffOne < 0.45f)
+            {
+                itemDisplay.sprite = bananaSprites[0];
+            }
+            if (counterDebuffOne >= 0.5f && counterDebuffOne < 1.25f)
+            {
+                itemDisplay.sprite = bananaSprites[0];
+            }
+            if (counterDebuffOne >= 1.3f)
+            {
+                counterDebuffOne = 0;
+            }
+        }
     }
     public void BuyItem()
     {

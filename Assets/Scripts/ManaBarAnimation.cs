@@ -20,19 +20,47 @@ public class ManaBarAnimation : MonoBehaviour
     {
         if (ani)
         {
-            counter += Time.deltaTime;
+            counter = (Time.time % 10) % 2;
 
             if (counter < 0.2f)
             {
                 manaImg.sprite = manaSprites[0];
             }
-            if (counter > 0.2f && counter < 0.4)
+            if (counter > 0.2f && counter < 0.4f)
             {
                 manaImg.sprite = manaSprites[1];
             }
-            if (counter > 0.4f)
+            if (counter > 0.4f && counter < 0.6f)
             {
-                counter = 0;
+                manaImg.sprite = manaSprites[0];
+            }
+            if (counter > 0.6f && counter < 0.8f)
+            {
+                manaImg.sprite = manaSprites[1];
+            }
+            if (counter > 0.8f && counter < 1.0f)
+            {
+                manaImg.sprite = manaSprites[0];
+            }
+            if (counter > 1.0f && counter < 1.2f)
+            {
+                manaImg.sprite = manaSprites[1];
+            }
+            if (counter > 1.2f && counter < 1.4f)
+            {
+                manaImg.sprite = manaSprites[0];
+            }
+            if (counter > 1.4f && counter < 1.6f)
+            {
+                manaImg.sprite = manaSprites[1];
+            }
+            if (counter > 1.6f && counter < 1.8f)
+            {
+                manaImg.sprite = manaSprites[0];
+            }
+            if (counter > 1.8f)
+            {
+                manaImg.sprite = manaSprites[1];
             }
         }
     }
