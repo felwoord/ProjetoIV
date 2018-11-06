@@ -34,7 +34,7 @@ public class CharacterOne : MonoBehaviour {
 	private Rigidbody2D playerRB;
 	private PlayerController playerControl;
 
-    private SpriteRenderer sprtRend;
+    public SpriteRenderer sprtRend;
 	public Sprite defaultSprite;
     public Sprite aboveMaxSpeedSprt;
 	public Sprite ride1Sprite;
@@ -53,14 +53,16 @@ public class CharacterOne : MonoBehaviour {
     private bool ride2 = false;
     public Sprite[] ride2Sprites;
 
-	void Start(){
-		magic = PlayerPrefs.GetInt ("Magic_1", 1);
-		playerControl = GameObject.Find ("Player").GetComponent<PlayerController> ();
-		gameCont = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
-		playerRB = GetComponent<Rigidbody2D> ();
-        sprtRend = GetComponent<SpriteRenderer>();
+    public bool useMana = false;
 
-	}
+    void Start()
+    {
+        magic = PlayerPrefs.GetInt("Magic_1", 1);
+        playerControl = GameObject.Find("Player").GetComponent<PlayerController>();
+        gameCont = GameObject.Find("Main Camera").GetComponent<GameControl>();
+        playerRB = GetComponent<Rigidbody2D>();
+        sprtRend = GetComponent<SpriteRenderer>();
+    }
     void Update()
     {
         if (gameStarted)
@@ -83,6 +85,7 @@ public class CharacterOne : MonoBehaviour {
                             {
                                 playerRB.velocity = new Vector2(playerRB.velocity.x * 1.1f + 2 + magic, Mathf.Abs(playerRB.velocity.y) * 1.2f + 2);
                                 gameCont.RemovePowerBar();
+                                Debug.Log("ssss");
                             }
                         }
                     }
@@ -135,6 +138,10 @@ public class CharacterOne : MonoBehaviour {
     public void SetStartedGame(bool aux)
     {
         gameStarted = aux;
+        if(aux)
+        {
+            delay = true;
+        }
     }
 
     public void SetRide2(bool aux)

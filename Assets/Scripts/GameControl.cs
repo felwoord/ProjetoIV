@@ -132,7 +132,7 @@ public class GameControl : MonoBehaviour {
 		player.transform.position = new Vector2 (2, 5);
 		player.name = "Player";
 
-		mana = 1 + Mathf.FloorToInt (magic / 10);
+		mana = 1 + Mathf.FloorToInt (magic / 5);
         for (int i = 1; i <= mana; i++)
         {
             ManaUI();
@@ -182,7 +182,6 @@ public class GameControl : MonoBehaviour {
 
 
 		VolumeSetting ();
-
 	}
 	void Update () {
 		if (startGame) {
@@ -766,7 +765,7 @@ public class GameControl : MonoBehaviour {
                
                 foreach(GameObject go in powerBar)
                 {
-                    go.GetComponent<ManaBarAnimation>().enabled = true;
+                    go.GetComponent<ManaBarAnimation>().SetAnimation(true);
                 }
             }
 		}
@@ -836,7 +835,7 @@ public class GameControl : MonoBehaviour {
             Debug.Log("entrou remove powerbar");
             foreach (GameObject go in powerBar)
             {
-                go.GetComponent<ManaBarAnimation>().enabled = false;
+                go.GetComponent<ManaBarAnimation>().SetAnimation(false);
             }
         }
         Destroy (powerBar.Pop ());

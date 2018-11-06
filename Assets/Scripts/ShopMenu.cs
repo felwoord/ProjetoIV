@@ -37,7 +37,9 @@ public class ShopMenu : MonoBehaviour
 {
     private Image characterDisplay;
     private int currentCharacter;
-    public Sprite[] characterSprite = new Sprite[3];
+    public Sprite[] characterOneSprites;
+    public Sprite[] characterTwoSprites;
+    public Sprite[] characterThreeSprites;
     private Button playButton;
 
     private GameObject stats, itens;
@@ -235,17 +237,18 @@ public class ShopMenu : MonoBehaviour
     }
     public void CharacterOne()
     {
-        characterDisplay.sprite = characterSprite[0];
+        int aux = Random.Range(0, 7);
+        characterDisplay.sprite = characterOneSprites[aux];
         playButton.interactable = true;
     }
     public void CharacterTwo()
     {
-        characterDisplay.sprite = characterSprite[1];
+        characterDisplay.sprite = characterTwoSprites[0];
         playButton.interactable = false;
     }
     public void CharacterTree()
     {
-        characterDisplay.sprite = characterSprite[2];
+        characterDisplay.sprite = characterThreeSprites[0];
         playButton.interactable = false;
     }
     public void NextCharacter()

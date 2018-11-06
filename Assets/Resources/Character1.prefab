@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6bc776dbb6c99c4d96690f6e292bde2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprtRend: {fileID: 212237568386408322}
   defaultSprite: {fileID: 21300000, guid: d0fa1b95c9a6a6b489f9d34a3af9e09a, type: 3}
   aboveMaxSpeedSprt: {fileID: 21300000, guid: 64d46579708426d4f9dfe2fb5c8fbd8d, type: 3}
   ride1Sprite: {fileID: 21300000, guid: 5ad315bd47ce5f2428ced31152dd16f2, type: 3}
@@ -121,6 +122,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2072e419f7d09df4fa1361b27e3751b4, type: 3}
   - {fileID: 21300000, guid: f392c9bfff9abf04b8eb26622e22ff0f, type: 3}
   - {fileID: 21300000, guid: 5498c33845b93cb4a936d764fa7926f1, type: 3}
+  useMana: 0
 --- !u!212 &212237568386408322
 SpriteRenderer:
   m_ObjectHideFlags: 1
