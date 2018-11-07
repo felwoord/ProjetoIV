@@ -123,6 +123,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f392c9bfff9abf04b8eb26622e22ff0f, type: 3}
   - {fileID: 21300000, guid: 5498c33845b93cb4a936d764fa7926f1, type: 3}
   useMana: 0
+  deathAni: 0
+  deathSprites:
+  - {fileID: 21300000, guid: 64a765966a1051747a04950bcf501d22, type: 3}
+  - {fileID: 21300000, guid: c87de2904fa90974586f1155674c5f47, type: 3}
+  - {fileID: 21300000, guid: ffe65e2ae3becaa4fa10d8129314a9d2, type: 3}
+  - {fileID: 21300000, guid: 3df36f3675fcf7242ba760ee967f1b34, type: 3}
 --- !u!212 &212237568386408322
 SpriteRenderer:
   m_ObjectHideFlags: 1

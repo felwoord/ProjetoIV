@@ -71,8 +71,10 @@ public class PlayerController : MonoBehaviour {
 
     private bool bossBattle;
 
-
 	private BanzaiScript banzais;
+
+    private float radius;
+
 	void Start () {
 		banzais = GameObject.Find ("Banzai").GetComponent<BanzaiScript> ();
 
@@ -373,7 +375,15 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				if (!ride1 && !ride2) {
 					EndRun ();
-				}
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    radius = gameObject.GetComponent<CircleCollider2D>().radius;
+                    gameObject.GetComponent<CircleCollider2D>().radius = 1;
+           
+                    if (characterID == 1)
+                    {
+                        GetComponent<CharacterOne>().SetDeathAni(true);
+                    }
+                }
 			}
 
 			if (heightCheck) {
@@ -496,7 +506,13 @@ public class PlayerController : MonoBehaviour {
 		extraLife--;
 		PlayerPrefs.SetInt ("ExtraLife", extraLife);
 		extraLifeAvaliable = false;
-		gameCont.SecondLaunch ();
+        if (characterID == 1)
+        {
+            GetComponent<CharacterOne>().SetDeathAni(false);
+        }
+        gameObject.GetComponent<CircleCollider2D>().radius = radius;
+        transform.position = new Vector3(transform.position.x, 3, transform.position.z);
+        gameCont.SecondLaunch ();
 		int mana = gameCont.GetMana ();
 		for (int i = 0; i < mana; i++) {
 			gameCont.ManaUI ();

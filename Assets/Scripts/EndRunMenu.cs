@@ -132,7 +132,7 @@ public class EndRunMenu : MonoBehaviour {
 	}
 
 	void Update () {
-		if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > 0) {
+		if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > 25) {
 			transform.position = new Vector2 (transform.position.x - Screen.width/2 * Time.deltaTime, transform.position.y);
 		}
 

@@ -55,6 +55,10 @@ public class CharacterOne : MonoBehaviour {
 
     public bool useMana = false;
 
+    public bool deathAni = false;
+    public Sprite[] deathSprites;
+    private float counterDeathAni;
+
     void Start()
     {
         magic = PlayerPrefs.GetInt("Magic_1", 1);
@@ -100,13 +104,21 @@ public class CharacterOne : MonoBehaviour {
                 }
             }
         }
+
+        if (deathAni)
+        {
+            DeathAnimation();
+        }
     }
-	
 
-	public void SetDefaultSprite(){
-        sprtRend.sprite = defaultSprite;
 
-	}
+    public void SetDefaultSprite()
+    {
+        if (!deathAni)
+        {
+           sprtRend.sprite = defaultSprite;
+        }
+    }
 	public void SetRide1Sprite(){
 		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
 		//GetComponent<SpriteRenderer> ().color = Color.red;
@@ -120,8 +132,12 @@ public class CharacterOne : MonoBehaviour {
 	public void SetAboveMaxHeightSprite(){
         sprtRend.sprite = aboveMaxSpeedSprt;
     }
-	public void SetBelowMaxSpeedBodySprite(){
-        sprtRend.sprite = defaultSprite;
+    public void SetBelowMaxSpeedBodySprite()
+    {
+        if (!deathAni)
+        {
+            sprtRend.sprite = defaultSprite;
+        }
     }
 	public void SetAboveMaxSpeedBodySprite(){
         sprtRend.sprite = aboveMaxSpeedSprt;
@@ -142,7 +158,35 @@ public class CharacterOne : MonoBehaviour {
             delay = true;
         }
     }
+    private void DeathAnimation()
+    {
+        counterDeathAni += Time.deltaTime * 1.5f;
+        if (counterDeathAni < 0.2f)
+        {
+            sprtRend.sprite = deathSprites[0];
+        }
+        if (counterDeathAni > 0.2f && counterDeathAni < 0.4f)
+        {
+            sprtRend.sprite = deathSprites[1];
+        }
+        if (counterDeathAni > 0.4f && counterDeathAni < 0.6f)
+        {
+            sprtRend.sprite = deathSprites[2];
+        }
+        if (counterDeathAni > 0.6f && counterDeathAni < 0.8f)
+        {
+            sprtRend.sprite = deathSprites[3];
+        }
+    }
 
+    public void SetDeathAni(bool aux)
+    {
+        deathAni = aux;
+        if (aux)
+        {
+            counterDeathAni = 0;
+        }
+    }
     public void SetRide2(bool aux)
     {
         ride2 = aux;
