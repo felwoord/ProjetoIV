@@ -59,6 +59,10 @@ public class CharacterOne : MonoBehaviour {
     public Sprite[] deathSprites;
     private float counterDeathAni;
 
+    private bool lowLifeAni = false;
+    public Sprite[] lowLifeSprites;
+    private float counterLowLifeAni;
+
     void Start()
     {
         magic = PlayerPrefs.GetInt("Magic_1", 1);
@@ -103,18 +107,24 @@ public class CharacterOne : MonoBehaviour {
                     counter = 0;
                 }
             }
+
+
+            if (deathAni)
+            {
+                DeathAnimation();
+            }
+            if (lowLifeAni)
+            {
+                LowLifeAnimation();
+            }
         }
 
-        if (deathAni)
-        {
-            DeathAnimation();
-        }
     }
 
 
     public void SetDefaultSprite()
     {
-        if (!deathAni)
+        if (!deathAni && !lowLifeAni)
         {
            sprtRend.sprite = defaultSprite;
         }
@@ -134,7 +144,7 @@ public class CharacterOne : MonoBehaviour {
     }
     public void SetBelowMaxSpeedBodySprite()
     {
-        if (!deathAni)
+        if (!deathAni && !lowLifeAni)
         {
             sprtRend.sprite = defaultSprite;
         }
@@ -178,6 +188,25 @@ public class CharacterOne : MonoBehaviour {
             sprtRend.sprite = deathSprites[3];
         }
     }
+    private void LowLifeAnimation()
+    {
+        counterLowLifeAni += Time.deltaTime * 2.5f;
+        if (counterLowLifeAni < 0.2f)
+        {
+            sprtRend.sprite = lowLifeSprites[0];
+        }
+        if (counterLowLifeAni > 0.2f && counterLowLifeAni < 0.4f)
+        {
+            sprtRend.sprite = lowLifeSprites[1];
+        }
+        if(counterLowLifeAni > 0.4f)
+        {
+            counterLowLifeAni = 0;
+        }
+
+    }
+
+
 
     public void SetDeathAni(bool aux)
     {
@@ -186,6 +215,11 @@ public class CharacterOne : MonoBehaviour {
         {
             counterDeathAni = 0;
         }
+    }
+
+    public void SetLowLifeAni(bool aux)
+    {
+        lowLifeAni = aux;
     }
     public void SetRide2(bool aux)
     {

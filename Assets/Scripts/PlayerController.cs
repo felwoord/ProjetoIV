@@ -382,6 +382,7 @@ public class PlayerController : MonoBehaviour {
                     if (characterID == 1)
                     {
                         GetComponent<CharacterOne>().SetDeathAni(true);
+                       // GetComponent<CharacterOne>().SetLowLifeAni(false);
                     }
                 }
 			}

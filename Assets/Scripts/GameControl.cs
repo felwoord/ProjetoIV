@@ -401,6 +401,21 @@ public class GameControl : MonoBehaviour {
                         avatar.sprite = avatarSprts[0];
                     }
                     lightingFX.SetActive(false);
+
+                    if(playerRB.velocity.x < maxSpeed * 0.25f && playerRB.velocity.x != 0)
+                    {
+                        if (characterID == 1)
+                        {
+                            player.GetComponent<CharacterOne>().SetLowLifeAni(true);
+                        }
+                    }
+                    else
+                    {
+                        if (characterID == 1)
+                        {
+                            player.GetComponent<CharacterOne>().SetLowLifeAni(false);
+                        }
+                    }
                 }
             }
 
