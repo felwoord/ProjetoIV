@@ -86,7 +86,8 @@ public class CharacterOne : MonoBehaviour {
                         if (!EventSystem.current.IsPointerOverGameObject())
                         {
 #else
-					if (true/*!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)*/) {
+                        if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                        {
 #endif
                             int powerBarsCount = gameCont.GetMana();
                             if (powerBarsCount > 0)

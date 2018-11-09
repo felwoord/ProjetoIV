@@ -508,41 +508,47 @@ public class GameControl : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
-			//#if !UNITY_STANDALONE                                                           //tirar o ! quando for lançar
-			//if (!EventSystem.current.IsPointerOverGameObject () {
-			//#else
-			//if (!EventSystem.current.IsPointerOverGameObject (Input.GetTouch (0).fingerId)) {
-			//#endif
-				if (powerSelecting) {
-					powerSelecting = false;
-					powerLaunch = arrow.fillAmount * powerMultiplier;
-					playerRB.gravityScale = 1;
-					player.GetComponent<Rigidbody2D> ().AddForce (angleLaunch * powerLaunch, ForceMode2D.Impulse);
-					player.GetComponent<PlayerController> ().enabled = true;
+#if UNITY_STANDALONE                                                           //tirar o ! quando for lançar
+            if (!EventSystem.current.IsPointerOverGameObject() {
+#else
+            if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+#endif
+                if (powerSelecting)
+                {
+                    powerSelecting = false;
+                    powerLaunch = arrow.fillAmount * powerMultiplier;
+                    playerRB.gravityScale = 1;
+                    player.GetComponent<Rigidbody2D>().AddForce(angleLaunch * powerLaunch, ForceMode2D.Impulse);
+                    player.GetComponent<PlayerController>().enabled = true;
                     player.GetComponent<CharacterOne>().SetStartedGame(true);
-					Destroy (launcher);
-					foreach (GameObject pwb in powerBar) {
-						pwb.GetComponent<Image> ().enabled = true;
-					}
-					healthBar.enabled = true;
+                    Destroy(launcher);
+                    foreach (GameObject pwb in powerBar)
+                    {
+                        pwb.GetComponent<Image>().enabled = true;
+                    }
+                    healthBar.enabled = true;
                     healthBarBase.enabled = true;
                     avatar.enabled = true;
 
                     healthText.enabled = true;
-					distText.enabled = true;
-					distText2.enabled = true;
-					startGame = false;
-					PlaySoundEffect (1);
-				}
-			
-				if (directionSelecting) {
-					directionSelecting = false;
-					powerSelecting = true;
-					float angle = launcher.transform.rotation.eulerAngles.z;
-					angleLaunch = new Vector2 (Mathf.Cos (Mathf.Deg2Rad * angle), Mathf.Sin (Mathf.Deg2Rad * angle));
-				}//}
+                    distText.enabled = true;
+                    distText2.enabled = true;
+                    startGame = false;
+                    PlaySoundEffect(1);
+                }
+
+                if (directionSelecting)
+                {
+                    directionSelecting = false;
+                    powerSelecting = true;
+                    float angle = launcher.transform.rotation.eulerAngles.z;
+                    angleLaunch = new Vector2(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle));
+                }
+            }
 		}
 	}
+
 	private void CreateGround(){
 		Destroy (lastGround);
 		lastGround = currentGround;
