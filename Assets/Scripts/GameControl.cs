@@ -171,9 +171,9 @@ public class GameControl : MonoBehaviour {
 
 		ZeroAll ();
 
-		launcherRotSpeed = 4.5f / (0.01f + sightLevel * 0.005f);
+		launcherRotSpeed = 4.0f / (0.01f + sightLevel * 0.005f);
 
-		arrowFillSpeed = 5 / (0.75f + (steadyHandsLevel * 0.1f));
+		arrowFillSpeed = 4.5f / (0.75f + (steadyHandsLevel * 0.1f));
 			
 		powerMultiplier = (4 * str) + 8;
 		maxSpeed = (vit * 10) + 5;
@@ -328,7 +328,7 @@ public class GameControl : MonoBehaviour {
             distText.text = player.transform.position.x.ToString("0");
             healthBar.fillAmount = playerRB.velocity.x / maxSpeed;
 
-            if (player.transform.position.x > 10000 && !playerCont.GetRide1() && !playerCont.GetRide2() && !playerCont.GetHeightCheck() && !slowmoEffect && !doOnceEnterBossBattle)
+            if (player.transform.position.x > 1000 && !playerCont.GetRide1() && !playerCont.GetRide2() && !playerCont.GetHeightCheck() && !slowmoEffect && !doOnceEnterBossBattle)
             {
                 posXBB = player.transform.position.x;
                 bossBattle = true;
