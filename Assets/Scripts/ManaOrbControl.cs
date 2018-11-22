@@ -5,24 +5,23 @@ using UnityEngine;
 public class ManaOrbControl : MonoBehaviour
 {
     GameObject player;
+    private GameControl gameCont;
 
     private float counter;
-    private SpriteRenderer sprtRend;
+    public SpriteRenderer sprtRend;
     public Sprite[] spritesStar;
 
 
 
     void Start()
     {
-        sprtRend = GetComponent<SpriteRenderer>();
-        player = GameObject.Find("Player");
     }
 
     void Update()
     {
         if (transform.position.x < player.transform.position.x - 10)
         {
-            GameObject.Find("Main Camera").GetComponent<GameControl>().Buff1Remove();
+           gameCont.Buff1Remove();
             Destroy(gameObject);
         }
 
@@ -53,5 +52,11 @@ public class ManaOrbControl : MonoBehaviour
         {
             counter = 0;
         }
+    }
+
+    public void SetReferences(GameObject playerRef, GameControl gameContRef)
+    {
+        player = playerRef;
+        gameCont = gameContRef;
     }
 }

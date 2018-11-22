@@ -9,19 +9,17 @@ public class BuffTwo : MonoBehaviour {
 	private float playerSpeedX;
 	private float velX;
 
-	private Transform arrow;
+	public Transform arrow;
 	private float counter;
 
 	void Start () {
-		arrow = this.gameObject.transform.GetChild(1);
-
 		playerSpeedX = playerRB.velocity.x;
 		velX = Random.Range (0, playerSpeedX / 7.5f);
 	}
 
 	void Update () {
 		if (transform.position.x < player.transform.position.x - 10) {
-			GameObject.Find ("Main Camera").GetComponent<GameControl> ().Buff1Remove ();
+			gameCont.Buff1Remove ();
 			Destroy (gameObject);
 		}
 
@@ -46,5 +44,6 @@ public class BuffTwo : MonoBehaviour {
     {
         player = playerRef;
         gameCont = gameContRef;
+        playerRB = playerRBRef;
     }
 }

@@ -679,6 +679,7 @@ public class GameControl : MonoBehaviour {
 			float a = Random.Range (0f, 10f);
 			if (a > trapChance) {
 				GameObject trap1 = Instantiate (Resources.Load ("Trap1") as GameObject);
+                trap1.GetComponent<Trap>().SetReferences(player, gameCont);
 				trap1.transform.position = new Vector2 (player.transform.position.x + 50, 1.55f);
 				trapCounter++;
 			}
@@ -690,6 +691,7 @@ public class GameControl : MonoBehaviour {
 			float a = Random.Range (0f, 10f);
 			if (a > manaOrbChance) {
 				GameObject manaOrb = Instantiate (Resources.Load ("ManaOrb") as GameObject);
+                manaOrb.GetComponent<ManaOrbControl>().SetReferences(player, gameCont);
 				manaOrb.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				manaOrbCounter++;
 			}
@@ -701,6 +703,7 @@ public class GameControl : MonoBehaviour {
 			float a = Random.Range (0f, 10f);
 			if (a > diamondChance) {
 				GameObject diamond = Instantiate (Resources.Load ("Diamond") as GameObject);
+                diamond.GetComponent<Ride1>().SetReferences(player, gameCont);
 				diamond.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				diamondCounter++;
 			}

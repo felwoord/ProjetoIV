@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour {
 	GameObject player;
+    private Rigidbody2D playerRB;
+    private GameControl gameCont;
     float counter2;
     public SpriteRenderer glassesSprtRend;
     public Sprite[] spritesGlasses;
 
     void Start () {
-		player = GameObject.Find ("Player");
 	
 	}
 	
 	void Update () {
 		if (transform.position.x < player.transform.position.x - 10) {
-			GameObject.Find ("Main Camera").GetComponent<GameControl> ().TrapRemove ();
+			gameCont.TrapRemove ();
 			Destroy (gameObject);
 		}
 
@@ -58,5 +59,11 @@ public class Trap : MonoBehaviour {
         {
             counter2 = 0;
         }
+    }
+
+    public void SetReferences(GameObject playerRef, GameControl gameContRef)
+    {
+        player = playerRef;
+        gameCont = gameContRef;
     }
 }

@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd9fb3a47361194408fb7ceee3c60cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprtRend: {fileID: 212246574314268088}
   spritesStar:
   - {fileID: 21300000, guid: 39e747d9a8f569b41826befe906080f2, type: 3}
   - {fileID: 21300000, guid: c64a4c9ff3f1d50459f6da01b2a70174, type: 3}

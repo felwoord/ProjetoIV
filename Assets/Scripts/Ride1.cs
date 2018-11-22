@@ -25,6 +25,7 @@ using UnityEngine;
 
 public class Ride1 : MonoBehaviour {
 	private GameObject player;
+    private GameControl gameCont;
 
 	// Use this for initialization
 	void Start () {
@@ -34,8 +35,14 @@ public class Ride1 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (transform.position.x < player.transform.position.x - 10) {
-			GameObject.Find ("Main Camera").GetComponent<GameControl> ().Ride1Remove ();
+			gameCont.Ride1Remove ();
 			Destroy (gameObject);
 		}
 	}
+
+    public void SetReferences(GameObject playerRef, GameControl gameContRef)
+    {
+        player = playerRef;
+        gameCont = gameContRef;
+    }
 }
