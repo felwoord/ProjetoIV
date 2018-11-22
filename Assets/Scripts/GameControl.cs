@@ -121,6 +121,7 @@ public class GameControl : MonoBehaviour {
 	private bool menuEnabled;
 
 	private Camera mainCam;
+    private GameControl gameCont;
 
 	private bool slowmoEffect;
 	private bool iniciateEffect;
@@ -240,6 +241,7 @@ public class GameControl : MonoBehaviour {
 		optionMenu = GameObject.Find ("OptionMenu");
 
 		mainCam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
+        gameCont = gameObject.GetComponent<GameControl>();
 	}
 	private void ZeroAll(){
 		healthText.enabled = false;
@@ -653,6 +655,7 @@ public class GameControl : MonoBehaviour {
 			float a = Random.Range (0f, 10f);
 			if (a > buff1Chance) {
 				GameObject buff1 = Instantiate (Resources.Load ("Buff1") as GameObject);
+                buff1.GetComponent<BuffOne>().SetReferences(player, gameCont, playerRB);
 				buff1.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				buff1Counter++;
 			}
@@ -664,6 +667,7 @@ public class GameControl : MonoBehaviour {
 			float a = Random.Range (0f, 10f);
 			if (a > buff2Chance) {
 				GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
+                buff2.GetComponent<BuffTwo>().SetReferences(player, gameCont, playerRB);
 				buff2.transform.position = new Vector2 (player.transform.position.x + 50, Random.Range (2, 20));
 				buff2Counter++;
 			}

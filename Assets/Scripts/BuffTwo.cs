@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BuffTwo : MonoBehaviour {
 	GameObject player;
+    private GameControl gameCont;
+    private Rigidbody2D playerRB;
 	private float playerSpeedX;
 	private float velX;
 
@@ -11,10 +13,9 @@ public class BuffTwo : MonoBehaviour {
 	private float counter;
 
 	void Start () {
-		player = GameObject.Find ("Player");
 		arrow = this.gameObject.transform.GetChild(1);
 
-		playerSpeedX = player.GetComponent<Rigidbody2D> ().velocity.x;
+		playerSpeedX = playerRB.velocity.x;
 		velX = Random.Range (0, playerSpeedX / 7.5f);
 	}
 
@@ -40,4 +41,10 @@ public class BuffTwo : MonoBehaviour {
 			counter = 0;
 		}
 	}
+
+    public void SetReferences(GameObject playerRef, GameControl gameContRef, Rigidbody2D playerRBRef)
+    {
+        player = playerRef;
+        gameCont = gameContRef;
+    }
 }

@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BuffOne : MonoBehaviour {
-    GameObject player;
+    private GameObject player;
+    private Rigidbody2D playerRB;
+    private GameControl gameCont;
 	private float playerSpeedX;
 	private float velX;
 
 	private float counter, counter2, counter3;
-	private SpriteRenderer sprtRend;
+	public SpriteRenderer sprtRend;
     public Sprite[] spritesStar;
     public SpriteRenderer glassesSprtRend;
     public Sprite[] spritesGlasses;
 
 
 	void Start () {
-		sprtRend = GetComponent<SpriteRenderer> ();
-		player = GameObject.Find ("Player");
-		playerSpeedX = player.GetComponent<Rigidbody2D> ().velocity.x;
+		playerSpeedX = playerRB.velocity.x;
 		velX = Random.Range (0, playerSpeedX / 7.5f);
 	}
 
 	void Update () {
 		if (transform.position.x < player.transform.position.x - 10) {
-			GameObject.Find ("Main Camera").GetComponent<GameControl> ().Buff1Remove ();
+			gameCont.Buff1Remove ();
 			Destroy (gameObject);
 		}
 
@@ -124,5 +124,10 @@ public class BuffOne : MonoBehaviour {
         {
             counter2 = 0;
         }
+    }
+    public void SetReferences(GameObject playerRef, GameControl gameContRef, Rigidbody2D playerRBRef)
+    {
+        player = playerRef;
+        gameCont = gameContRef;
     }
 }
