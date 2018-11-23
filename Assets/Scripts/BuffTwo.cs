@@ -13,8 +13,6 @@ public class BuffTwo : MonoBehaviour {
 	private float counter;
 
 	void Start () {
-		playerSpeedX = playerRB.velocity.x;
-		velX = Random.Range (0, playerSpeedX / 7.5f);
 	}
 
 	void Update () {
@@ -45,5 +43,8 @@ public class BuffTwo : MonoBehaviour {
         player = playerRef;
         gameCont = gameContRef;
         playerRB = playerRBRef;
+
+        playerSpeedX = playerRB.velocity.x;
+        velX = Random.Range(0, playerSpeedX / 7.5f);
     }
 }

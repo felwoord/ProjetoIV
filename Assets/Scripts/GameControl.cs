@@ -179,7 +179,7 @@ public class GameControl : MonoBehaviour {
 		powerMultiplier = (4 * str) + 8;
 		maxSpeed = (vit * 10) + 5;
 
-		FirstBuffs ();
+		//FirstBuffs ();
 
 		SetTimes ();
 
@@ -897,12 +897,14 @@ public class GameControl : MonoBehaviour {
 		float a = Random.Range (0f, 10f);
 		if (a > 2) {
 			GameObject buff1 = Instantiate (Resources.Load ("Buff1") as GameObject);
+            buff1.GetComponent<BuffOne>().SetReferences(player, gameCont, playerRB);
 			buff1.transform.position = new Vector2 (Random.Range (25, 40), 1.7f);
 			buff1Counter++;
 		}
 		float b = Random.Range (0f, 10f);
 		if (b > 3) {
 			GameObject buff2 = Instantiate (Resources.Load ("Buff2") as GameObject);
+            buff2.GetComponent<BuffTwo>().SetReferences(player, gameCont, playerRB);
 			buff2.transform.position = new Vector2 (25f, Random.Range (3, 10));
 			buff2Counter++;
 		}

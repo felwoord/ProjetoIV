@@ -29,15 +29,18 @@ public class Ride1 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.Find ("Player");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (transform.position.x < player.transform.position.x - 10) {
-			gameCont.Ride1Remove ();
-			Destroy (gameObject);
-		}
+        if (player != null)
+        {
+            if (transform.position.x < player.transform.position.x - 10)
+            {
+                gameCont.Ride1Remove();
+                Destroy(gameObject);
+            }
+        }
 	}
 
     public void SetReferences(GameObject playerRef, GameControl gameContRef)
