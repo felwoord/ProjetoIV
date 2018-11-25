@@ -16,10 +16,14 @@ public class BuffTwo : MonoBehaviour {
 	}
 
 	void Update () {
-		if (transform.position.x < player.transform.position.x - 10) {
-			gameCont.Buff1Remove ();
-			Destroy (gameObject);
-		}
+        if (player != null)
+        {
+            if (transform.position.x < player.transform.position.x - 10)
+            {
+                gameCont.Buff1Remove();
+                Destroy(gameObject);
+            }
+        }
 
 		transform.position = new Vector3 (transform.position.x + velX * Time.deltaTime, transform.position.y, transform.position.z);
 

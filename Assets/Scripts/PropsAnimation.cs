@@ -12,41 +12,38 @@ public class PropsAnimation : MonoBehaviour {
     public Sprite[] cloudSprites;
     public Sprite[] spaceInvadersSprites;
     public Sprite megamanSprite;
-
+    //25% chance mario, spyro, space, mega
+    //75% bird, planet, cloud => 15 30 30
     private float counter;
     private int num;
 
     private bool marioProp = false;
 
 	void Start () {
-        player = GameObject.Find("Player");
 
-        if(player.transform.position.y < 15)
-        {
-            num = Random.Range(1, 11);
-            if(num > 8)
-            {
-                marioProp = true;
-            }
-        }
-        if (player.transform.position.y >= 15 && player.transform.position.y < 35)
-        {
 
-        }
-        if(player.transform.position.y >= 35)
-        {
-
-        }
 	}
 	
 
 	void Update () {
-		if(gameObject.transform.position.x + 20 < player.transform.position.x)
+        if (player != null)
         {
-            Destroy(gameObject);
+            if (gameObject.transform.position.x + 20 < player.transform.position.x)
+            {
+                Destroy(gameObject);
+            }
         }
 	}
+
+    public void SetReferences(GameObject playerRef, int aux)
+    {
+        player = playerRef;
+
+    }
 }
+
+
+
 //mario scale = 0.2
 //bird, spyro, planets
 //clouds 0.75

@@ -68,6 +68,8 @@ public class GameControl : MonoBehaviour {
     private Image avatar;
     public Sprite[] avatarSprts;
 
+    private float propsSpawnCounter;
+    
 	private float buff1SpawnCounter, buff2SpawnCounter, trapSpawnCounter, ride1SpawnCounter, ride2SpawnCounter, manaOrbSpawnCounter, diamondSpawnCounter;
 	private int buff1Counter, buff2Counter, trapCounter, ride1Counter, ride2Counter, manaOrbCounter, diamondCounter;
 	public bool ride1CD;
@@ -421,7 +423,11 @@ public class GameControl : MonoBehaviour {
                 }
             }
 
-
+            propsSpawnCounter += Time.deltaTime;
+            if(propsSpawnCounter > 5)
+            {
+                SpawnProps();
+            }
             buff1SpawnCounter += Time.deltaTime;
             if (buff1Counter < buff1MaxQtd)
             {
@@ -550,7 +556,6 @@ public class GameControl : MonoBehaviour {
             }
 		}
 	}
-
 	private void CreateGround(){
 		Destroy (lastGround);
 		lastGround = currentGround;
@@ -650,7 +655,15 @@ public class GameControl : MonoBehaviour {
             player.GetComponent<CharacterOne>().SetPowerSelectSprite(3);
         }
     }
-	private void SpawnBuff1(){
+    private void SpawnProps()
+    {
+        int aux = Random.Range(1, 101);
+        GameObject props = Instantiate(Resources.Load("Props") as GameObject);
+        props.GetComponent<PropsAnimation>().SetReferences(player, aux);
+
+        propsSpawnCounter = 0;
+    }
+    private void SpawnBuff1(){
 		if (buff1SpawnCounter > buff1Time) {
 			float a = Random.Range (0f, 10f);
 			if (a > buff1Chance) {
