@@ -86,7 +86,7 @@ public class CharacterOne : MonoBehaviour {
                         if (!EventSystem.current.IsPointerOverGameObject())
                         {
 #else
-                        if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                        if ( true /*!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)*/)
                         {
 #endif
                             int powerBarsCount = gameCont.GetMana();
@@ -102,7 +102,7 @@ public class CharacterOne : MonoBehaviour {
             if (delay)
             {
                 counter += Time.deltaTime;
-                if (counter > 1)
+                if (counter > 0.5f)
                 {
                     delay = false;
                     counter = 0;
@@ -131,12 +131,10 @@ public class CharacterOne : MonoBehaviour {
         }
     }
 	public void SetRide1Sprite(){
-		//GetComponent<SpriteRenderer> ().sprite = ride1Sprite;	
-		//GetComponent<SpriteRenderer> ().color = Color.red;
-	}
+        sprtRend.sprite = defaultSprite;
+    }
 	public void SetRide2Sprite(){
         int aux = Random.Range(0, 5);
-        Debug.Log(aux);
         sprtRend.sprite = ride2Sprites[aux];	
 		
 	}

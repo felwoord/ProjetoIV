@@ -14,7 +14,7 @@ public class DuckHunt : MonoBehaviour {
 		player = GameObject.Find ("Player");
 		spriteRend = gameObject.GetComponent<SpriteRenderer> ();
 		gameCont = GameObject.Find ("Main Camera").GetComponent<GameControl> ();
-		transform.position = new Vector3 (player.transform.position.x - 3, 0.5f, transform.position.z);
+		transform.position = new Vector3 (player.transform.position.x - 3, -3f, transform.position.z);
 		gameCont.PlaySoundEffect (7);
 
 	}
@@ -53,7 +53,7 @@ public class DuckHunt : MonoBehaviour {
 			counter = 0;
 		}
 
-		if (transform.position.y < 2.4f) {
+		if (transform.position.y < -1.8f) {
 			transform.position = new Vector3 (transform.position.x, transform.position.y + 1f * Time.deltaTime, transform.position.z);
 		}
 	}

@@ -232,7 +232,7 @@ public class ShopMenu : MonoBehaviour
         hint1 = "While above your max health, you will lose health faster";
         hint2 = "To go further you only need to get better";
         hint3 = "Hey, Listen!";
-        hint4 = "Every 10 points on Magic, you gain 1 extra Mana bar";
+        hint4 = "Every 5 points on Magic, you gain 1 extra Mana bar";
         hint5 = "Hellooo my friend. Stay a while and listen!";
         hint6 = "To Dance you only need to tap";
         hint7 = "Do a barrel roll!";

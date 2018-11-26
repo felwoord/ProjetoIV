@@ -52,13 +52,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b441aa86754cda41a31c54cc035268e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  marioSprites: []
-  birdSprites: []
-  spyroSprites: []
-  planetSprites: []
-  cloudSprites: []
-  spaceInvadersSprites: []
-  megamanSprite: {fileID: 0}
+  sprtRend: {fileID: 212602289930357320}
+  marioSprites:
+  - {fileID: 21300000, guid: 2742dec8bff9ef245af91b29754d4e62, type: 3}
+  - {fileID: 21300000, guid: d732d1b15f4024343b8d20adb4dfe075, type: 3}
+  birdSprites:
+  - {fileID: 21300000, guid: d9293a56c68eda04c865efe6876355f7, type: 3}
+  - {fileID: 21300000, guid: 56dfe5825fb1b3a4baa949068fa2bc03, type: 3}
+  spyroSprites:
+  - {fileID: 21300000, guid: a35e11b3e60d85a419650ff71e5c6084, type: 3}
+  - {fileID: 21300000, guid: 54f546a3703eb1340b4318f633870747, type: 3}
+  planetSprites:
+  - {fileID: 21300000, guid: bda25d26506afe74ea5a412394991c52, type: 3}
+  - {fileID: 21300000, guid: c3610669887118244b2b3f31f2faf1bf, type: 3}
+  - {fileID: 21300000, guid: 6e101a279b559ab41b51e8c661aae281, type: 3}
+  - {fileID: 21300000, guid: dd6cf222acfafe845b1ad036be217077, type: 3}
+  cloudSprites:
+  - {fileID: 21300000, guid: 30c552a7b456d32408785fa3881a4ad0, type: 3}
+  - {fileID: 21300000, guid: c5b1d91586fafdd429fbc6aaa178ac40, type: 3}
+  - {fileID: 21300000, guid: 8be0f7e68725dbc4c9b6737638b1cb53, type: 3}
+  spaceInvadersSprites:
+  - {fileID: 21300000, guid: 71cb6c2806dbece46a6d5a25b30b58ce, type: 3}
+  - {fileID: 21300000, guid: 6f2685ff93e88fe499b294dd987e8974, type: 3}
+  - {fileID: 21300000, guid: ced593f050d454840a88f415980113d8, type: 3}
+  megamanSprite: {fileID: 21300000, guid: 3907902875c333c45b5f990091446f13, type: 3}
 --- !u!212 &212602289930357320
 SpriteRenderer:
   m_ObjectHideFlags: 1

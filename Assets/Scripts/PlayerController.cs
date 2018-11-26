@@ -106,23 +106,30 @@ public class PlayerController : MonoBehaviour {
 
         ads = PlayerPrefs.GetInt ("Ads", 1);
 	}
-	void Update () {
-        if(playerRB.velocity != Vector2.zero)
+    void Update()
+    {
+        if (playerRB.velocity != Vector2.zero)
         {
             float angle = Mathf.Atan2(playerRB.velocity.y, playerRB.velocity.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
-		if (ride1) {
-			Ride1Time ();
-		} else if (ride2){
-			Ride2Time ();
-		}else {
-			if (transform.position.y > 65 && playerRB.velocity.y < 0 && !heightCheck) {
-				AboveMaxHeight ();
-			}
+        if (ride1)
+        {
+            Ride1Time();
+        }
+        else if (ride2)
+        {
+            Ride2Time();
+        }
+        else
+        {
+            if (transform.position.y > 65 && playerRB.velocity.y < 0 && !heightCheck)
+            {
+                AboveMaxHeight();
+            }
 
-			if (playerRB.velocity.y <= 2 && playerRB.velocity.y >= 0) {
-                bossBattle = gameCont.GetBossBattle();
+            if (playerRB.velocity.y <= 2 && playerRB.velocity.y >= 0)
+            {
                 if (!bossBattle)
                 {
                     counter += Time.deltaTime;
@@ -131,31 +138,37 @@ public class PlayerController : MonoBehaviour {
                         EndRun();
                     }
                 }
-			} else {
-				counter = 0;
-			}
-		}
+            }
+            else
+            {
+                counter = 0;
+            }
+        }
 
-		if (manaCounter > 9) {
-			gameCont.ManaUI ();
-			manaCounter = 0;
-		}
+        if (manaCounter > 9)
+        {
+            gameCont.ManaUI();
+            manaCounter = 0;
+        }
 
-		heightTxt.text = transform.position.y.ToString ("0");
+        heightTxt.text = transform.position.y.ToString("0");
 
-		if (transform.position.y > 65) {
-			heightImg.enabled = true;
-			heightTxt.enabled = true;
-		} else {
-			heightImg.enabled = false;
-			heightTxt.enabled = false;
-		}
-	}
+        if (transform.position.y > 65)
+        {
+            heightImg.enabled = true;
+            heightTxt.enabled = true;
+        }
+        else
+        {
+            heightImg.enabled = false;
+            heightTxt.enabled = false;
+        }
+    }
     public void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Buff1")
         {
-            if (heightCheck)
+            if (heightCheck || bossBattle)
             {
                 gameCont.AddExp(expBuff1 * expMultMaxHeight);
                 gameCont.AddGold(goldBuff1 * goldMultMaxHeight);
@@ -182,7 +195,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (col.gameObject.tag == "Buff2")
         {
-            if (heightCheck)
+            if (heightCheck || bossBattle)
             {
                 gameCont.AddExp(expBuff2 * expMultMaxHeight);
                 gameCont.AddGold(goldBuff2 * goldMultMaxHeight);
@@ -210,7 +223,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (col.gameObject.tag == "Trap1")
         {
-            if (heightCheck)
+            if (heightCheck || bossBattle)
             {
                 gameCont.AddExp(expTrap1 * expMultMaxHeight);
                 gameCont.AddGold(goldTrap1 * goldMultMaxHeight);
@@ -242,7 +255,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (col.gameObject.tag == "Ride1")
         {
-            if (heightCheck)
+            if (heightCheck || bossBattle)
             {
                 gameCont.AddExp(expRide1 * expMultMaxHeight);
                 gameCont.AddGold(goldRide1 * goldMultMaxHeight);
@@ -290,7 +303,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (col.gameObject.tag == "Ride2")
         {
-            if (heightCheck)
+            if (heightCheck || bossBattle)
             {
                 gameCont.AddExp(expRide2 * expMultMaxHeight);
                 gameCont.AddGold(goldRide2 * goldMultMaxHeight);
@@ -354,8 +367,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 	public void AboveMaxHeight(){
-		if (characterID == 1)
-			GetComponent<CharacterOne> ().SetAboveMaxHeightSprite();
+        if (characterID == 1)
+        {
+            GetComponent<CharacterOne>().SetAboveMaxHeightSprite();
+        }
 		if (characterID == 2) {
 		}
 		if (characterID == 3) {
@@ -368,7 +383,14 @@ public class PlayerController : MonoBehaviour {
 	public void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.tag == "Ground" && !ride1 && !ride2) {
 			if (playerRB.velocity.x > 3) {
-				playerRB.velocity = new Vector2 (playerRB.velocity.x * 0.7f - 1.0f + pillowLevel/100, playerRB.velocity.y );
+                if (!heightCheck)
+                {
+                    playerRB.velocity = new Vector2(playerRB.velocity.x * 0.7f - (1.0f + pillowLevel / 100), playerRB.velocity.y);
+                }
+                else
+                {
+                    playerRB.velocity = new Vector2(playerRB.velocity.x * 1.5f, playerRB.velocity.y);
+                }
 				if (playerRB.velocity.x <= 0) {
 					playerRB.velocity = Vector2.zero;
 				}
@@ -382,14 +404,13 @@ public class PlayerController : MonoBehaviour {
                     if (characterID == 1)
                     {
                         GetComponent<CharacterOne>().SetDeathAni(true);
-                       // GetComponent<CharacterOne>().SetLowLifeAni(false);
                     }
                 }
 			}
 
 			if (heightCheck) {
 				if (characterID == 1)
-					GetComponent<CharacterOne> ().SetDefaultSprite();
+					GetComponent<CharacterOne> ().SetAboveMaxHeightSprite();
 				if (characterID == 2) {
 				}
 				if (characterID == 3) {
@@ -481,6 +502,10 @@ public class PlayerController : MonoBehaviour {
 	public bool GetHeightCheck(){
 		return heightCheck;
 	}
+    public void SetBossBattle(bool aux)
+    {
+        bossBattle = aux;
+    }
 	private void SetRates(){
 		expBuff1 = 100 ;
 		goldBuff1 = 10;

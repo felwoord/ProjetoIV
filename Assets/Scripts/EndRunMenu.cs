@@ -143,6 +143,7 @@ public class EndRunMenu : MonoBehaviour {
 	}
 
 	public void PlayAgain(){
+        Time.timeScale = 1;
 		SceneManager.LoadScene ("GameScene");
 	}
 

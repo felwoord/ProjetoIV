@@ -20,7 +20,7 @@ public class BossOneController : MonoBehaviour
         health = 100;
         gameCont = GameObject.Find("Main Camera").GetComponent<GameControl>();
         player = GameObject.Find("Player");
-        transform.position = new Vector3(player.transform.position.x + 50, 10, player.transform.position.z);
+        transform.position = new Vector3(player.transform.position.x + 20, 10, player.transform.position.z);
         bossHealthBar = GameObject.Find("BossHealthBarBB").GetComponent<Image>();
         newPos = transform.position.y;  
     }
@@ -28,7 +28,7 @@ public class BossOneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x + 10, transform.position.y, player.transform.position.z);
+        transform.position = new Vector3(player.transform.position.x + 20, transform.position.y, player.transform.position.z);
         Mov();
         Attack();
 

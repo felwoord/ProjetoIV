@@ -21,17 +21,17 @@ public class CameraFollow : MonoBehaviour {
 
 		if (startGame) {
             startGame = gameCont.GetStartGame();
-            transform.position = new Vector3 (player.transform.position.x + 7, player.transform.position.y, transform.position.z);
+            transform.position = new Vector3 (player.transform.position.x + 13, player.transform.position.y, transform.position.z);
 		} else {
             if (bossBattle)
             {
-                transform.position = new Vector3(player.transform.position.x + 5.5f, 10, transform.position.z);
+                transform.position = new Vector3(player.transform.position.x + 9.10f, 10, transform.position.z);
             }
             else
             {
                 if (player.transform.position.x > 6)
                 {
-                    transform.position = new Vector3(player.transform.position.x + 4, transform.position.y, transform.position.z);
+                    transform.position = new Vector3(player.transform.position.x + 10, transform.position.y, transform.position.z);
                 }
                 else
                 {
