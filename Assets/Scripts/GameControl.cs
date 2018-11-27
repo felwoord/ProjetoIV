@@ -522,8 +522,8 @@ public class GameControl : MonoBehaviour {
         }
 
         if (Input.GetMouseButtonDown(0)) {
-#if UNITY_STANDALONE                                                           //tirar o ! quando for lançar
-            if (!EventSystem.current.IsPointerOverGameObject() {
+#if UNITY_STANDALONE || UNITY_WEBGL                                                           //tirar o ! quando for lançar
+            if (!EventSystem.current.IsPointerOverGameObject()) {
 #else
             if (true /*!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)*/)
             {

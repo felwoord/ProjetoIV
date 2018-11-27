@@ -82,7 +82,7 @@ public class CharacterOne : MonoBehaviour {
                 {
                     if (!playerControl.GetHeightCheck())
                     {
-#if UNITY_STANDALONE
+#if UNITY_STANDALONE || UNITY_WEBGL
                         if (!EventSystem.current.IsPointerOverGameObject())
                         {
 #else

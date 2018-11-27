@@ -109,7 +109,7 @@ public class ShopMenu : MonoBehaviour
         CheckCurrentCharacter();
         HideMenus();
 
-#if UNITY_STANDALONE
+#if UNITY_STANDALONE || UNITY_WEBGL
         ads = 0;
         PlayerPrefs.SetInt("Ads", ads);
         cashItemsBar.SetActive(false);
@@ -117,8 +117,8 @@ public class ShopMenu : MonoBehaviour
 #if UNITY_IOS
 		restorePurchaseButton.SetActive(true);
 #else
-		//RestorePurchase();
-		restorePurchaseButton.SetActive(false);
+        //RestorePurchase();
+        restorePurchaseButton.SetActive(false);
 #endif
 #endif
 
@@ -1235,14 +1235,14 @@ public class ShopMenu : MonoBehaviour
 	}*/
     public void ShowRewarded()
     {
-        ShowOptions options = new ShowOptions();
-        options.resultCallback = HandleShowResult;
+        /*ShowOptions options = new ShowOptions();
+        //options.resultCallback = HandleShowResult;
         if (Advertisement.IsReady("rewardedVideo"))
         {
             Advertisement.Show("rewardedVideo", options);
-        }
+        }*/
     }
-    public void HandleShowResult(ShowResult result)
+    /*public void HandleShowResult(ShowResult result)
     {
         if (result == ShowResult.Finished)
         {
@@ -1261,7 +1261,7 @@ public class ShopMenu : MonoBehaviour
         {
             Debug.LogError("Falha ao carregar o video.");
         }
-    }
+    }*/
     public void VolumeControl(int aux)
     {
         if (aux == 1)

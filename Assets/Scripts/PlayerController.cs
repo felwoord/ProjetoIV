@@ -568,25 +568,27 @@ public class PlayerController : MonoBehaviour {
 	}
 	public void ShowInterstitial()
 	{
-        bool ok = GameObject.Find ("AdTimeCounter").GetComponent<AdTimer> ().ShowAd ();
+       /* bool ok = GameObject.Find ("AdTimeCounter").GetComponent<AdTimer> ().ShowAd ();
 		if (Advertisement.IsReady("video") && ok)
 		{
 			Advertisement.Show("video");
 			GameObject.Find ("AdTimeCounter").GetComponent<AdTimer> ().AdShown ();
 		}
-
+        
 		CallEndGameMenu ();
+        */
 	}
 	public void ShowRewarded()
 	{
-		ShowOptions options = new ShowOptions();
-		options.resultCallback = HandleShowResult;
+		/*ShowOptions options = new ShowOptions();
+		//options.resultCallback = HandleShowResult;
 		if (Advertisement.IsReady("rewardedVideo"))
 		{
 			Advertisement.Show("rewardedVideo", options);
 		}
+        */
 	}
-	public void HandleShowResult(ShowResult result)
+	/*public void HandleShowResult(ShowResult result)
 	{
 		if (result == ShowResult.Finished)
 		{
@@ -605,5 +607,5 @@ public class PlayerController : MonoBehaviour {
 			Debug.LogError("Falha ao carregar o video.");
 		}
 		CallEndGameMenu ();
-	}
+	}*/
 }
