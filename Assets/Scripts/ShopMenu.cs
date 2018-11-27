@@ -1224,8 +1224,8 @@ public class ShopMenu : MonoBehaviour
     {
         SceneManager.LoadScene("ShopScene");
     }
-    /*public void RestorePurchase(){
-		ProductCollection productCatalog = IAPButton.IAPButtonStoreManager.Instance.controller.products;
+   /* public void RestorePurchase(){
+		//ProductCollection productCatalog = IAPButton.IAPButtonStoreManager.Instance.controller.products;
 		if (productCatalog.WithID ("com.marvelik.projetoIV.removeads").hasReceipt) {
 			BuyRemoveAds ();
 		}
@@ -1235,14 +1235,14 @@ public class ShopMenu : MonoBehaviour
 	}*/
     public void ShowRewarded()
     {
-        /*ShowOptions options = new ShowOptions();
-        //options.resultCallback = HandleShowResult;
+        ShowOptions options = new ShowOptions();
+        options.resultCallback = HandleShowResult;
         if (Advertisement.IsReady("rewardedVideo"))
         {
             Advertisement.Show("rewardedVideo", options);
-        }*/
+        }
     }
-    /*public void HandleShowResult(ShowResult result)
+    public void HandleShowResult(ShowResult result)
     {
         if (result == ShowResult.Finished)
         {
@@ -1261,7 +1261,7 @@ public class ShopMenu : MonoBehaviour
         {
             Debug.LogError("Falha ao carregar o video.");
         }
-    }*/
+    }
     public void VolumeControl(int aux)
     {
         if (aux == 1)

@@ -18,7 +18,7 @@ public class AdTimer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!adReady) {
-			//counter += Time.deltaTime;
+			counter += Time.deltaTime;
 		}
 		if (counter > 180) {
 			adReady = true;	

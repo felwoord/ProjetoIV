@@ -51,8 +51,6 @@ namespace UnityEngine.Purchasing
         [Tooltip("[Optional] Displays the localized price from the app store")]
         public Text priceText;
 
-        public static object IAPButtonStoreManager { get; set; }
-
         void Start()
         {
             Button button = GetComponent<Button>();

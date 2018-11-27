@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PropsAnimation : MonoBehaviour {
+public class PropsAnimation : MonoBehaviour
+{
     private GameObject player;
     public SpriteRenderer sprtRend;
 
@@ -20,13 +21,15 @@ public class PropsAnimation : MonoBehaviour {
 
     private bool marioProp, birdProp, spyroProp, planetProp, cloudProp, spaceInvaderProp, megamanProp;
 
-	void Start () {
+    void Start()
+    {
 
 
-	}
-	
+    }
 
-	void Update () {
+
+    void Update()
+    {
         if (player != null)
         {
             if (gameObject.transform.position.x + 20 < player.transform.position.x)
@@ -53,8 +56,8 @@ public class PropsAnimation : MonoBehaviour {
         {
             SpaceInvaderAnimation();
         }
-        
-	}
+
+    }
 
     public void SetReferences(GameObject playerRef, int aux)
     {
@@ -69,7 +72,7 @@ public class PropsAnimation : MonoBehaviour {
             posY = Random.Range(10, 30);
             speed = 5;
         }
-        if(aux >= 16 && aux < 46)
+        if (aux >= 16 && aux < 46)
         {
             planetProp = true;
             posY = Random.Range(50, 60);
@@ -78,7 +81,7 @@ public class PropsAnimation : MonoBehaviour {
             int num = Random.Range(0, 4);
             sprtRend.sprite = planetSprites[num];
         }
-        if(aux >=46 && aux < 76)
+        if (aux >= 46 && aux < 76)
         {
             cloudProp = true;
             posY = Random.Range(15, 30);
@@ -87,7 +90,7 @@ public class PropsAnimation : MonoBehaviour {
             int num = Random.Range(0, 3);
             sprtRend.sprite = cloudSprites[num];
         }
-        if(aux >= 76 && aux < 83)
+        if (aux >= 76 && aux < 83)
         {
             marioProp = true;
             propScale = 0.2f;
@@ -101,7 +104,7 @@ public class PropsAnimation : MonoBehaviour {
             propScale = 0.2f;
             speed = 7;
         }
-        if(aux >= 89 && aux < 95)
+        if (aux >= 89 && aux < 95)
         {
             spaceInvaderProp = true;
             posY = Random.Range(45, 65);
@@ -109,7 +112,7 @@ public class PropsAnimation : MonoBehaviour {
             int num = Random.Range(0, 3);
             sprtRend.sprite = spaceInvadersSprites[num];
         }
-        if(aux >= 95 && aux < 101)
+        if (aux >= 95 && aux < 101)
         {
             megamanProp = true;
             propScale = 0.15f;
@@ -120,20 +123,20 @@ public class PropsAnimation : MonoBehaviour {
 
         gameObject.transform.position = new Vector3(player.transform.position.x + 50, posY, 0);
         gameObject.transform.localScale = new Vector3(propScale, propScale, 1);
-    } 
+    }
 
     private void MarioAnimation()
     {
         counter += Time.deltaTime;
-        if(counter < 0.2f)
+        if (counter < 0.2f)
         {
             sprtRend.sprite = marioSprites[0];
         }
-        if(counter >= 0.2f)
+        if (counter >= 0.2f)
         {
             sprtRend.sprite = marioSprites[1];
         }
-        if(counter > 0.4f)
+        if (counter > 0.4f)
         {
             counter = 0;
         }

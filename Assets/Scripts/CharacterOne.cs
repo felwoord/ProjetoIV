@@ -29,22 +29,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CharacterOne : MonoBehaviour {
-	private GameControl gameCont;
-	private Rigidbody2D playerRB;
-	private PlayerController playerControl;
+public class CharacterOne : MonoBehaviour
+{
+    private GameControl gameCont;
+    private Rigidbody2D playerRB;
+    private PlayerController playerControl;
 
     public SpriteRenderer sprtRend;
-	public Sprite defaultSprite;
+    public Sprite defaultSprite;
     public Sprite aboveMaxSpeedSprt;
-	public Sprite ride1Sprite;
+    public Sprite ride1Sprite;
     public Sprite[] powerSelectSprite;
     public Sprite[] angleSelectSprite;
 
-	private int magic;
+    private int magic;
 
-	public bool delay;
-	private float counter;
+    public bool delay;
+    private float counter;
 
     private bool bossBattle;
 
@@ -86,7 +87,7 @@ public class CharacterOne : MonoBehaviour {
                         if (!EventSystem.current.IsPointerOverGameObject())
                         {
 #else
-                        if ( true /*!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)*/)
+                        if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
                         {
 #endif
                             int powerBarsCount = gameCont.GetMana();
@@ -127,18 +128,21 @@ public class CharacterOne : MonoBehaviour {
     {
         if (!deathAni && !lowLifeAni)
         {
-           sprtRend.sprite = defaultSprite;
+            sprtRend.sprite = defaultSprite;
         }
     }
-	public void SetRide1Sprite(){
+    public void SetRide1Sprite()
+    {
         sprtRend.sprite = defaultSprite;
     }
-	public void SetRide2Sprite(){
+    public void SetRide2Sprite()
+    {
         int aux = Random.Range(0, 5);
-        sprtRend.sprite = ride2Sprites[aux];	
-		
-	}
-	public void SetAboveMaxHeightSprite(){
+        sprtRend.sprite = ride2Sprites[aux];
+
+    }
+    public void SetAboveMaxHeightSprite()
+    {
         sprtRend.sprite = aboveMaxSpeedSprt;
     }
     public void SetBelowMaxSpeedBodySprite()
@@ -148,7 +152,8 @@ public class CharacterOne : MonoBehaviour {
             sprtRend.sprite = defaultSprite;
         }
     }
-	public void SetAboveMaxSpeedBodySprite(){
+    public void SetAboveMaxSpeedBodySprite()
+    {
         sprtRend.sprite = aboveMaxSpeedSprt;
     }
     public void SetAngleSelectSprite(int aux)
@@ -162,7 +167,7 @@ public class CharacterOne : MonoBehaviour {
     public void SetStartedGame(bool aux)
     {
         gameStarted = aux;
-        if(aux)
+        if (aux)
         {
             delay = true;
         }
@@ -198,7 +203,7 @@ public class CharacterOne : MonoBehaviour {
         {
             sprtRend.sprite = lowLifeSprites[1];
         }
-        if(counterLowLifeAni > 0.4f)
+        if (counterLowLifeAni > 0.4f)
         {
             counterLowLifeAni = 0;
         }

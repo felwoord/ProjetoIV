@@ -30,7 +30,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class GameControl : MonoBehaviour {
+public class GameControl : MonoBehaviour
+{
     private bool directionSelecting, powerSelecting;
     private GameObject launcher;
     private Image arrow;
@@ -130,7 +131,8 @@ public class GameControl : MonoBehaviour {
 
     public GameObject lightingFX;
 
-    void Start() {
+    void Start()
+    {
         GetPlayerPrefs();
 
         player = Instantiate(Resources.Load("Character" + characterID) as GameObject);
@@ -181,21 +183,26 @@ public class GameControl : MonoBehaviour {
         powerMultiplier = (4 * str) + 8;
         maxSpeed = (vit * 10) + 5;
 
-        FirstBuffs ();
+        FirstBuffs();
 
         SetTimes();
 
 
         VolumeSetting();
     }
-    void Update() {
-        if (startGame) {
+    void Update()
+    {
+        if (startGame)
+        {
             StartGame();    //Angle and Power selecting
-        } else {
+        }
+        else
+        {
             GamePlay(); //Flying time!
         }
     }
-    private void GetPlayerPrefs() {
+    private void GetPlayerPrefs()
+    {
         characterID = PlayerPrefs.GetInt("Character_ID", 1);
         str = PlayerPrefs.GetInt("Str_" + characterID, 1);
         magic = PlayerPrefs.GetInt("Magic_" + characterID, 1);
@@ -210,7 +217,8 @@ public class GameControl : MonoBehaviour {
         effectVolume = PlayerPrefs.GetFloat("EffectVolume", 1);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1);
     }
-    private void GameObjectFind() {
+    private void GameObjectFind()
+    {
         lastGround = GameObject.Find("Ground");
         currentGround = GameObject.Find("Ground2");
         nextGround = GameObject.Find("Ground3");
@@ -245,7 +253,8 @@ public class GameControl : MonoBehaviour {
         mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
         gameCont = gameObject.GetComponent<GameControl>();
     }
-    private void ZeroAll() {
+    private void ZeroAll()
+    {
         healthText.enabled = false;
         distText.enabled = false;
         distText2.enabled = false;
@@ -301,14 +310,16 @@ public class GameControl : MonoBehaviour {
         gravity = 1;
         lightingFX.SetActive(false);
     }
-    private void VolumeSetting() {
+    private void VolumeSetting()
+    {
         soundFX.volume = effectVolume;
         effectsController.value = effectVolume;
         gameSound.volume = musicVolume;
         musicController.value = musicVolume;
         gameSound.Play();
     }
-    private void GamePlay() {
+    private void GamePlay()
+    {
         if (bossBattle)
         {
             if (lifeBB <= 0)
@@ -503,29 +514,35 @@ public class GameControl : MonoBehaviour {
             }
         }
 
-        if (player.transform.position.x >= currentGround.transform.position.x) {
+        if (player.transform.position.x >= currentGround.transform.position.x)
+        {
             CreateGround();
         }
 
-        if (player.transform.position.x >= currentBackGround.transform.position.x) {
+        if (player.transform.position.x >= currentBackGround.transform.position.x)
+        {
             CreateBackGround();
         }
 
 
     }
-    private void StartGame() {
-        if (directionSelecting) {
+    private void StartGame()
+    {
+        if (directionSelecting)
+        {
             DireciontSelect();
         }
-        if (powerSelecting) {
+        if (powerSelecting)
+        {
             PowerSelect();
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
+        {
 #if UNITY_STANDALONE || UNITY_WEBGL                                                           //tirar o ! quando for lançar
             if (!EventSystem.current.IsPointerOverGameObject()) {
 #else
-            if (true /*!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)*/)
+            if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
             {
 #endif
                 if (powerSelecting)
@@ -562,20 +579,23 @@ public class GameControl : MonoBehaviour {
             }
         }
     }
-    private void CreateGround() {
+    private void CreateGround()
+    {
         Destroy(lastGround);
         lastGround = currentGround;
         currentGround = nextGround;
         nextGround = Instantiate(Resources.Load("Ground") as GameObject);
         nextGround.transform.position = new Vector2(currentGround.transform.position.x + 161.2f, currentGround.transform.position.y);
 
-        if (nextGround.transform.position.x + 10 < player.transform.position.x) {
+        if (nextGround.transform.position.x + 10 < player.transform.position.x)
+        {
             currentGround.transform.position = new Vector3(player.transform.position.x, currentGround.transform.position.y, currentGround.transform.position.z);
             lastGround.transform.position = new Vector3(currentGround.transform.position.x - 161.2f, lastGround.transform.position.y, lastGround.transform.position.z);
             nextGround.transform.position = new Vector3(currentGround.transform.position.x + 161.2f, nextGround.transform.position.y, nextGround.transform.position.z);
         }
     }
-    private void CreateBackGround() {
+    private void CreateBackGround()
+    {
         Destroy(lastBackGround);
         lastBackGround = currentBackGround;
         currentBackGround = nextBackGround;
@@ -669,10 +689,13 @@ public class GameControl : MonoBehaviour {
 
         propsSpawnCounter = 0;
     }
-    private void SpawnBuff1() {
-        if (buff1SpawnCounter > buff1Time) {
+    private void SpawnBuff1()
+    {
+        if (buff1SpawnCounter > buff1Time)
+        {
             float a = Random.Range(0f, 10f);
-            if (a > buff1Chance) {
+            if (a > buff1Chance)
+            {
                 GameObject buff1 = Instantiate(Resources.Load("Buff1") as GameObject);
                 buff1.GetComponent<BuffOne>().SetReferences(player, gameCont, playerRB);
                 buff1.transform.position = new Vector2(player.transform.position.x + 50, Random.Range(2, 20));
@@ -681,10 +704,13 @@ public class GameControl : MonoBehaviour {
             buff1SpawnCounter = 0;
         }
     }
-    private void SpawnBuff2() {
-        if (buff2SpawnCounter > buff2Time) {
+    private void SpawnBuff2()
+    {
+        if (buff2SpawnCounter > buff2Time)
+        {
             float a = Random.Range(0f, 10f);
-            if (a > buff2Chance) {
+            if (a > buff2Chance)
+            {
                 GameObject buff2 = Instantiate(Resources.Load("Buff2") as GameObject);
                 buff2.GetComponent<BuffTwo>().SetReferences(player, gameCont, playerRB);
                 buff2.transform.position = new Vector2(player.transform.position.x + 50, Random.Range(2, 20));
@@ -693,10 +719,13 @@ public class GameControl : MonoBehaviour {
             buff2SpawnCounter = 0;
         }
     }
-    private void SpawnTrap1() {
-        if (trapSpawnCounter > trapTime) {
+    private void SpawnTrap1()
+    {
+        if (trapSpawnCounter > trapTime)
+        {
             float a = Random.Range(0f, 10f);
-            if (a > trapChance) {
+            if (a > trapChance)
+            {
                 GameObject trap1 = Instantiate(Resources.Load("Trap1") as GameObject);
                 trap1.GetComponent<Trap>().SetReferences(player, gameCont);
                 float aux = Random.Range(0.9f, 3.15f);
@@ -706,10 +735,13 @@ public class GameControl : MonoBehaviour {
             trapSpawnCounter = 0;
         }
     }
-    private void SpawnManaOrb() {
-        if (manaOrbSpawnCounter > manaOrbTime) {
+    private void SpawnManaOrb()
+    {
+        if (manaOrbSpawnCounter > manaOrbTime)
+        {
             float a = Random.Range(0f, 10f);
-            if (a > manaOrbChance) {
+            if (a > manaOrbChance)
+            {
                 GameObject manaOrb = Instantiate(Resources.Load("ManaOrb") as GameObject);
                 manaOrb.GetComponent<ManaOrbControl>().SetReferences(player, gameCont);
                 manaOrb.transform.position = new Vector2(player.transform.position.x + 50, Random.Range(2, 20));
@@ -718,10 +750,13 @@ public class GameControl : MonoBehaviour {
             manaOrbSpawnCounter = 0;
         }
     }
-    private void SpawnDiamond() {
-        if (diamondCounter > diamondTime) {
+    private void SpawnDiamond()
+    {
+        if (diamondCounter > diamondTime)
+        {
             float a = Random.Range(0f, 10f);
-            if (a > diamondChance) {
+            if (a > diamondChance)
+            {
                 GameObject diamond = Instantiate(Resources.Load("Diamond") as GameObject);
                 diamond.GetComponent<Ride1>().SetReferences(player, gameCont);
                 diamond.transform.position = new Vector2(player.transform.position.x + 50, Random.Range(2, 20));
@@ -730,10 +765,13 @@ public class GameControl : MonoBehaviour {
             diamondSpawnCounter = 0;
         }
     }
-    private void SpawnRide1() {
-        if (ride1SpawnCounter > ride1Time) {
+    private void SpawnRide1()
+    {
+        if (ride1SpawnCounter > ride1Time)
+        {
             float a = Random.Range(0f, 10f);
-            if (a > ride1Chance) {
+            if (a > ride1Chance)
+            {
                 GameObject ride1 = Instantiate(Resources.Load("Ride1") as GameObject);
                 float aux = Random.Range(0.5f, 4.75f);
                 ride1.transform.position = new Vector2(player.transform.position.x + 50, aux);
@@ -742,10 +780,13 @@ public class GameControl : MonoBehaviour {
             ride1SpawnCounter = 0;
         }
     }
-    private void SpawnRide2() {
-        if (ride2SpawnCounter > ride2Time) {
+    private void SpawnRide2()
+    {
+        if (ride2SpawnCounter > ride2Time)
+        {
             float a = Random.Range(0f, 10f);
-            if (a > ride2Chance) {
+            if (a > ride2Chance)
+            {
                 GameObject ride2 = Instantiate(Resources.Load("Ride2") as GameObject);
                 ride2.transform.position = new Vector2(player.transform.position.x + 50, Random.Range(10, 20));
                 ride2Counter++;
@@ -753,52 +794,65 @@ public class GameControl : MonoBehaviour {
             ride2SpawnCounter = 0;
         }
     }
-    private void ScreenAnimationRide1() {
-        if (up) {
+    private void ScreenAnimationRide1()
+    {
+        if (up)
+        {
             counterScreenAnimation += Time.deltaTime;
-        } else {
+        }
+        else
+        {
             counterScreenAnimation -= Time.deltaTime;
         }
-        if (counterScreenAnimation < 0f) {
+        if (counterScreenAnimation < 0f)
+        {
             up = true;
             t++;
             counterScreenAnimation = 0;
         }
-        if (counterScreenAnimation >= 0f && counterScreenAnimation < 0.05f) {
+        if (counterScreenAnimation >= 0f && counterScreenAnimation < 0.05f)
+        {
             rColor = 0;
             gColor = 0;
             bColor = 0;
         }
-        if (counterScreenAnimation >= 0.1f && counterScreenAnimation < 0.15f) {
+        if (counterScreenAnimation >= 0.1f && counterScreenAnimation < 0.15f)
+        {
             rColor = 51;
             gColor = 51;
             bColor = 51;
         }
-        if (counterScreenAnimation >= 0.2f && counterScreenAnimation < 0.25f) {
+        if (counterScreenAnimation >= 0.2f && counterScreenAnimation < 0.25f)
+        {
             rColor = 102;
             gColor = 102;
             bColor = 102;
         }
-        if (counterScreenAnimation >= 0.3f && counterScreenAnimation < 0.35f) {
+        if (counterScreenAnimation >= 0.3f && counterScreenAnimation < 0.35f)
+        {
             rColor = 153;
             gColor = 153;
             bColor = 153;
         }
-        if (counterScreenAnimation >= 0.35f && counterScreenAnimation < 0.4f) {
+        if (counterScreenAnimation >= 0.35f && counterScreenAnimation < 0.4f)
+        {
             rColor = 204;
             gColor = 204;
             bColor = 204;
         }
-        if (counterScreenAnimation >= 0.4f && counterScreenAnimation < 0.45f) {
+        if (counterScreenAnimation >= 0.4f && counterScreenAnimation < 0.45f)
+        {
             rColor = 255;
             gColor = 255;
             bColor = 255;
         }
-        if (counterScreenAnimation >= 0.45f) {
+        if (counterScreenAnimation >= 0.45f)
+        {
             up = false;
         }
 
-        if (t > 4) {
+        if (t > 4)
+        {
             counterScreenAnimation = 0;
             screenAniRide1.enabled = false;
             ride1ScreenAnimation = false;
@@ -806,8 +860,10 @@ public class GameControl : MonoBehaviour {
 
         screenAniRide1.color = new Color32(rColor, gColor, bColor, 85);
     }
-    public void ManaUI() {
-        if (powerBar.Count < mana) {
+    public void ManaUI()
+    {
+        if (powerBar.Count < mana)
+        {
             powerBar.Push(Instantiate(Resources.Load("PowerBar") as GameObject));
             powerBar.Peek().transform.SetParent(GameObject.Find("PowerBarParent").transform, false);
             powerBar.Peek().name = "PowerBar";
@@ -822,7 +878,8 @@ public class GameControl : MonoBehaviour {
             }
         }
     }
-    private void SetTimes() {
+    private void SetTimes()
+    {
         //time -> interval (seconds) to try to spawn again
         //chance -> chance to spawn 
         //chance% = (10 - x) * 10
@@ -857,31 +914,40 @@ public class GameControl : MonoBehaviour {
         ride2MaxQtd = 2;
         ride2CDTime = 6;
     }
-    public bool GetStartGame() {
+    public bool GetStartGame()
+    {
         return startGame;
     }
-    public void Buff1Remove() {
+    public void Buff1Remove()
+    {
         buff1Counter--;
     }
-    public void Buff2Remove() {
+    public void Buff2Remove()
+    {
         buff2Counter--;
     }
-    public void TrapRemove() {
+    public void TrapRemove()
+    {
         trapCounter--;
     }
-    public void Ride1Remove() {
+    public void Ride1Remove()
+    {
         ride1Counter--;
     }
-    public void Ride2Remove() {
+    public void Ride2Remove()
+    {
         ride2Counter--;
     }
-    public float GetDistance() {
+    public float GetDistance()
+    {
         return player.transform.position.x;
     }
-    public int GetMana() {
+    public int GetMana()
+    {
         return powerBar.Count;
     }
-    public void RemovePowerBar() {
+    public void RemovePowerBar()
+    {
         if (powerBar.Count == mana)
         {
             foreach (GameObject go in powerBar)
@@ -891,22 +957,28 @@ public class GameControl : MonoBehaviour {
         }
         Destroy(powerBar.Pop());
     }
-    public void AddExp(float expAmount) {
+    public void AddExp(float expAmount)
+    {
         expGained += expAmount;
     }
-    public void AddGold(float goldAmount) {
+    public void AddGold(float goldAmount)
+    {
         goldGained += goldAmount;
     }
-    public float GetExp() {
+    public float GetExp()
+    {
         return expGained;
     }
-    public float GetGold() {
+    public float GetGold()
+    {
         return goldGained;
     }
-    public void SetDiamond() {
+    public void SetDiamond()
+    {
         gotDiamond = true;
     }
-    public void SecondLaunch() {
+    public void SecondLaunch()
+    {
         float force = powerMultiplier / 25;
         if (force < 10)
         {
@@ -914,26 +986,31 @@ public class GameControl : MonoBehaviour {
         }
         player.GetComponent<Rigidbody2D>().AddForce(new Vector2(1.5f, 1.25f) * force, ForceMode2D.Impulse);
     }
-    private void FirstBuffs() {
+    private void FirstBuffs()
+    {
         float a = Random.Range(0f, 10f);
-        if (a > 2) {
+        if (a > 2)
+        {
             GameObject buff1 = Instantiate(Resources.Load("Buff1") as GameObject);
             buff1.GetComponent<BuffOne>().SetReferences(player, gameCont, playerRB);
             buff1.transform.position = new Vector2(Random.Range(25, 40), 1.7f);
             buff1Counter++;
         }
         float b = Random.Range(0f, 10f);
-        if (b > 3) {
+        if (b > 3)
+        {
             GameObject buff2 = Instantiate(Resources.Load("Buff2") as GameObject);
             buff2.GetComponent<BuffTwo>().SetReferences(player, gameCont, playerRB);
             buff2.transform.position = new Vector2(25f, Random.Range(3, 10));
             buff2Counter++;
         }
     }
-    public void ShowUseExtraLifeMenu() {
+    public void ShowUseExtraLifeMenu()
+    {
         useExtraLifeMenu.SetActive(true);
     }
-    public void UseEL() {
+    public void UseEL()
+    {
         useExtraLifeMenu.SetActive(false);
         for (int i = 1; i <= mana; i++)
         {
@@ -941,23 +1018,29 @@ public class GameControl : MonoBehaviour {
         }
         playerCont.UseExtraLife();
     }
-    public void DontUseEL() {
+    public void DontUseEL()
+    {
         useExtraLifeMenu.SetActive(false);
         playerCont.DontUseExtraLife();
     }
-    public void ShowGotDiamondMenu() {
+    public void ShowGotDiamondMenu()
+    {
         gotDiamondMenu.SetActive(true);
     }
-    public void ShowRV() {
+    public void ShowRV()
+    {
         gotDiamondMenu.SetActive(false);
         playerCont.ShowRewarded();
     }
-    public void DontShowRV() {
+    public void DontShowRV()
+    {
         gotDiamondMenu.SetActive(false);
         playerCont.CallEndGameMenu();
     }
-    public void PlaySoundEffect(int sound) {
-        switch (sound) {
+    public void PlaySoundEffect(int sound)
+    {
+        switch (sound)
+        {
             case 1:
                 soundFX.clip = rollChargeSound;
                 break;
@@ -998,55 +1081,70 @@ public class GameControl : MonoBehaviour {
 
         soundFX.Play();
     }
-    public void StopSoundEffect(bool volumeUp) {
+    public void StopSoundEffect(bool volumeUp)
+    {
         soundFX.Stop();
 
-        if (volumeUp) {
+        if (volumeUp)
+        {
             gameSound.volume = gameSound.volume / 0.2f;
         }
     }
-    public void OptionMenuButton() {
-        if (!menuEnabled) {
+    public void OptionMenuButton()
+    {
+        if (!menuEnabled)
+        {
             optionMenu.SetActive(true);
             optionMenu.GetComponent<RectTransform>().SetAsLastSibling();
             Time.timeScale = 0;
             soundFX.Pause();
-        } else {
+        }
+        else
+        {
             optionMenu.SetActive(false);
             Time.timeScale = 1;
             soundFX.UnPause();
         }
         menuEnabled = !menuEnabled;
     }
-    public void VolumeControl(int aux) {
-        if (aux == 1) {
+    public void VolumeControl(int aux)
+    {
+        if (aux == 1)
+        {
             effectVolume = effectsController.value;
             soundFX.volume = effectVolume;
             PlayerPrefs.SetFloat("EffectVolume", effectVolume);
         }
-        if (aux == 2) {
+        if (aux == 2)
+        {
             musicVolume = musicController.value;
             gameSound.volume = musicVolume;
             PlayerPrefs.SetFloat("MusicVolume", musicVolume);
         }
     }
-    private void SlowMotionZoomEffect() {
-        if (iniciateEffect) {
+    private void SlowMotionZoomEffect()
+    {
+        if (iniciateEffect)
+        {
             mainCam.orthographicSize = 3.5f;
             Time.timeScale = 0.1f;
             iniciateEffect = false;
-        } else {
+        }
+        else
+        {
             mainCam.orthographicSize = Mathf.Lerp(mainCam.orthographicSize, 9, 0.2f);
             Time.timeScale = Mathf.Lerp(Time.timeScale, 1, 0.2f);
         }
 
-        if (Time.timeScale >= 0.95) {
+        if (Time.timeScale >= 0.95)
+        {
             mainCam.orthographicSize = 9;
             Time.timeScale = 1;
             slowmoEffect = false;
         }
     }
-    public void SlowMoZoomEffect() {
+    public void SlowMoZoomEffect()
+    {
         slowmoEffect = true;
         iniciateEffect = true;
     }
