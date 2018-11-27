@@ -151,11 +151,11 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.MarVelik.AndroidProjetoIV
+    Android: com.MarVelik.AndroidRVGL
     Standalone: com.MarVelik.PCProjetoIV
     iOS: com.MarVelik.iOSProjetoIV
   buildNumber: {}
-  AndroidBundleVersionCode: 2
+  AndroidBundleVersionCode: 3
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
